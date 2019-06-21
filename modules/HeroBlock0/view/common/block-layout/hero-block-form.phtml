@@ -1,0 +1,71 @@
+<?php
+use Zend\Form\Element\Textarea;
+
+echo $this->blockAttachmentsForm($block);
+?>
+<h4>Title</h4>
+<div class="field">
+  <div class="inputs">
+      <input type="text" class="" value="<?php echo (!isset($block) ? '' : $block->dataValue('title')); ?>" name="o:block[__blockIndex__][o:data][title]">
+  </div>
+</div>
+<h4>Text</h4>
+<?php
+  $textarea = new Textarea("o:block[__blockIndex__][o:data][text]");
+  $textarea->setAttribute('class', 'block-html full wysiwyg');
+  if ($block) {
+      $textarea->setAttribute('value', $block->dataValue('text'));
+  }
+?>
+<?php echo $this->formRow($textarea);?>
+<div class="field">
+  <div class="field-meta">
+      <label>Link</label>
+  </div>
+  <div class="inputs">
+      <input type="text" class="" value="<?php echo (!isset($block) ? '' : $block->dataValue('link')) ?>" name="o:block[__blockIndex__][o:data][link]">
+  </div>
+</div>
+
+<?php if(isset($block)):
+  $span = $block->dataValue('span');
+else:
+  $span = 4;
+endif;?>
+
+<div class="field">
+  <div class="field-meta">
+      <label>Span (width of a block)</label>
+      <a href="#" class="expand" aria-label="Expand" title="Expand"></a>
+      <div class="collapsible">
+        <div class="field-description">12 equals full width</div>
+      </div>
+  </div>
+  <div class="inputs">
+      <select type="text" class="" name="o:block[__blockIndex__][o:data][span]">
+        <option '.($span == 3 ? 'selected' : "").' value="3">3 (1/4)</option>
+        <option '.($span == 4 ? 'selected' : "").' value="4">4 (1/3)</option>
+        <option '.($span == 6 ? 'selected' : "").' value="6">6 (1/2)</option>
+        <option '.($span == 8 ? 'selected' : "").' value="8">8 (2/3)</option>
+        <option '.($span == 9 ? 'selected' : "").' value="9">9 (3/4)</option>
+        <option '.($span == 12 ? 'selected' : "").' value="12">12 (4/4)</option>
+      </select>
+  </div>
+</div>
+<?php if(isset($block)):
+  $last = $block->dataValue('last');
+else:
+  $last = 0;
+endif;?>
+<div class="field">
+  <div class="field-meta">
+      <label>Last in row?</label>
+      <a href="#" class="expand" aria-label="Expand" title="Expand"></a>
+      <div class="collapsible">
+        <div class="field-description">This will handle the margins of the last block in a row</div>
+      </div>
+  </div>
+  <div class="inputs">
+      <input type="checkbox" class="" value="last" '<?php echo ($last == 'last' ? 'checked' : '') ?>' name="o:block[__blockIndex__][o:data][last]">
+  </div>
+</div>

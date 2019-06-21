@@ -1,0 +1,40 @@
+<?php
+use Zend\Form\Element\Textarea;
+
+echo $this->blockAttachmentsForm($block);
+?>
+<h4>Title</h4>
+<div class="field">
+  <div class="inputs">
+      <input type="text" class="" value="<?php echo (!isset($block) ? '' : $block->dataValue('title')); ?>" name="o:block[__blockIndex__][o:data][title]">
+  </div>
+</div>
+<h4>Secondary Title</h4>
+<div class="field">
+  <div class="inputs">
+      <input type="text" class="" value="<?php echo (!isset($block) ? '' : $block->dataValue('sec_title')); ?>" name="o:block[__blockIndex__][o:data][sec_title]">
+  </div>
+</div>
+<h4>Text</h4>
+<?php
+  $textarea = new Textarea("o:block[__blockIndex__][o:data][text]");
+  $textarea->setAttribute('class', 'block-html full wysiwyg');
+  if ($block) {
+      $textarea->setAttribute('value', $block->dataValue('text'));
+  }
+?>
+<?php echo $this->formRow($textarea);?>
+<div class="field">
+  <div class="field-meta">
+      <label>Link</label>
+  </div>
+  <div class="inputs">
+      <input type="text" class="" value="<?php echo (!isset($block) ? '' : $block->dataValue('link')) ?>" name="o:block[__blockIndex__][o:data][link]">
+  </div>
+</div>
+<h4>Link text</h4>
+<div class="field">
+  <div class="inputs">
+      <input type="text" class="" value="<?php echo (!isset($block) ? '' : $block->dataValue('link_text')); ?>" name="o:block[__blockIndex__][o:data][link_text]">
+  </div>
+</div>

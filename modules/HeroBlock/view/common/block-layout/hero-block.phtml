@@ -1,0 +1,29 @@
+<div class="section section--no-padding">
+    <div class="container">
+        <div class="hero">
+            <div class="grid grid--no-gutter">
+                <div class="grid__12 grid__6@med">
+                    <div class="hero__img image--secondary">
+                        <?php
+                          $media = $attachments[0]->media();
+                        ?>
+                        <?php echo $this->thumbnail($media, 'large');?>
+                    </div>
+                </div>
+                <div class="grid__12 grid__6@med">
+                    <div class="hero__content panel panel--lrg panel--light">
+                        <?php if($block->dataValue('sec_title')):?>
+                        <div class="text--uppercase text--secondary spacer">
+                            <?php echo $block->dataValue('sec_title');?>
+                        </div>
+                      <?php endif;?>
+                        <h1 class="spacer spacer--xsm"><?php echo $block->dataValue('title');?></h1>
+                        <p class="text--lead"><?php echo $block->dataValue('text');?></p>
+
+                        <div class="link link--ext"><a href="<?php echo $block->dataValue('link');?>"><?php echo $block->dataValue('link_text');?></a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
