@@ -1,5 +1,5 @@
 <?php
-namespace HeroBlock0;
+namespace ContactBlock;
 
 use Omeka\Module\AbstractModule;
 

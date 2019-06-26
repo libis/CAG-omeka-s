@@ -2,7 +2,7 @@
 return [
     'block_layouts' => [
         'invokables' => [
-            'heroBlock' => HeroBlock\Site\BlockLayout\HeroBlock::class,
+            'overviewBlock' => OverviewBlock\Site\BlockLayout\OverviewBlock::class,
         ],
     ],
     'view_manager' => [

@@ -1,0 +1,56 @@
+<?php
+use Zend\Form\Element\Textarea;
+?>
+<h4>Title</h4>
+<div class="field">
+  <div class="inputs">
+      <input type="text" class="" value="<?php echo (!isset($block) ? '' : $block->dataValue('title')); ?>" name="o:block[__blockIndex__][o:data][title]">
+  </div>
+</div>
+<h4>Tekst</h4>
+<?php
+  $textarea = new Textarea("o:block[__blockIndex__][o:data][text]");
+  $textarea->setAttribute('class', 'block-html full wysiwyg');
+  if ($block) {
+      $textarea->setAttribute('value', $block->dataValue('text'));
+  }
+  echo $this->formRow($textarea);
+?>
+<div class="field">
+  <div class="field-meta">
+      <label>Link</label>
+  </div>
+  <div class="inputs">
+      <input type="text" class="" value="<?php echo (!isset($block) ? '' : $block->dataValue('link')) ?>" name="o:block[__blockIndex__][o:data][link]">
+  </div>
+</div>
+
+<h3>Contactpersoon</h3>
+<?php echo $this->blockAttachmentsForm($block);?>
+
+<div class="field">
+  <div class="field-meta">
+      <label>Naam contactpersoon</label>
+  </div>
+  <div class="inputs">
+      <input type="text" class="" value="<?php echo (!isset($block) ? '' : $block->dataValue('name')) ?>" name="o:block[__blockIndex__][o:data][name]">
+  </div>
+</div>
+
+<div class="field">
+  <div class="field-meta">
+      <label>E-mail contactpersoon</label>
+  </div>
+  <div class="inputs">
+      <input type="text" class="" value="<?php echo (!isset($block) ? '' : $block->dataValue('mail')) ?>" name="o:block[__blockIndex__][o:data][mail]">
+  </div>
+</div>
+
+<div class="field">
+  <div class="field-meta">
+      <label>Telefoon contactpersoon</label>
+  </div>
+  <div class="inputs">
+      <input type="text" class="" value="<?php echo (!isset($block) ? '' : $block->dataValue('tel')) ?>" name="o:block[__blockIndex__][o:data][tel]">
+  </div>
+</div>

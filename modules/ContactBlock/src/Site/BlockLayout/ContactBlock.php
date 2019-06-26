@@ -1,5 +1,5 @@
 <?php
-namespace HeroBlock\Site\BlockLayout;
+namespace ContactBlock\Site\BlockLayout;
 
 use Omeka\Site\BlockLayout\AbstractBlockLayout;
 use Omeka\Api\Representation\SiteRepresentation;
@@ -16,7 +16,7 @@ use Zend\View\Renderer\PhpRenderer;
  * Everything the user sees about your block, both on the admin and public
  * sides, gets defined here.
  */
-class HeroBlock extends AbstractBlockLayout
+class ContactBlock extends AbstractBlockLayout
 {
     /**
      * getLabel() is where you define the label users will see when selecting
@@ -26,7 +26,7 @@ class HeroBlock extends AbstractBlockLayout
      */
     public function getLabel()
     {
-        return 'Hero'; // @translate
+        return 'Contact person/Text with border'; // @translate
     }
 
     /**
@@ -55,9 +55,9 @@ class HeroBlock extends AbstractBlockLayout
         SitePageRepresentation $page = null, SitePageBlockRepresentation $block = null
     ) {
         //$data = $block ? $block->data() : [];
-        return $view->partial('common/block-layout/hero-block-form', [
+        return $view->partial('common/block-layout/contact-block-form', [
             'block' => $block,
-        ]) . $view->blockAttachmentsForm($block, true);
+        ]);
     }
 
     /**
@@ -79,25 +79,9 @@ class HeroBlock extends AbstractBlockLayout
     public function render(PhpRenderer $view, SitePageBlockRepresentation $block)
     {
 
-      return $view->partial('common/block-layout/hero-block', [
-        'attachments' => $block->attachments(),
-        'alignmentClass' => $block->dataValue('alignment', 'left'),
-        'thumbnailType' => $block->dataValue('thumbnail_type', 'square'),
-        'text' =>  $block->dataValue('text',''),
-        'span' =>  $block->dataValue('span',4),
-        'last' =>  $block->dataValue('last',''),
-        'title' =>  $block->dataValue('title',''),
-        'linkType' => $view->siteSetting('attachment_link_type', 'item'),
-        'showTitleOption' => $block->dataValue('show_title_option', 'item_title')
+      return $view->partial('common/block-layout/contact-block', [
+        'block' => $block,
+        'attachments' => $block->attachments()
       ]);
-
-      /*return $view->partial('common/block-layout/tiles', [
-          'block' => $block,
-          'attachments' => $attachments,
-          'alignmentClass' => $alignmentClass,
-          'thumbnailType' => $thumbnailType,
-          'link' => $linkType,
-          'showTitleOption' => $showTitleOption,
-      ]);*/
     }
 }
