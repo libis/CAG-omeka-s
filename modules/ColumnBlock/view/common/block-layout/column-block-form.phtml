@@ -1,0 +1,104 @@
+<?php
+use Zend\Form\Element\Textarea;
+?>
+<?php echo $this->blockAttachmentsForm($block);?>
+<p>
+  There will a column/tile for every image/attachment, so 2 attachments will results in a 2 column block.
+</p>
+<hr />
+<h4>Title block 1</h4>
+<div class="field">
+  <div class="inputs">
+      <input type="text" class="" value="<?php echo (!isset($block) ? '' : $block->dataValue('title1')); ?>" name="o:block[__blockIndex__][o:data][title1]">
+  </div>
+</div>
+<h4>Tekst block 1</h4>
+<?php
+  $textarea = new Textarea("o:block[__blockIndex__][o:data][text1]");
+  $textarea->setAttribute('class', 'block-html full wysiwyg');
+  if ($block) {
+      $textarea->setAttribute('value', $block->dataValue('text1'));
+  }
+  echo $this->formRow($textarea);
+?>
+<div class="field">
+  <div class="field-meta">
+      <label>Link 1</label>
+  </div>
+  <div class="inputs">
+      <input type="text" class="" value="<?php echo (!isset($block) ? '' : $block->dataValue('link1')) ?>" name="o:block[__blockIndex__][o:data][link1]">
+  </div>
+</div>
+<div class="field">
+  <div class="field-meta">
+      <label>Link text 1</label>
+  </div>
+  <div class="inputs">
+      <input type="text" class="" value="<?php echo (!isset($block) ? '' : $block->dataValue('linktext1')) ?>" name="o:block[__blockIndex__][o:data][linktext1]">
+  </div>
+</div>
+<hr />
+<h4>Title block 2</h4>
+<div class="field">
+  <div class="inputs">
+      <input type="text" class="" value="<?php echo (!isset($block) ? '' : $block->dataValue('title2')); ?>" name="o:block[__blockIndex__][o:data][title2]">
+  </div>
+</div>
+<h4>Tekst block 2</h4>
+<?php
+  $textarea = new Textarea("o:block[__blockIndex__][o:data][text2]");
+  $textarea->setAttribute('class', 'block-html full wysiwyg');
+  if ($block) {
+      $textarea->setAttribute('value', $block->dataValue('text2'));
+  }
+  echo $this->formRow($textarea);
+?>
+<div class="field">
+  <div class="field-meta">
+      <label>Link 2</label>
+  </div>
+  <div class="inputs">
+      <input type="text" class="" value="<?php echo (!isset($block) ? '' : $block->dataValue('link2')) ?>" name="o:block[__blockIndex__][o:data][link2]">
+  </div>
+</div>
+<div class="field">
+  <div class="field-meta">
+      <label>Link text 2</label>
+  </div>
+  <div class="inputs">
+      <input type="text" class="" value="<?php echo (!isset($block) ? '' : $block->dataValue('linktext2')) ?>" name="o:block[__blockIndex__][o:data][linktext2]">
+  </div>
+</div>
+<hr />
+
+<h4>Title block 3</h4>
+<div class="field">
+  <div class="inputs">
+      <input type="text" class="" value="<?php echo (!isset($block) ? '' : $block->dataValue('title3')); ?>" name="o:block[__blockIndex__][o:data][title3]">
+  </div>
+</div>
+<h4>Tekst block 3</h4>
+<?php
+  $textarea = new Textarea("o:block[__blockIndex__][o:data][text3]");
+  $textarea->setAttribute('class', 'block-html full wysiwyg');
+  if ($block) {
+      $textarea->setAttribute('value', $block->dataValue('text3'));
+  }
+  echo $this->formRow($textarea);
+?>
+<div class="field">
+  <div class="field-meta">
+      <label>Link 3</label>
+  </div>
+  <div class="inputs">
+      <input type="text" class="" value="<?php echo (!isset($block) ? '' : $block->dataValue('link3')) ?>" name="o:block[__blockIndex__][o:data][link3]">
+  </div>
+</div>
+<div class="field">
+  <div class="field-meta">
+      <label>Link text 3</label>
+  </div>
+  <div class="inputs">
+      <input type="text" class="" value="<?php echo (!isset($block) ? '' : $block->dataValue('linktext3')) ?>" name="o:block[__blockIndex__][o:data][linktext3]">
+  </div>
+</div>

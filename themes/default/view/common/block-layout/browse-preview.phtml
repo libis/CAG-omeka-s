@@ -1,36 +1,77 @@
 <?php
 $translate = $this->plugin('translate');
 ?>
-<div class="preview-block">
+<div class="section section--default">
+  <div class="container">
 
-<?php if ($this->heading): ?>
-<h2><?php echo $this->heading; ?></h2>
-<?php endif; ?>
+    <?php if ($this->heading): ?>
+    <h2><?php echo $this->heading; ?></h2>
+    <?php endif; ?>
 
-<ul class="resource-list preview">
-<?php
-$headingTerm = $this->siteSetting('browse_heading_property_term', 'dcterms:title');
-$bodyTerm = $this->siteSetting('browse_body_property_term', 'dcterms:description');
-foreach ($this->resources as $resource):
-    $heading = $resource->value($headingTerm, ['default' => $translate('[Untitled]')]);
-    $body = $resource->value($bodyTerm);
-?>
-    <li class="<?php echo $this->resourceType; ?> resource">
-        <?php echo $resource->linkRaw($this->thumbnail($resource, 'medium', ['title' => $heading])); ?>
-        <h4><?php echo $resource->link($heading); ?></h4>
-        <?php if ($body): ?>
-        <div class="description"><?php echo $body; ?></div>
-        <?php endif; ?>
-    </li>
-<?php endforeach; ?>
-</ul>
+    <div class="grid spacer">
+        <div class="grid__12 grid__8@med">
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum asperiores, et officia recusandae veritatis numquam commodi, iure similique aliquid vero, consequatur aspernatur debitis ullam sint, fugit fugiat ipsum. Nam ea optio dolores, praesentium consectetur non itaque odio deleniti. Libero doloribus aperiam sequi facilis optio ratione tenetur accusantium voluptatem dolorum molestias.
+        </div>
+    </div>
 
-<?php
-if ($this->linkText):
-    echo $this->hyperlink($this->linkText, $this->url(
-        'site/resource', ['controller' => $this->resourceType, 'action' => 'browse'], ['query' => $this->query], true
-    ));
-endif;
-?>
+    <div class="grid grid--3-col@med spacer--xsm">
+      <?php
+      $headingTerm = $this->siteSetting('browse_heading_property_term', 'dcterms:title');
+      $bodyTerm = $this->siteSetting('browse_body_property_term', 'dcterms:description');
+      foreach ($this->resources as $resource):
+          $heading = $resource->value($headingTerm, ['default' => $translate('[Untitled]')]);
+          $body = $resource->value($bodyTerm);
+          $itemsets = $resource->itemSets();
+          $itemset = '';
+          if($itemset):
+            $itemset = $itemsets[0]->value('dcterms:title');
+          endif;
+      ?>
+      <div class="grid__item">
+        <div class="card card--gray card--clickable card--link">
+            <?php
+              $media = $resource->media();
+              $url = $media[0]->thumbnailUrl('large');
+            ?>
+            <div class="card__img card__img_3"
+              style="background:url(<?php echo  $url;?>) no-repeat center center;background-size: cover;"
+              >
 
+            </div>
+            <div class="card__body panel panel--light">
+              <?php if($itemset):?>
+                <div class="label spacer"><?php echo $itemset;?></div>
+              <?php endif;?>
+              <h2 class="heading--3 card__title spacer--xsm">
+                <?php echo $resource->link($heading); ?>
+              </h2>
+              <?php if ($body): ?>
+                <p>
+                  <?php echo $body; ?>
+                </p>
+              <?php endif; ?>
+              <div class="link link--ext card__link">
+                <?php
+                  if($itemset):
+                    echo $resource->link($itemset.' bekijken');
+                  else:
+                    echo $resource->link('Object bekijken');
+                  endif;
+                ?>
+              </div>
+            </div>
+        </div>
+      </div>
+      <?php endforeach; ?>
+    </div>
+
+    <?php if ($this->linkText):?>
+      <div class="text--center u-mt-med">
+        <a href="<?php echo $this->url('site/resource', ['controller' => $this->resourceType, 'action' => 'browse'], ['query' => $this->query],true);?>" class="btn btn--ext">
+          <?php echo $this->linkText;?>
+        </a>
+      </div>
+    <?php endif;?>
+
+  </div>
 </div>

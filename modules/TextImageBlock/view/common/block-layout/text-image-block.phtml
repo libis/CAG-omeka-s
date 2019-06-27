@@ -1,0 +1,25 @@
+<div class="section section--default">
+    <div class="container">
+        <?php if($block->dataValue('reverse')):?>
+        <div class="grid grid--reverse grid--2-col@med">
+        <?php else:?>
+        <div class="grid grid--2-col@med">
+        <?php endif;?>
+        <div class="grid__item">
+            <span> <!-- content text must be in a wrapper if it's directly in a grid__item -->
+                <h2><?php echo $block->dataValue('title');?></h2>
+                <?php echo $block->dataValue('text');?>
+            </span>
+        </div>
+        <div class="grid__item">
+            <?php if($attachments):
+              $media = $attachments[0]->media();
+              echo $this->thumbnail($media, 'large');
+            ?>
+            <figcaption><?php echo $attachments[0]->caption();?></figcaption>
+          <?php endif;?>
+        </div>
+
+        </div>
+    </div>
+</div>

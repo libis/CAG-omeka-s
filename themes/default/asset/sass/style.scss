@@ -1,1 +1,75 @@
-/* original css in main.css, these are additions */
+/* compileCompressed: "../css/$1.min.css", compileExpanded: "../css/$1.css" */
+
+//nav__main
+.nav--main li {
+    margin: 0 26px;
+}
+
+.nav--main .nav__menu li a {
+    color: #006B65;
+    display: block;
+    padding: 6.5px 0;
+    background-image: -webkit-gradient(linear, left top, right top, from(#014D49), to(#014D49));
+    background-image: linear-gradient(to right, #014D49, #014D49);
+    background-repeat: no-repeat;
+    background-position: center bottom;
+    background-size: 0 2px;
+    text-decoration: none;
+}
+
+.nav--main .nav__menu li a:hover, .nav--main .nav__menu li a:focus, .nav--main .nav__menu li a.active {
+    background-size: 100% 2px;
+    color: #014D49;
+}
+
+//nav--doormat
+.nav--doormat .nav__menu li {
+    padding-bottom: 13px;
+}
+
+.nav--doormat .nav__menu li a {
+    color: #006B65;
+    font-size: 20px;
+    font-size: 1.25rem;
+    display: block;
+    text-decoration: none;
+}
+
+.nav--doormat .nav__menu li a:hover, .nav--doormat .nav__menu li a:focus {
+    color: #014D49;
+}
+
+.doormat-bold a{
+  font-weight: bold;
+}
+
+//nav--flyout
+.nav--flyout .nav--main .nav__menu li a:hover {
+    background: none;
+}
+
+.nav--flyout .nav--main .nav__menu li a:hover, .nav--flyout .nav--main .nav__menu li a:focus {
+    color: #014D49;
+}
+
+.nav--flyout .nav--main .nav__menu li a {
+    font-size: 24px;
+    font-size: 1.5rem;
+    color: #006B65;
+    font-weight: 600;
+    padding: 0;
+}
+
+.nav--flyout .nav--main .nav__menu li {
+    padding-bottom: 13px;
+    margin: 0;
+}
+
+//cards
+.card__img_3 {
+    height: 200px;
+}
+
+.card__img_2 {
+    height: 250px;
+}

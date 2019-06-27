@@ -2680,8 +2680,8 @@ img {
           filter: gray;
   -webkit-filter: grayscale(100%);
           filter: grayscale(100%);
-  -webkit-filter: url(/img/svg/grayscale.svg#grayscale);
-          filter: url(/img/svg/grayscale.svg#grayscale);
+  -webkit-filter: url(../img/svg/grayscale.svg#grayscale);
+          filter: url(../img/svg/grayscale.svg#grayscale);
 }
 .card .label {
   -ms-flex-item-align: start;

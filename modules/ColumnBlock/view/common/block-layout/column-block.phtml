@@ -1,0 +1,39 @@
+<!-- overview blocks -->
+<?php if(sizeof($attachments) == 3 || sizeof($attachments) == 2):?>
+<div class="section section--default">
+    <div class="container">
+        <div class="grid grid--<?php echo sizeof($attachments);?>-col@med spacer--xsm">
+          <?php for($i = 1; $i <= sizeof($attachments); $i++){ ?>
+            <div class="grid__item">
+                <div class="card card--gray card--clickable card--link">
+                    <?php
+                      if($attachments[$i-1]):
+                        $media = $attachments[$i-1]->media();
+                        $url = $media->thumbnailUrl('large');
+                      endif;
+                    ?>
+                    <div class="card__img card__img_<?php echo sizeof($attachments);?>"
+                      style="background:url(<?php echo  $url;?>) no-repeat center center;background-size: cover;"
+                      >
+
+                    </div>
+                    <div class="card__body panel panel--light">
+                        <h2 class="heading--3 card__title spacer--xsm">
+                            <a href=""><?php echo $block->dataValue('title'.$i);?></a>
+                        </h2>
+                        <?php echo $block->dataValue('text'.$i);?>
+                        <?php if($block->dataValue('link'.$i) && $block->dataValue('linktext'.$i)):?>
+                        <div class="link link--ext card__link"><a href="<?php echo $block->dataValue('link'.$i);?>"><?php echo $block->dataValue('linktext'.$i);?></a></div>
+                     <?php endif;?>
+                    </div>
+                </div>
+            </div>
+          <?php } ?>
+        </div>
+    </div>
+</div>
+<?php else:?>
+  <p>
+    Om dit blok te gebruiken moet je minstens 2 afbeeldingen (attachments) selecteren.
+  </p>
+<?php endif;?>

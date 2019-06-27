@@ -1,5 +1,5 @@
 <?php
-namespace TextImageOverlapBlock\Site\BlockLayout;
+namespace ColumnBlock\Site\BlockLayout;
 
 use Omeka\Site\BlockLayout\AbstractBlockLayout;
 use Omeka\Api\Representation\SiteRepresentation;
@@ -16,7 +16,7 @@ use Zend\View\Renderer\PhpRenderer;
  * Everything the user sees about your block, both on the admin and public
  * sides, gets defined here.
  */
-class TextImageOverlapBlock extends AbstractBlockLayout
+class ColumnBlock extends AbstractBlockLayout
 {
     /**
      * getLabel() is where you define the label users will see when selecting
@@ -26,7 +26,7 @@ class TextImageOverlapBlock extends AbstractBlockLayout
      */
     public function getLabel()
     {
-        return 'Text / image with overlap'; // @translate
+        return 'Columns (2 or 3)'; // @translate
     }
 
     /**
@@ -55,7 +55,7 @@ class TextImageOverlapBlock extends AbstractBlockLayout
         SitePageRepresentation $page = null, SitePageBlockRepresentation $block = null
     ) {
         //$data = $block ? $block->data() : [];
-        return $view->partial('common/block-layout/block-form', [
+        return $view->partial('common/block-layout/column-block-form', [
             'block' => $block,
         ]);
     }
@@ -79,7 +79,7 @@ class TextImageOverlapBlock extends AbstractBlockLayout
     public function render(PhpRenderer $view, SitePageBlockRepresentation $block)
     {
 
-      return $view->partial('common/block-layout/block', [
+      return $view->partial('common/block-layout/column-block', [
         'block' => $block,
         'attachments' => $block->attachments()
       ]);

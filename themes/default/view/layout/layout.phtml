@@ -78,16 +78,16 @@ $userBar = $this->userBar();
                         <nav class="nav--main">
                             <?php
                             echo $site->publicNav()->menu()->renderMenu(null, [
+                                'ulClass' => 'nav__menu',
                                 'maxDepth' => $this->themeSetting('nav_depth') - 1
                             ]);
                             ?>
-                            <ul class="nav__menu">
+                            <!--<ul class="nav__menu">
                                 <div class="nav__item"><a href="" class="nav__link">Diensten</a></div>
                                 <div class="nav__item"><a href="kennisbank.html" class="nav__link">Kennisbank</a></div>
                                 <div class="nav__item"><a href="beeldbank.html" class="nav__link">Beeldbank</a></div>
                                 <div class="nav__item"><a href="" class="nav__link">Collecties</a></div>
-
-                            </ul>
+                            </ul>-->
                         </nav>
                         <a href="" class="flyout__link pull--right js-flyout-toggle" role="button"><span class="lines" aria-label="menu"></span><span class="visuallyhidden">Menu</span></a>
                     </div>
@@ -96,14 +96,8 @@ $userBar = $this->userBar();
         </header>
 
         <?php echo $this->content; ?>
-        
-        <!--<footer>
-            <?php if ($footerContent = $this->themeSetting('footer')): ?>
-            <?php echo $footerContent; ?>
-            <?php else: ?>
-                <?php echo $this->translate('Powered by Omeka S'); ?>
-            <?php endif; ?>
-        </footer>-->
+
+
         <!-- footer -->
          <footer class="page-footer" role="contentinfo">
              <div class="section section--light section--doormat">
@@ -133,22 +127,19 @@ $userBar = $this->userBar();
                                      </div>
 
                                      <div class="grid__item">
-                                         <nav class="nav nav--doormat" aria-label="Footer navigatie">
-                                             <ul class="nav__menu">
-                                                 <li class="nav__item">
-                                                     <strong><a href="" class="nav__link active">Diensten
-                                                     </a></strong>
-                                                 </li>
-                                                 <li class="nav__item">
-                                                     <strong><a href="" class="nav__link">Kennisbank
-                                                     </a></strong>
-                                                 </li>
-                                             </ul>
+                                         <nav class="nav nav--doormat doormat-bold" aria-label="Footer navigatie">
+                                             <?php
+                                             echo $site->publicNav()->menu()->renderMenu(null, [
+                                                 'ulClass' => 'nav__menu',
+                                                 'maxDepth' => $this->themeSetting('nav_depth') - 1
+                                             ]);
+                                             ?>
                                          </nav>
                                      </div>
 
                                      <div class="grid__item">
                                          <nav class="nav nav--doormat" aria-label="Footer navigatie">
+
                                              <ul class="nav__menu">
                                                  <li class="nav__item">
                                                      <a href="" class="nav__link">Nieuws
@@ -280,12 +271,18 @@ $userBar = $this->userBar();
                   <!-- main navigation -->
                   <div class="flyout__content">
                     <nav class="nav--main">
-                        <ul class="nav__menu">
+                        <?php
+                        echo $site->publicNav()->menu()->renderMenu(null, [
+                            'ulClass' => 'nav__menu',
+                            'maxDepth' => $this->themeSetting('nav_depth') - 1
+                        ]);
+                        ?>
+                        <!--<ul class="nav__menu">
                             <div class="nav__item"><a href="" class="nav__link">Diensten</a></div>
                             <div class="nav__item"><a href="kennisbank.html" class="nav__link">Kennisbank</a></div>
                             <div class="nav__item"><a href="" class="nav__link">collecties</a></div>
                             <div class="nav__item"><a href="beeldbank.html" class="nav__link">Beeldbank</a></div>
-                        </ul>
+                        </ul>-->
                     </nav>
                   </div>
 
