@@ -37,17 +37,15 @@ $userBar = $this->userBar();
 
         <!-- logo + navigation -->
         <?php
-          $nav = $site->publicNav();
-          $container = $nav->getContainer();
-          $activePage = $nav->findActive($container);
-          if($activePage):
-            $currentPage = $activePage['page']->getParams()['page-slug'];
-          else:
-            $currentPage = '';
-          endif;
+          $url = $this->serverUrl(true);
+          if (strpos($url, 'page/home') !== false) {
+              $home = true;
+          }else{
+            $home = false;
+          }
         ?>
 
-        <header class="page-header <?php echo ($currentPage != 'home')? 'page-header--simple' : '';?>">
+        <header class="page-header <?php echo (!$home)? 'page-header--simple' : '';?>">
             <div class="page-header-wrapper">
 
                 <!-- site logo -->
