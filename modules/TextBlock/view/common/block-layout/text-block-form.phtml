@@ -1,0 +1,13 @@
+<?php
+use Zend\Form\Element\Textarea;
+
+echo $this->blockAttachmentsForm($block);
+?>
+<h4>Text</h4>
+<?php
+  $textarea = new Textarea("o:block[__blockIndex__][o:data][text]");
+  $textarea->setAttribute('class', 'block-html full wysiwyg');
+  if ($block) {
+      $textarea->setAttribute('value', $block->dataValue('text'));
+  }
+?>
