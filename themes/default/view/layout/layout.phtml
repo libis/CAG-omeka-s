@@ -36,12 +36,23 @@ $userBar = $this->userBar();
         <div class="page-wrap">
 
         <!-- logo + navigation -->
-        <header class="page-header">
+        <?php
+          $nav = $site->publicNav();
+          $container = $nav->getContainer();
+          $activePage = $nav->findActive($container);
+          if($activePage):
+            $currentPage = $activePage['page']->getParams()['page-slug'];
+          else:
+            $currentPage = '';
+          endif;
+        ?>
+
+        <header class="page-header <?php echo ($currentPage != 'home')? 'page-header--simple' : '';?>">
             <div class="page-header-wrapper">
 
                 <!-- site logo -->
                 <div class="container">
-                    <a href="index.html" class="page-header__logo">
+                    <a href="<?php echo $site->url(); ?>" class="page-header__logo">
                         <div class="flex flex-align-items-end">
                             <img src="<?php echo $this->assetUrl('img/svg/logo.svg');?>" alt="logo CAG">
                             <span class="text--logo">Centrum<br>Agrarische<br>Geschiedenis</span>

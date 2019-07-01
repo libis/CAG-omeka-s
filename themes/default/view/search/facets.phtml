@@ -1,0 +1,113 @@
+<?php
+/*
+ * Copyright BibLibre, 2016
+ * Copyright, Daniel Berthereau, 2018
+ *
+ * This software is governed by the CeCILL license under French law and abiding
+ * by the rules of distribution of free software.  You can use, modify and/ or
+ * redistribute the software under the terms of the CeCILL license as circulated
+ * by CEA, CNRS and INRIA at the following URL "http://www.cecill.info".
+ *
+ * As a counterpart to the access to the source code and rights to copy, modify
+ * and redistribute granted by the license, users are provided only with a
+ * limited warranty and the software's author, the holder of the economic
+ * rights, and the successive licensors have only limited liability.
+ *
+ * In this respect, the user's attention is drawn to the risks associated with
+ * loading, using, modifying and/or developing or reproducing the software by
+ * the user in light of its specific status of free software, that may mean that
+ * it is complicated to manipulate, and that also therefore means that it is
+ * reserved for developers and experienced professionals having in-depth
+ * computer knowledge. Users are therefore encouraged to load and test the
+ * software's suitability as regards their requirements in conditions enabling
+ * the security of their systems and/or data to be ensured and, more generally,
+ * to use and operate it in the same conditions as regards security.
+ *
+ * The fact that you are presently reading this means that you have had
+ * knowledge of the CeCILL license and that you accept its terms.
+ */
+
+/**
+ * @var \Zend\View\Renderer\PhpRenderer $this
+ * @var array $facets
+ */
+?>
+
+
+    <?php $translate = $this->plugin('translate'); ?>
+    <?php $facetLabel = $this->plugin('facetLabel'); ?>
+    <?php $facetLink = $this->plugin('facetLink'); ?>
+    <div class="grid__12 grid__4@med">
+        <div class="panel panel--light">
+            <h2>Filter in beeldbank</h2>
+
+                <hr>
+
+                <h4>Tekstueel zoeken</h4>
+
+                <div class="spacer">
+                    <?php //echo $this->searchForm(); ?>
+                    <div class="form__item">
+                        <input type="text" class="form__text">
+                    </div>
+                    <div class="form__actions">
+                        <button type="submit" class="btn form__btn">zoeken <span class="icon icon--search"></span></button>
+                    </div>
+                </div>
+            <?php if (!empty($facets)): ?>
+            <?php foreach ($facets as $name => $facetValues): ?>
+              <h4><?php echo $translate($facetLabel($name)); ?></h4>
+              <div class="form__group">
+                <?php foreach ($facetValues as $facetValue): ?>
+                    <div class="form__item search-facet-item">
+                        <?php echo $facetLink($name, $facetValue); ?>
+                    </div>
+                <?php endforeach; ?>
+              </div>
+            <?php endforeach; ?>
+            <?php endif; ?>
+      </div>
+  </div>
+
+<!--
+                        <input type="checkbox" id="checkbox-1" name="check" class="form__checkbox" required>
+                        <label for="checkbox-1" class="form__label">Checkbox 1</label>
+
+                    <div class="form__item">
+                        <input type="checkbox" id="checkbox-2" name="check" class="form__checkbox" required>
+                        <label for="checkbox-2" class="form__label">Checkbox 2</label>
+                    </div>
+                    <div class="form__item">
+                        <input type="checkbox" id="checkbox-3" name="check" class="form__checkbox" required>
+                        <label for="checkbox-3" class="form__label">Checkbox 3</label>
+                    </div>
+                    <div class="form__item">
+                        <input type="checkbox" id="checkbox-4" name="check" class="form__checkbox" required>
+                        <label for="checkbox-4" class="form__label">Checkbox 4</label>
+                    </div>
+                    <span class="icon icon--plus"></span> <a href="">meer tonen</a>
+                </div>
+
+                <h4>Datering</h4>
+                <div class="form__group">
+                    <div class="form__item">
+                        <input type="checkbox" id="checkbox-1" name="check" class="form__checkbox" required>
+                        <label for="checkbox-1" class="form__label">Checkbox 1</label>
+                    </div>
+                    <div class="form__item">
+                        <input type="checkbox" id="checkbox-2" name="check" class="form__checkbox" required>
+                        <label for="checkbox-2" class="form__label">Checkbox 2</label>
+                    </div>
+                    <div class="form__item">
+                        <input type="checkbox" id="checkbox-3" name="check" class="form__checkbox" required>
+                        <label for="checkbox-3" class="form__label">Checkbox 3</label>
+                    </div>
+                    <div class="form__item">
+                        <input type="checkbox" id="checkbox-4" name="check" class="form__checkbox" required>
+                        <label for="checkbox-4" class="form__label">Checkbox 4</label>
+                    </div>
+                    <span class="icon icon--plus"></span> <a href="">meer tonen</a>
+                </div>
+
+            </form>
+-->

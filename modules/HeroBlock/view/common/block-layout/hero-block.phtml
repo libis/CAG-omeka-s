@@ -18,7 +18,7 @@
                         </div>
                       <?php endif;?>
                         <h1 class="spacer spacer--xsm"><?php echo $block->dataValue('title');?></h1>
-                        <p class="text--lead"><?php echo $block->dataValue('text');?></p>
+                        <?php echo $block->dataValue('text');?>
 
                         <div class="link link--ext"><a href="<?php echo $block->dataValue('link');?>"><?php echo $block->dataValue('link_text');?></a></div>
                     </div>

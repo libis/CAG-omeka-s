@@ -1,0 +1,39 @@
+<div class="section section--no-padding section--6--light">
+    <div class="container">
+        <div class="grid grid--no-gutter">
+            <div class="grid__12 grid__6@med flex flex-justify-center">
+                <div class="panel panel--lrg panel--light u-pl-0">
+
+                    <!-- breadcrumbs -->
+                    <div class="breadcrumb spacer">
+                        <span itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb" class="breadcrumb__scope">
+                            <a href="<?php echo $block->page()->site()->url();?>" itemprop="url" class="breadcrumb__item"><span itemprop="title">Home</span></a>
+                        </span>
+                        <span itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb" class="breadcrumb__scope">
+                            <a href="" itemprop="url" class="breadcrumb__item breadcrumb__item--active"><span itemprop="title"><?php echo $block->page()->title();?></span></a>
+                        </span>
+                    </div>
+                    <?php $nav = $block->page()->site()->publicNav();?>
+                    <?php echo $nav->breadcrumbs(); ?>
+
+                    <h1 class="spacer"><?php echo $block->dataValue('title');?></h1>
+                    <div class="text--lead spacer">
+                        <?php echo $block->dataValue('text');?>
+                    </div>
+                    <div class="link link--ext spacer"><a href="<?php echo $block->dataValue('link');?>"><?php echo $block->dataValue('link_text');?></a></div>
+                </div>
+            </div>
+
+            <div class="grid__12 grid__6@med">
+                <div class="image--secondary">
+                  <?php
+                    $media = $attachments[0]->media();
+                  ?>
+                  <?php echo $this->thumbnail($media, 'large');?>
+                </div>
+            </div>
+
+        </div>
+        </div>
+    </div>
+</div>
