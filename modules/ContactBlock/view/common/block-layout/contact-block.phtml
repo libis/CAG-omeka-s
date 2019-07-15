@@ -9,9 +9,11 @@
                       <?php echo $block->dataValue('text');?>
                   </span>
 
+                  <?php if($block->dataValue('link')):?>
                   <div class="spacer">
                       <a href="<?php echo $block->dataValue('link');?>" class="btn spacer">Meer lezen</a>
                   </div>
+                  <?php endif;?>
                 </div>
                 <div class="grid__12 grid__6@med">
                     <div class="panel">
