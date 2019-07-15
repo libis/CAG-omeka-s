@@ -22,6 +22,11 @@
     color: #014D49;
 }
 
+.nav--main li.active a{
+  background-size: 100% 2px;
+  color: #014D49;
+}
+
 //nav--doormat
 .nav--doormat .nav__menu li {
     padding-bottom: 13px;
