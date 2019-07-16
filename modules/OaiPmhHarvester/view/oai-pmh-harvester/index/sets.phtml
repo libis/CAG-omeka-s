@@ -1,0 +1,23 @@
+<?php
+/**
+ * @var \Zend\View\Renderer\PhpRenderer $this
+ * @var \OaiPmhHarvester\Form\SetsForm $form
+ * @var string $content
+ */
+
+$translate = $this->plugin('translate');
+?>
+<?php
+echo $this->pageTitle($translate('Oai-Pmh Please choose sets to import'), 1, $translate('OAI-PMH Harvester'));
+
+echo $content;
+
+echo $this->form()->openTag($form);
+?>
+<fieldset id='page-actions'>
+    <button type="submit"><?php echo $translate('Harvest'); ?></button>
+</fieldset>
+
+<?php echo $this->formCollection($form, false); ?>
+
+<?php echo $this->form()->closeTag($form); ?>
