@@ -3,7 +3,7 @@
 //nav__main
 .nav--main li {
     margin: 0 26px;
-        
+
     ul{
       display: none;
     }
@@ -182,4 +182,8 @@
     display: block;
     color: #e8ae11;
   }
+}
+
+.icon::before {
+    color: inherit !important;
 }

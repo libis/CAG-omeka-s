@@ -1,0 +1,81 @@
+<?php
+$translate = $this->plugin('translate');
+?>
+<div class="section section--default">
+  <div class="container">
+
+    <?php if ($this->heading): ?>
+    <h2><?php echo $this->heading; ?></h2>
+    <?php endif; ?>
+
+    <?php if($block->dataValue('text')):?>
+    <div class="grid spacer">
+        <div class="grid__12 grid__8@med">
+            <?php echo $block->dataValue('text');?>
+        </div>
+    </div>
+    <?php endif; ?>
+
+
+    <div class="grid grid--<?php echo $block->dataValue('columns');?>-col@med spacer--xsm">
+      <?php
+      $headingTerm = $this->siteSetting('browse_heading_property_term', 'dcterms:title');
+      $bodyTerm = $this->siteSetting('browse_body_property_term', 'dcterms:description');
+      foreach ($this->resources as $resource):
+          $heading = $resource->value($headingTerm, ['default' => $translate('[Untitled]')]);
+          $body = $resource->value($bodyTerm);
+          $itemsets = $resource->itemSets();
+          foreach($itemsets as $set):
+            $itemset = $set->displayTitle();
+          endforeach;
+
+      ?>
+      <div class="grid__item">
+        <div class="card card--gray card--clickable card--link">
+            <?php
+              $media = $resource->media();
+              $url = $media[0]->thumbnailUrl('large');
+            ?>
+            <div class="card__img card__img_3"
+              style="background:url(<?php echo  $url;?>) no-repeat center center;background-size: cover;"
+              >
+
+            </div>
+            <div class="card__body panel panel--light">
+              <?php if($itemset == 'Project'):?>
+                <div class="label spacer"><?php echo $itemset;?></div>
+              <?php endif;?>
+              <h2 class="heading--3 card__title spacer--xsm">
+                <?php echo $resource->link($heading); ?>
+              </h2>
+              <?php if ($body): ?>
+                <p>
+                  <?php echo $body; ?>
+                </p>
+              <?php endif; ?>
+              <div class="link link--ext card__link">
+                <?php
+                  if($itemset == 'Verhaal' || $itemset == 'Project'):?>
+                    <a href="<?php echo $resource->value('dcterms:relation');?>"><?php echo $itemset.' bekijken';?></a>
+                <?php
+                  else:
+                    echo $resource->link('Object bekijken');
+                  endif;
+                ?>
+              </div>
+            </div>
+        </div>
+      </div>
+      <?php endforeach; ?>
+    </div>
+
+    <?php if ($this->linkText):?>
+      <div class="text--center u-mt-med">
+        <a href="<?php echo $this->url('site/resource', ['controller' => $this->resourceType, 'action' => 'browse'], ['query' => $this->query],true);?>" class="btn btn--ext">
+          <?php echo $this->linkText;?>
+        </a>
+      </div>
+    <?php endif;?>
+
+  </div>
+</div>

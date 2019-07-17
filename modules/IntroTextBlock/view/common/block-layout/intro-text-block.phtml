@@ -1,0 +1,26 @@
+<div class="section section--lrg section--light">
+        <div class="container">
+
+          <!-- breadcrumbs -->
+          <div class="breadcrumb spacer">
+              <span itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb" class="breadcrumb__scope">
+                  <a href="<?php echo $block->page()->site()->url();?>" itemprop="url" class="breadcrumb__item"><span itemprop="title">Home</span></a>
+              </span>
+              <?php $nav = $block->page()->site()->publicNav();?>
+              <span itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb" class="breadcrumb__scope">
+              <?php if($nav->breadcrumbs() != ''): ?>
+                <?php echo $nav->breadcrumbs()->setSeparator('</span>
+                <span itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb" class="breadcrumb__scope">'
+                ); ; ?>
+              <?php else: ?>
+                  <a href="" itemprop="url" class="breadcrumb__item breadcrumb__item--active"><span itemprop="title"><?php echo $block->page()->title();?></span></a>
+              <?php endif;?>
+              </span>
+          </div>
+
+        <h1 class="spacer"><?php echo $block->dataValue('title');?></h1>
+        <div class="spacer">
+            <?php echo $block->dataValue('text');?>
+        </div>
+    </div>
+</div>

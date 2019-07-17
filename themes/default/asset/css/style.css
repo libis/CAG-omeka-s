@@ -174,4 +174,8 @@
   color: #e8ae11;
 }
 
+.icon::before {
+  color: inherit !important;
+}
+
 /*# sourceMappingURL=style.css.map */

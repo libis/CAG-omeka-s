@@ -1,0 +1,26 @@
+<div class="section section--default overlap">
+    <div class="container">
+        <div class="grid grid--reverse grid--text-image grid--no-gutter">
+            <div class="grid__12 grid__6@med">
+                <?php
+                  $media = $item->media();
+                  $url = $media[0]->thumbnailUrl('large');
+                ?>
+                <div class="grid__img" style="height:500px;background:url(<?php echo $url;?>) no-repeat center center;background-size: cover;">
+
+                </div>
+            </div>
+            <div class="grid__12 grid__6@med">
+                <div class="grid__content panel panel--lrg panel--light">
+
+                    <h2 class="spacer spacer--xsm"><?php echo $item->displayTitle();?></h2>
+                    <p>
+                      <?php echo $item->value('dcterms:description');?>
+                    </p>
+
+                    <div class="link"><a class="btn btn--ext" href="">Verder lezen</a></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

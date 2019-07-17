@@ -1,0 +1,16 @@
+<div class="section section--default overlap">
+    <div class="container">
+        <div class="grid grid--text-image grid--no-gutter">
+            <div class="grid__12 grid__6@med">
+              <div class="grid__content panel panel--lrg panel--light">
+                <h4><?php echo ucfirst($block->dataValue('type'));?> doorzoeken</h4>
+                <form action="<?php echo '/'.$block->dataValue('type');?>">
+                  <div class="form__item">
+                      <input type="text" class="form__text" name="q" style="display:inline-block;width:80%;">
+                      <button type="submit" style="display:inline-block;width:auto;min-width:0;padding:5px 12px 6px 12px;color:white;background:#006B65" class="btn form__btn"><span class="icon icon--search"></span></button>
+                  </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

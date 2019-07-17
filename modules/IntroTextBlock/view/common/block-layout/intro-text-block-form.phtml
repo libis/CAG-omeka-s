@@ -1,0 +1,19 @@
+<?php
+use Zend\Form\Element\Textarea;
+
+?>
+<h4>Title</h4>
+<div class="field">
+  <div class="inputs">
+      <input type="text" class="" value="<?php echo (!isset($block) ? '' : $block->dataValue('title')); ?>" name="o:block[__blockIndex__][o:data][title]">
+  </div>
+</div>
+<h4>Text</h4>
+<?php
+  $textarea = new Textarea("o:block[__blockIndex__][o:data][text]");
+  $textarea->setAttribute('class', 'block-html full wysiwyg');
+  if ($block) {
+      $textarea->setAttribute('value', $block->dataValue('text'));
+  }
+?>
+<?php echo $this->formRow($textarea);?>

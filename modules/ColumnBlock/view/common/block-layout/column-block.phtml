@@ -1,7 +1,9 @@
 <!-- overview blocks -->
 <?php if(sizeof($attachments) == 3 || sizeof($attachments) == 2):?>
 <div class="section section--default column-block">
+
     <div class="container">
+        <h2><?php echo $block->dataValue('title');?></h2>
         <div class="grid grid--<?php echo sizeof($attachments);?>-col@med spacer--xsm">
           <?php for($i = 1; $i <= sizeof($attachments); $i++){ ?>
             <div class="grid__item">
