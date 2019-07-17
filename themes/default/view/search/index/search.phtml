@@ -55,8 +55,12 @@ $this->headScript()->appendFile($this->assetUrl('js/search.js', 'Search'));
                <a href="https://cerfif.local.statik.be/nieuws" itemprop="url" class="breadcrumb__item breadcrumb__item--active"><span itemprop="title">pagina</span></a>
            </span>
        </div>
-
-       <h1 class="spacer">Beeldbank</h1>
+       <?php
+       $nav = $site->publicNav();
+       $container = $nav->getContainer();
+       $activePage = $nav->findActive($container);
+       ?>
+       <h1 class="spacer">Zoeken</h1>
 
    </div>
 </div>

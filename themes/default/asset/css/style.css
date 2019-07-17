@@ -3,6 +3,10 @@
   margin: 0 26px;
 }
 
+.nav--main li ul {
+  display: none;
+}
+
 .nav--main .nav__menu li a {
   color: #006B65;
   display: block;

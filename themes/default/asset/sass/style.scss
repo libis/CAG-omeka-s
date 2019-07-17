@@ -3,6 +3,10 @@
 //nav__main
 .nav--main li {
     margin: 0 26px;
+        
+    ul{
+      display: none;
+    }
 }
 
 .nav--main .nav__menu li a {
@@ -30,6 +34,7 @@
 //nav--doormat
 .nav--doormat .nav__menu li {
     padding-bottom: 13px;
+
 }
 
 .nav--doormat .nav__menu li a {
