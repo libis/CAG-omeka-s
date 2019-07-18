@@ -34,8 +34,10 @@ use Doctrine\ORM\EntityManager;
 use Omeka\Form\ConfirmForm;
 use Omeka\Stdlib\Message;
 use Search\Adapter\Manager as SearchAdapterManager;
+use Search\Api\Representation\SearchPageRepresentation;
 use Search\Form\Admin\SearchPageForm;
 use Search\Form\Admin\SearchPageConfigureForm;
+use Search\Form\Admin\SearchPageConfigureSimpleForm;
 use Search\FormAdapter\Manager as SearchFormAdapterManager;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
@@ -89,9 +91,9 @@ class SearchPageController extends AbstractActionController
             'Search page "%s" created.', // @translate
             $searchPage->name()
         ));
-        $this->managePageOnSites(
-            $searchPage->id(),
-            !empty($formData['manage_page_default']),
+        $this->manageSearchPageOnSites(
+            $searchPage,
+            $formData['manage_page_default'],
             $formData['manage_page_availability']
         );
         if (!in_array($formData['manage_page_availability'], ['disable', 'enable'])
@@ -111,11 +113,16 @@ class SearchPageController extends AbstractActionController
 
     public function editAction()
     {
+        /** @var \Search\Api\Representation\SearchPageRepresentation $page */
         $id = $this->params('id');
         $page = $this->api()->read('search_pages', ['id' => $id])->getContent();
 
+        $data = $page->jsonSerialize();
+        $data['manage_page_default'] = $this->sitesWithSearchPage($page);
+
         $form = $this->getForm(SearchPageForm::class);
-        $form->setData($page->jsonSerialize());
+        $form->setData($data);
+
         $view = new ViewModel;
         $view->setVariable('form', $form);
 
@@ -124,16 +131,18 @@ class SearchPageController extends AbstractActionController
         }
 
         $formData = $form->getData();
-        $this->api()->update('search_pages', $id, $formData, [], ['isPartial' => true]);
+        $searchPage = $this->api()
+            ->update('search_pages', $id, $formData, [], ['isPartial' => true])
+            ->getContent();
 
         $this->messenger()->addSuccess(new Message(
             'Search page "%s" saved.', // @translate
-            $page->name()
+            $searchPage->name()
         ));
 
-        $this->managePageOnSites(
-            $id,
-            !empty($formData['manage_page_default']),
+        $this->manageSearchPageOnSites(
+            $searchPage,
+            $formData['manage_page_default'],
             $formData['manage_page_availability']
         );
 
@@ -146,52 +155,41 @@ class SearchPageController extends AbstractActionController
 
         $id = $this->params('id');
 
+        $view = new ViewModel;
+
         /** @var \Search\Api\Representation\SearchPageRepresentation $searchPage */
         $searchPage = $this->api()->read('search_pages', $id)->getContent();
+        $view->setVariable('searchPage', $searchPage);
 
-        $form = $this->getForm(SearchPageConfigureForm::class, [
-            'search_page' => $searchPage,
-        ]);
+        $index = $searchPage->index();
+        $adapter = $index ? $index->adapter() : null;
+        if (empty($adapter)) {
+            $message = new Message(
+                'The index adapter "%s" is unavailable', // @translate
+                $index->adapterLabel()
+            );
+            $this->messenger()->addError($message); // @translate
+            return $view;
+        }
+
+        $form = $this->getConfigureForm($searchPage);
+        $isSimple = $form instanceof SearchPageConfigureSimpleForm;
+
         $settings = $searchPage->settings();
-        $form->setData($settings);
 
-        $view = new ViewModel;
+        if ($isSimple) {
+            $settings = $this->prepareSettingsForSimpleForm($searchPage, $settings);
+        }
+        $form->setData($settings);
         $view->setVariable('form', $form);
 
         if (!$this->getRequest()->isPost()) {
             return $view;
         }
 
-        // Fix the "max_input_vars" limit in php.ini via js.
-        $params = $this->getRequest()->getPost()->toArray();
-
-        // Recreate the array that was json encoded via js.
-        $fieldsData = [];
-        $fields = isset($params['fieldsets']) ? json_decode($params['fieldsets'], true) : [];
-        foreach ($fields as $type => $typeFields) {
-            foreach ($typeFields as $fieldData) {
-                $type = strtok($fieldData['name'], '[]');
-                $two = strtok('[]');
-                if (!strlen($two)) {
-                    $fieldsData[$type] = $fieldData['value'];
-                } else {
-                    $three = strtok('[]');
-                    if (!strlen($three)) {
-                        $fieldsData[$type][$two] = $fieldData['value'];
-                    } else {
-                        $four = strtok('[]');
-                        if (!strlen($four)) {
-                            $fieldsData[$type][$two][$three] = $fieldData['value'];
-                        } else {
-                            $fieldsData[$type][$two][$three][$four] = $fieldData['value'];
-                        }
-                    }
-                }
-            }
-        }
-
-        $params = array_merge($fieldsData, $params);
-        unset($params['fieldsets']);
+        $params = $isSimple
+            ? $this->extractSimpleFields()
+            : $this->extractFullFields();
 
         $form->setData($params);
         if (!$form->isValid()) {
@@ -204,7 +202,7 @@ class SearchPageController extends AbstractActionController
             return $view;
         }
 
-        // TODO Why the fieldset "form" is removed from the the params? Add an intermediate fieldset?
+        // TODO Why the fieldset "form" is removed from the params? Add an intermediate fieldset?
         $formParams = isset($params['form']) ? $params['form'] : [];
         $params = $form->getData();
         $params['form'] = $formParams;
@@ -312,55 +310,332 @@ class SearchPageController extends AbstractActionController
     }
 
     /**
+     * Check if the configuration should use simple or visual form and get it.
+     *
+     * The form is different when the number of fields is too big. This is
+     * generally needed for the internal adapter when there are many specific
+     * vocabularies. Unlike other adapters, it uses all properties by default.
+     * So the number of properties may be greater than 200, so a memory overload
+     * may occur (memory_limit = 128MB).
+     * For the full form, the issue about the limit for the for number of fields
+     * by request (max_input_vars = 1000) is fixed via js. Each property has 3
+     * fields, and as facet and sort in 2 directions, so the limit to use the
+     * full form or the simple form is set to 200.
+     *
+     * @param SearchPageRepresentation $searchPage
+     * @return \Search\Form\Admin\SearchPageConfigureForm|\Search\Form\Admin\SearchPageConfigureSimpleForm
+     */
+    protected function getConfigureForm(SearchPageRepresentation $searchPage)
+    {
+        $index = $searchPage->index();
+        $adapter = $index ? $index->adapter() : null;
+        $availableFields = $adapter->getAvailableFields($index);
+
+        $isPostSimple = $this->getRequest()->isPost()
+            && $this->params()->fromPost('form_class') === SearchPageConfigureSimpleForm::class;
+        $forceForm = $this->params()->fromQuery('form');
+        $isSimple = $isPostSimple
+            || (count($availableFields) > 200 && $forceForm !== 'visual')
+            || $forceForm === 'simple';
+
+        $form = $isSimple
+            /* @var \Search\Form\Admin\SearchPageConfigureSimpleForm $form */
+            ? $this->getForm(SearchPageConfigureSimpleForm::class, ['search_page' => $searchPage])
+            /* @var \Search\Form\Admin\SearchPageConfigureForm $form */
+            : $this->getForm(SearchPageConfigureForm::class, ['search_page' => $searchPage]);
+
+        return $form;
+    }
+
+    /**
+     * Convert settings into strings in ordeer to manage many fields.
+     *
+     * @param SearchPageRepresentation $searchPage
+     * @param array $settings
+     * @return array
+     */
+    protected function prepareSettingsForSimpleForm(SearchPageRepresentation $searchPage, $settings)
+    {
+        $index = $searchPage->index();
+        $adapter = $index->adapter();
+
+        $data = '';
+        $fields = empty($settings['facets']) ? [] : $settings['facets'];
+        foreach ($fields as $name => $field) {
+            if (!empty($field['enabled'])) {
+                $data .= $name . ' | ' . $field['display']['label'] . "\n";
+            }
+        }
+        $settings['facets'] = $data;
+
+        $data = '';
+        $fields = $adapter->getAvailableFacetFields($index);
+        foreach ($fields as $name => $field) {
+            $data .= $name . ' | ' . $field['label'] . "\n";
+        }
+        $settings['available_facets'] = $data;
+
+        $data = '';
+        $fields = empty($settings['sort_fields']) ? [] : $settings['sort_fields'];
+        foreach ($fields as $name => $field) {
+            if (!empty($field['enabled'])) {
+                $data .= $name . ' | ' . $field['display']['label'] . "\n";
+            }
+        }
+        $settings['sort_fields'] = $data;
+
+        $data = '';
+        $fields = $adapter->getAvailableSortFields($index);
+        foreach ($fields as $name => $field) {
+            $data .= $name . ' | ' . $field['label'] . "\n";
+        }
+        $settings['available_sort_fields'] = $data;
+
+        return $settings;
+    }
+
+    protected function extractSimpleFields()
+    {
+        $params = $this->getRequest()->getPost()->toArray();
+
+        $data = $params['facets'] ?: '';
+        unset($params['facets']);
+        unset($params['available_facets']);
+        $data = $this->stringToList($data);
+        foreach ($data as $key => $value) {
+            list($term, $label) = array_map('trim', explode('|', $value));
+            $params['facets'][$term] = [
+                'enabled' => true,
+                'weight' => $key + 1,
+                'display' => [
+                    'label' => $label,
+                ],
+            ];
+        }
+
+        $data = $params['sort_fields'] ?: '';
+        unset($params['sort_fields']);
+        unset($params['available_sort_fields']);
+        $data = $this->stringToList($data);
+        foreach ($data as $key => $value) {
+            list($term, $label) = array_map('trim', explode('|', $value));
+            $params['sort_fields'][$term] = [
+                'enabled' => true,
+                'weight' => $key + 1,
+                'display' => [
+                    'label' => $label,
+                ],
+            ];
+        }
+
+        unset($params['form_class']);
+
+        return $params;
+    }
+
+    protected function extractFullFields()
+    {
+        $params = $this->getRequest()->getPost()->toArray();
+
+        $fields = isset($params['fieldsets']) ? $params['fieldsets'] : [];
+        unset($params['fieldsets']);
+        $fieldsData = $this->extractJsonEncodedFields($fields);
+        $params = array_merge($fieldsData, $params);
+        unset($fields);
+
+        unset($params['form_class']);
+
+        return $params;
+    }
+
+    /**
+     * To bypass the limit to 1000 fields posted, post is json encoded, so it
+     * should be decoded.
+     *
+     * @param string $jsonEncodedFields
+     * @return array
+     */
+    protected function extractJsonEncodedFields($jsonEncodedFields)
+    {
+        if (empty($jsonEncodedFields)) {
+            return [];
+        }
+        $fields = json_decode($jsonEncodedFields, true);
+        if (empty($jsonEncodedFields)) {
+            return [];
+        }
+
+        // Recreate the array that was json encoded via js.
+        $fieldsData = [];
+        foreach ($fields as $type => $typeFields) {
+            foreach ($typeFields as $fieldData) {
+                $type = strtok($fieldData['name'], '[]');
+                $two = strtok('[]');
+                if (!strlen($two)) {
+                    $fieldsData[$type] = $fieldData['value'];
+                } else {
+                    $three = strtok('[]');
+                    if (!strlen($three)) {
+                        $fieldsData[$type][$two] = $fieldData['value'];
+                    } else {
+                        $four = strtok('[]');
+                        if (!strlen($four)) {
+                            $fieldsData[$type][$two][$three] = $fieldData['value'];
+                        } else {
+                            $fieldsData[$type][$two][$three][$four] = $fieldData['value'];
+                        }
+                    }
+                }
+            }
+        }
+
+        return $fieldsData;
+    }
+
+    protected function sitesWithSearchPage(SearchPageRepresentation $searchPage)
+    {
+        $result = [];
+
+        // Check admin.
+        $adminSearchUrl = $this->settings()->get('search_main_page');
+        if ($adminSearchUrl) {
+            $basePath = $this->viewHelpers()->get('basePath');
+            $adminBasePath = $basePath('admin/');
+            if ($adminSearchUrl === ($adminBasePath . $searchPage->path())) {
+                $result[] = 'admin';
+            }
+        }
+
+        // Check all sites.
+        $searchPageId = $searchPage->id();
+        $settings = $this->siteSettings();
+        $sites = $this->api()->search('sites')->getContent();
+        foreach ($sites as $site) {
+            $settings->setTargetId($site->id());
+            if ($settings->get('search_main_page') == $searchPageId) {
+                $result[] = $site->id();
+            }
+        }
+
+        return $result;
+    }
+
+    /**
      * Config the page for all sites.
      *
-     * @param int $searchPageId
-     * @param bool $default
+     * @param SearchPageRepresentation $searchPage
+     * @param array $mainSearchPageForSites
      * @param string $availability
      */
-    protected function managePageOnSites($searchPageId, $default, $availability)
-    {
-        if ($default) {
-            $availability = 'enable';
-            $message = 'The page has been set by default in all sites.'; // @translate
+    protected function manageSearchPageOnSites(
+        SearchPageRepresentation $searchPage,
+        array $newMainSearchPageForSites,
+        $availability
+    ) {
+        $searchPageId = $searchPage->id();
+        $currentMainSearchPageForSites = $this->sitesWithSearchPage($searchPage);
+
+        // Manage admin settings.
+        $current = in_array('admin', $currentMainSearchPageForSites);
+        $new = in_array('admin', $newMainSearchPageForSites);
+        if ($current !== $new) {
+            $settings = $this->settings();
+            if ($new) {
+                $basePath = $this->viewHelpers()->get('basePath');
+                $adminBasePath = $basePath('admin/');
+                $settings->set('search_main_page', $adminBasePath . $searchPage->path());
+
+                $searchPages = $settings->get('search_pages', []);
+                $searchPages[] = $searchPageId;
+                array_unique(array_filter($searchPages));
+                sort($searchPages);
+                $settings->set('search_pages', $searchPages);
+
+                $message = 'The page has been set by default in admin board.'; // @translate
+            } else {
+                $settings->set('search_main_page', null);
+
+                $message = 'The page has been unset in admin board.'; // @translate
+            }
             $this->messenger()->addSuccess($message);
         }
 
+        $allSites = in_array('all', $newMainSearchPageForSites);
         switch ($availability) {
             case 'disable':
                 $available = false;
-                $message = 'The page has been disabled in all sites.'; // @translate
+                $message = 'The page has been disabled in all specified sites.'; // @translate
                 break;
             case 'enable':
                 $available = true;
-                $message = 'The page has been enabled in all sites.'; // @translate
+                $message = 'The page has been made available in all specified sites.'; // @translate
                 break;
             default:
-                return;
+                $available = null;
         }
 
-        $siteSettings = $this->siteSettings();
+        // Manage site settings.
+        $settings = $this->siteSettings();
         $sites = $this->api()->search('sites')->getContent();
         foreach ($sites as $site) {
-            $siteSettings->setTargetId($site->id());
-            $searchPages = $siteSettings->get('search_pages');
-            if ($default) {
-                $siteSettings->set('search_main_page', $searchPageId);
+            $siteId = $site->id();
+            $settings->setTargetId($siteId);
+            $searchPages = $settings->get('search_pages', []);
+            $current = in_array($siteId, $currentMainSearchPageForSites);
+            $new = $allSites || in_array($siteId, $newMainSearchPageForSites);
+            if ($current !== $new) {
+                if ($new) {
+                    $settings->set('search_main_page', $siteId);
+
+                    $searchPages[] = $searchPageId;
+                    array_unique(array_filter($searchPages));
+                    sort($searchPages);
+                    $settings->set('search_pages', $searchPages);
+                } else {
+                    $settings->set('search_main_page', null);
+                }
+                $this->messenger()->addSuccess($message);
             }
-            if ($available) {
+
+            if ($new || $available) {
                 $searchPages[] = $searchPageId;
+                array_unique(array_filter($searchPages));
+                sort($searchPages);
             } else {
-                if (($key = array_search($searchPageId, $searchPages)) !== false) {
-                    unset($searchPages[$key]);
+                $key = array_search($searchPageId, $searchPages);
+                if ($key === false) {
+                    continue;
                 }
-                if ($siteSettings->get('search_main_page') == $searchPageId) {
-                    $siteSettings->set('search_main_page', null);
-                }
+                unset($searchPages[$key]);
             }
-            $siteSettings->set('search_pages', $searchPages);
+            $settings->set('search_pages', $searchPages);
         }
 
         $this->messenger()->addSuccess($message);
+    }
+
+    /**
+     * Get each line of a string separately.
+     *
+     * @param string $string
+     * @return array
+     */
+    protected function stringToList($string)
+    {
+        return array_filter(array_map('trim', explode("\n", $this->fixEndOfLine($string))));
+    }
+
+    /**
+     * Clean the text area from end of lines.
+     *
+     * This method fixes Windows and Apple copy/paste from a textarea input.
+     *
+     * @param string $string
+     * @return string
+     */
+    protected function fixEndOfLine($string)
+    {
+        return str_replace(["\r\n", "\n\r", "\r"], ["\n", "\n", "\n"], $string);
     }
 
     protected function getEntityManager()

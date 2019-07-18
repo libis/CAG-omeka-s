@@ -2,7 +2,7 @@
 
 /*
  * Copyright BibLibre, 2016-2017
- * Copyright Daniel Berthereau, 2017-2018
+ * Copyright Daniel Berthereau, 2017-2019
  *
  * This software is governed by the CeCILL license under French law and abiding
  * by the rules of distribution of free software.  You can use, modify and/ or
@@ -267,22 +267,23 @@ SQL;
     protected function addAclRules()
     {
         $acl = $this->getServiceLocator()->get('Omeka\Acl');
-        $acl->allow(
-            null,
-            [
-                \Search\Controller\IndexController::class,
-                \Search\Api\Adapter\SearchPageAdapter::class,
-                \Search\Api\Adapter\SearchIndexAdapter::class,
-            ]
-        );
-        $acl->allow(
-            null,
-            [
-                \Search\Entity\SearchPage::class,
-                \Search\Entity\SearchIndex::class,
-            ],
-          'read'
-        );
+        $acl
+            ->allow(
+                null,
+                [
+                    \Search\Controller\IndexController::class,
+                    \Search\Api\Adapter\SearchPageAdapter::class,
+                    \Search\Api\Adapter\SearchIndexAdapter::class,
+                ]
+            )
+            ->allow(
+                null,
+                [
+                    \Search\Entity\SearchPage::class,
+                    \Search\Entity\SearchIndex::class,
+                ],
+                'read'
+            );
     }
 
     protected function addRoutes()
