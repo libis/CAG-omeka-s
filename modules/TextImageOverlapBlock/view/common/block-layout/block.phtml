@@ -6,11 +6,12 @@
         <div class="grid grid--text-image grid--no-gutter">
         <?php endif;?>
             <div class="grid__12 grid__6@med">
-                <div class="grid__img">
-                    <?php
-                      $media = $attachments[0]->media();
-                    ?>
-                    <?php echo $this->thumbnail($media, 'large');?>
+                <?php
+                  $media = $attachments[0]->media();
+                  $url = $media->thumbnailUrl('large');
+                ?>
+                <div class="grid__img" style="background:url(<?php echo $url;?>) no-repeat center center;background-size: cover;">
+
                 </div>
             </div>
             <div class="grid__12 grid__6@med">

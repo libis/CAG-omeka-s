@@ -178,4 +178,14 @@
   color: inherit !important;
 }
 
+.hero__img, .grid--text-image .grid__img {
+  height: 250px;
+}
+
+@media (min-width: 820px) {
+  .hero__img, .grid--text-image .grid__img {
+    height: 500px;
+  }
+}
+
 /*# sourceMappingURL=style.css.map */

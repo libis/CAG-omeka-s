@@ -3,12 +3,13 @@
         <div class="hero">
             <div class="grid grid--no-gutter">
                 <div class="grid__12 grid__6@med">
-                    <div class="hero__img image--secondary">
-                        <?php
-                          $media = $attachments[0]->media();
-                        ?>
-                        <?php echo $this->thumbnail($media, 'large');?>
-                    </div>
+                  <?php
+                    $media = $attachments[0]->media();
+                    $url = $media->thumbnailUrl('large');
+                  ?>
+                  <div class="hero__img image--secondary" style="background:url(<?php echo $url;?>) no-repeat center center;background-size: cover;">
+
+                  </div>                  
                 </div>
                 <div class="grid__12 grid__6@med">
                     <div class="hero__content panel panel--lrg panel--light">
