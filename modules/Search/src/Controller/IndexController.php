@@ -245,6 +245,7 @@ class IndexController extends AbstractActionController
         $view->setVariable('response', $response);
         $view->setVariable('facets', $facets);
         $view->setVariable('sortOptions', $sortOptions);
+        $view->setVariable('page', $page);
         return $view;
     }
 

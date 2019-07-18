@@ -26,47 +26,43 @@
  * The fact that you are presently reading this means that you have had
  * knowledge of the CeCILL license and that you accept its terms.
  */
+?>
 
+<?php
 /**
  * @var \Zend\View\Renderer\PhpRenderer $this
- * @var \Omeka\Api\Representation\AbstractResourceEntityRepresentation $resource
- * @var string $tag
+ * @var \Solr\Form\Admin\SolrNodeForm $form
  */
 
-$hyperlink = $this->plugin('hyperlink');
+$translate = $this->plugin('translate');
+$form->prepare();
 ?>
-<div class="grid__item">
-   <div class="card card--gray card--clickable card--link">
+<?php echo $this->pageTitle($translate('Edit Solr node')); ?>
 
-<?php echo sprintf('<%s class="%s resource">', $tag, $resource->resourceName()); ?>
-    <?php $media = $resource->primaryMedia(); ?>
-    <?php if ($media): ?>
+<?php echo $this->form()->openTag($form); ?>
+<div id="page-actions">
+    <button><?php echo $translate('Save'); ?></button>
+</div>
+<nav class="breadcrumbs">
+    <?php
+    echo $this->hyperlink($translate('Search'), $this->url('admin/search'));
+    echo $this->hyperlink($translate('Solr nodes'), $this->url('admin/solr'));
+    ?>
+    <span><?php echo $translate('Edit node'); ?></span>
+</nav>
+<?php echo $this->formCollection($form, false); ?>
+<?php $this->trigger('view.edit.form.after'); ?>
+<?php echo $this->form()->closeTag(); ?>
 
-        <?php /*echo $hyperlink->raw(
-            $this->thumbnail($media, 'square', ['title' => $media->displayTitle(), 'alt' => $media->mediaType() . ' thumbnail']),
-            $resource->url()
-        ); */?>
-    <?php endif; ?>
-    <div class="card__img card__img_3"
-      style="background:url(<?php echo $media->thumbnailUrl('large');?>) no-repeat center center;background-size: cover;"
-    >
+<?php if (!class_exists('SolrDisMaxQuery')): ?>
+<p>
+<?php $solrVersion = class_exists('SolrUtils') ? \SolrUtils::getSolrVersion() : $translate('[unknown]'); ?>
+<?php echo sprintf($translate('To use advanced query options, you need the php-solr library 2.1.0 or above (lastest recommended, current %s).'), $solrVersion); ?>
+</p>
+<?php endif; ?>
 
-    </div>
-    <div class="card__body panel panel--light">
-        <h2 class="heading--3 card__title"><?php echo $resource->link($resource->displayTitle()); ?></h2>
-        <?php if ($description = $resource->displayDescription()): ?>
-            <p class="description">
-                <?php echo $description; ?>
-            </p>
-        <?php endif; ?>
-        <?php
-          $itemset = "Object";
-          $itemsets = $resource->itemSets();
-          foreach($itemsets as $set):
-            $itemset = $set->displayTitle();
-          endforeach;
-        ?>
-        <div class="link link--ext card__link"><?php echo $itemset;?> bekijken</div>
-    </div>
-<?php echo sprintf('</%s>', $tag); ?>
-</div></div>
+<p>
+<?php echo $translate('WARNING: Changing the required values will require a complete reindexation.'); ?>
+</p>
+
+<?php $this->trigger('view.edit.after'); ?>

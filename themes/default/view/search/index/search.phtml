@@ -52,7 +52,7 @@ $this->headScript()->appendFile($this->assetUrl('js/search.js', 'Search'));
                <a href="" itemprop="url" class="breadcrumb__item"><span itemprop="title">Home</span></a>
            </span>
            <span itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb" class="breadcrumb__scope">
-               <a href="https://cerfif.local.statik.be/nieuws" itemprop="url" class="breadcrumb__item breadcrumb__item--active"><span itemprop="title">pagina</span></a>
+               <a href="https://cerfif.local.statik.be/nieuws" itemprop="url" class="breadcrumb__item breadcrumb__item--active"><span itemprop="title"><?php echo $page->name();?></span></a>
            </span>
        </div>
        <?php
@@ -60,8 +60,9 @@ $this->headScript()->appendFile($this->assetUrl('js/search.js', 'Search'));
        $container = $nav->getContainer();
        $activePage = $nav->findActive($container);
        ?>
-       <h1 class="spacer">Zoeken</h1>
-
+       <h1 class="spacer">
+         <?php echo $page->name();?>
+       </h1>
    </div>
 </div>
 
@@ -70,7 +71,7 @@ $this->headScript()->appendFile($this->assetUrl('js/search.js', 'Search'));
     <div class="grid">
 
      <!-- search filter -->
-     <?php echo $this->partial('search/facets', ['facets' => $facets]); ?>
+     <?php echo $this->partial('search/facets', ['facets' => $facets, 'page' => $page]); ?>
 
      <!-- filter results -->
      <?php if (isset($response)): ?>
