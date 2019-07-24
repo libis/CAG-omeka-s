@@ -4,8 +4,15 @@ $escape = $this->plugin('escapeHtml');
 $labelInfo = $this->setting('property_label_information');
 ?>
 <?php foreach ($values as $term => $propertyData): ?>
-    <div class="property">
-        <h4>
+  <?php
+    $dontshow = ['Titel','Title','Description'];
+    if(in_array($propertyData['property']->label(),$dontshow)):
+      continue;
+    endif;
+  ?>
+
+  <tr>
+      <td>
         <?php if ($propertyData['alternate_label']): ?>
         <?php echo $escape($propertyData['alternate_label']); ?>
         <?php else: ?>
@@ -16,8 +23,10 @@ $labelInfo = $this->setting('property_label_information');
         <?php elseif ('vocab' === $labelInfo): ?>
         <span class="field-term">(<?php echo $escape($propertyData['property']->vocabulary()->label()); ?>)</span>
         <?php endif; ?>
-        </h4>
-        <div class="values">
+      </td>
+
+      <td>
+        <strong>
         <?php foreach ($propertyData['values'] as $value): ?>
             <?php
             $valueType = $value->type();
@@ -39,6 +48,7 @@ $labelInfo = $this->setting('property_label_information');
                 <?php echo $value->asHtml(); ?>
             </div>
         <?php endforeach; ?>
-        </div>
-    </div>
+        </strong>
+      </td>
+    </tr>
 <?php endforeach; ?>

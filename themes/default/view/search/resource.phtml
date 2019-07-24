@@ -41,22 +41,18 @@ $hyperlink = $this->plugin('hyperlink');
 <?php echo sprintf('<%s class="%s resource">', $tag, $resource->resourceName()); ?>
     <?php $media = $resource->primaryMedia(); ?>
     <?php if ($media): ?>
-
-        <?php /*echo $hyperlink->raw(
-            $this->thumbnail($media, 'square', ['title' => $media->displayTitle(), 'alt' => $media->mediaType() . ' thumbnail']),
-            $resource->url()
-        ); */?>
+      <div class="card__img card__img_3"
+        style="background:url(<?php echo $media->thumbnailUrl('large');?>) no-repeat center center;background-size: cover;"
+      ></div>
     <?php endif; ?>
-    <div class="card__img card__img_3"
-      style="background:url(<?php echo $media->thumbnailUrl('large');?>) no-repeat center center;background-size: cover;"
-    >
 
-    </div>
+
+
     <div class="card__body panel panel--light">
         <h2 class="heading--3 card__title"><?php echo $resource->link($resource->displayTitle()); ?></h2>
         <?php if ($description = $resource->displayDescription()): ?>
             <p class="description">
-                <?php echo $description; ?>
+                <?php echo strlen($description) > 200 ? substr($description,0,200).'..' : $description; ?>
             </p>
         <?php endif; ?>
         <?php

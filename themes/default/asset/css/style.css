@@ -182,6 +182,10 @@
   height: 250px;
 }
 
+.grid--2-col\@med > .grid__item > img {
+  flex: 0 !important;
+}
+
 @media (min-width: 820px) {
   .hero__img, .grid--text-image .grid__img {
     height: 500px;

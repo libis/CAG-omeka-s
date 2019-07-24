@@ -4,47 +4,131 @@ $escape = $this->plugin('escapeHtml');
 $this->htmlElement('body')->appendAttribute('class', 'item resource show');
 $embedMedia = $this->siteSetting('item_media_embed', false);
 $itemMedia = $item->media();
+$thumb = $item->primaryMedia();
 ?>
 
-<?php echo $this->pageTitle($item->displayTitle(), 2); ?>
-<h3><?php echo $translate('Item'); ?></h3>
-<?php $this->trigger('view.show.before'); ?>
-<?php if ($embedMedia && $itemMedia): ?>
-    <div class="media-embeds">
-    <?php foreach ($itemMedia as $media):
-        echo $media->render();
-    endforeach;
-    ?>
+<!-- beeldbank: image / table -->
+<div class="section section--default">
+  <div class="container">
+    <div class="breadcrumb spacer">
+        <span itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb" class="breadcrumb__scope">
+            <a href="<?php echo $site->url();?>" itemprop="url" class="breadcrumb__item"><span itemprop="title">Home</span></a>
+        </span>
+        <span itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb" class="breadcrumb__scope">
+            <a href="<?php echo $site->url();?>/beeldbank" itemprop="url" class="breadcrumb__item"><span itemprop="title">Beeldbank</span></a>
+        </span>
+        <span itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb" class="breadcrumb__scope">
+            <span itemprop="title"><?php echo $item->displayTitle();?></span>
+        </span>
     </div>
-<?php endif; ?>
-<?php echo $item->displayValues(); ?>
-<div class="property">
-    <?php $itemSets = $item->itemSets(); ?>
-    <?php if (count($itemSets) > 0): ?>
-    <h4><?php echo $translate('Item sets'); ?></h4>
-    <?php foreach ($itemSets as $itemSet): ?>
-    <div class="value"><a href="<?php echo $escape($itemSet->url()); ?>"><?php echo $itemSet->displayTitle(); ?></a></div>
-    <?php endforeach; ?>
-    <?php endif; ?>
+    <h1><?php echo $this->pageTitle($item->displayTitle(), 2); ?></h1>
+
+    <div class="grid grid--2-col@med">
+        <div class="grid__item">
+            <?php if ($embedMedia && $thumb): ?>
+                <?php echo $this->thumbnail($thumb, 'large');?>
+            <?php endif; ?>
+        </div>
+        <div class="grid__item">
+          <span> <!-- content text must be in a wrapper if it's directly in a grid__item -->
+              <p><?php echo $item->displayDescription(); ?></p>
+
+              <table class="table--striped">
+                  <tbody>
+                    <?php echo $item->displayValues(); ?>
+                  </tbody>
+              </table>
+              <div class="property">
+                  <?php $itemSets = $item->itemSets(); ?>
+                  <?php if (count($itemSets) > 0): ?>
+                  <h4><?php echo $translate('Item sets'); ?></h4>
+                  <?php foreach ($itemSets as $itemSet): ?>
+                  <div class="value"><a href="<?php echo $escape($itemSet->url()); ?>"><?php echo $itemSet->displayTitle(); ?></a></div>
+                  <?php endforeach; ?>
+                  <?php endif; ?>
+              </div>
+              <?php if (!$embedMedia && $itemMedia): ?>
+              <div class="media-list">
+                  <?php foreach ($itemMedia as $media): ?>
+                      <?php echo $media->linkPretty(); ?>
+                  <?php endforeach; ?>
+              </div>
+              <?php endif; ?>
+
+              <?php
+              $page = $this->params()->fromQuery('page', 1);
+              $property = $this->params()->fromQuery('property');
+              $subjectValues = $item->displaySubjectValues($page, 25, $property);
+              ?>
+              <?php if ($subjectValues): ?>
+              <div id="item-linked">
+                  <h3><?php echo $translate('Linked resources'); ?></h3>
+                  <?php echo $subjectValues; ?>
+              </div>
+              <?php endif; ?>
+
+              <?php $this->trigger('view.show.after'); ?>
+          </span>
+        </div>
+    </div>
+
+  </div>
 </div>
-<?php if (!$embedMedia && $itemMedia): ?>
-<div class="media-list">
-    <?php foreach ($itemMedia as $media): ?>
-        <?php echo $media->linkPretty(); ?>
-    <?php endforeach; ?>
-</div>
-<?php endif; ?>
 
 <?php
-$page = $this->params()->fromQuery('page', 1);
-$property = $this->params()->fromQuery('property');
-$subjectValues = $item->displaySubjectValues($page, 25, $property);
+$translate = $this->plugin('translate');
 ?>
-<?php if ($subjectValues): ?>
-<div id="item-linked">
-    <h3><?php echo $translate('Linked resources'); ?></h3>
-    <?php echo $subjectValues; ?>
-</div>
-<?php endif; ?>
+<div class="section section--default">
 
-<?php $this->trigger('view.show.after'); ?>
+  <div class="container">
+    <h2>Andere interessante beelden</h2>
+
+    <div class="grid spacer">
+        <div class="grid__12 grid__8@med">
+          ...
+        </div>
+    </div>
+
+    <div class="grid grid--3-col@med spacer--xsm">
+      <?php
+      $items = $this->api()->search('items');
+      $items = $items->getContent();
+      $keys = array_rand($items,3);
+      $items = array($items[$keys[0]],$items[$keys[1]],$items[$keys[2]]);
+      foreach($items as $resource):
+      ?>
+
+      <div class="grid__item">
+        <div class="card card--gray card--clickable card--link">
+           <?php $media = $resource->primaryMedia(); ?>
+           <?php if ($media): ?>
+             <div class="card__img card__img_3"
+               style="background:url(<?php echo $media->thumbnailUrl('large');?>) no-repeat center center;background-size: cover;"
+             ></div>
+           <?php endif; ?>
+
+           <div class="card__body panel panel--light">
+               <h2 class="heading--3 card__title"><?php echo $resource->link($resource->displayTitle()); ?></h2>
+               <?php if ($description = $resource->displayDescription()): ?>
+                   <p class="description">
+                       <?php echo strlen($description) > 200 ? substr($description,0,200).'..' : $description; ?>
+                   </p>
+               <?php endif; ?>
+
+               <div class="link link--ext card__link">Meer info</div>
+           </div>
+        </div>
+      </div>
+      <?php endforeach; ?>
+    </div>
+
+    <?php if ($this->linkText):?>
+      <div class="text--center u-mt-med">
+        <a href="<?php echo $this->url('site/resource', ['controller' => $this->resourceType, 'action' => 'browse'], ['query' => $this->query],true);?>" class="btn btn--ext">
+          <?php echo $this->linkText;?>
+        </a>
+      </div>
+    <?php endif;?>
+
+  </div>
+</div>
