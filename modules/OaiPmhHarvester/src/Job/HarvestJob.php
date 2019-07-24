@@ -23,7 +23,9 @@ class HarvestJob extends AbstractJob
     const DCTERMS_NAMESPACE = 'http://purl.org/dc/terms/';
 
     const OAI_DC_NAMESPACE = 'http://www.openarchives.org/OAI/2.0/oai_dc/';
-    const OAI_DCTERMS_NAMESPACE = 'http://www.openarchives.org/OAI/2.0/oai_dcterms/';
+    //???
+    //const OAI_DCTERMS_NAMESPACE = 'http://www.openarchives.org/OAI/2.0/oai_dcterms/';
+    const OAI_DCTERMS_NAMESPACE = 'http://dublincore.org/schemas/xmls/qdc/dcterms.xsd';
 
     const XLINK_NAMESPACE = 'http://www.w3.org/1999/xlink';
 

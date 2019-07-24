@@ -31,12 +31,14 @@ $translate = $this->plugin('translate');
         <div class="card card--gray card--clickable card--link">
             <?php
               $media = $resource->media();
-              $url = $media[0]->thumbnailUrl('large');
+              $url='';
+              if($media):
+                $url = $media[0]->thumbnailUrl('large');
+              endif;
             ?>
             <div class="card__img card__img_3"
               style="background:url(<?php echo  $url;?>) no-repeat center center;background-size: cover;"
               >
-
             </div>
             <div class="card__body panel panel--light">
               <?php if($itemset):?>

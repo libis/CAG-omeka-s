@@ -9,15 +9,17 @@
             <div class="grid__item">
                 <div class="card card--gray card--clickable card--link">
                     <?php
+                      $url='';
                       if($attachments[$i-1]):
                         $media = $attachments[$i-1]->media();
-                        $url = $media->thumbnailUrl('large');
+                        if($media):
+                          $url = $media->thumbnailUrl('large');
+                        endif;
                       endif;
                     ?>
                     <div class="card__img card__img_<?php echo sizeof($attachments);?>"
                       style="background:url(<?php echo  $url;?>) no-repeat center center;background-size: cover;"
                       >
-
                     </div>
                     <div class="card__body panel panel--light">
                         <h2 class="heading--3 card__title spacer--xsm">
