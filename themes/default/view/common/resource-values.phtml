@@ -13,20 +13,22 @@ $labelInfo = $this->setting('property_label_information');
 
   <tr>
       <td>
-        <?php if ($propertyData['alternate_label']): ?>
-        <?php echo $escape($propertyData['alternate_label']); ?>
-        <?php else: ?>
-        <?php echo $escape($translate($propertyData['property']->label())); ?>
-        <?php endif; ?>
-        <?php if ('term' === $labelInfo): ?>
-        <span class="field-term">(<?php echo $escape($propertyData['property']->term()); ?>)</span>
-        <?php elseif ('vocab' === $labelInfo): ?>
-        <span class="field-term">(<?php echo $escape($propertyData['property']->vocabulary()->label()); ?>)</span>
-        <?php endif; ?>
+        <strong>
+          <?php if ($propertyData['alternate_label']): ?>
+          <?php echo $escape($propertyData['alternate_label']); ?>
+          <?php else: ?>
+          <?php echo $escape($translate($propertyData['property']->label())); ?>
+          <?php endif; ?>
+          <?php if ('term' === $labelInfo): ?>
+          <span class="field-term">(<?php echo $escape($propertyData['property']->term()); ?>)</span>
+          <?php elseif ('vocab' === $labelInfo): ?>
+          <span class="field-term">(<?php echo $escape($propertyData['property']->vocabulary()->label()); ?>)</span>
+          <?php endif; ?>
+        </strong>
       </td>
 
       <td>
-        <strong>
+
         <?php foreach ($propertyData['values'] as $value): ?>
             <?php
             $valueType = $value->type();
@@ -48,7 +50,6 @@ $labelInfo = $this->setting('property_label_information');
                 <?php echo $value->asHtml(); ?>
             </div>
         <?php endforeach; ?>
-        </strong>
       </td>
     </tr>
 <?php endforeach; ?>

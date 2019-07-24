@@ -38,7 +38,7 @@ $hyperlink = $this->plugin('hyperlink');
 <div class="grid__item">
    <div class="card card--gray card--clickable card--link">
 
-<?php echo sprintf('<%s class="%s resource">', $tag, $resource->resourceName()); ?>
+    <?php echo sprintf('<%s class="%s resource">', $tag, $resource->resourceName()); ?>
     <?php $media = $resource->primaryMedia(); ?>
     <?php if ($media): ?>
       <div class="card__img card__img_3"

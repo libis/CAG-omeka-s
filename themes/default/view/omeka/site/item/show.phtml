@@ -91,11 +91,31 @@ $translate = $this->plugin('translate');
 
     <div class="grid grid--3-col@med spacer--xsm">
       <?php
-      $items = $this->api()->search('items');
+      parse_str("property[0][joiner]=and&property[0][property]=3&property[0][type]=eq&property[0][text]=&resource_class_id[]=&resource_template_id[]=4&item_set_id[]=&site_id=&submit=Zoeken", $query);
+      $originalQuery = $query;
+
+      $query['site_id'] = $site->id();
+      $query['limit'] = 4000;
+      $query['sort_by'] = 'created';
+      $query['sort_order'] = 'desc';
+      $query['property'][0]['text'] = $item->value('dcterms:subject');
+
+      $items = $this->api()->search('items',$query);
       $items = $items->getContent();
-      $keys = array_rand($items,3);
-      $items = array($items[$keys[0]],$items[$keys[1]],$items[$keys[2]]);
-      foreach($items as $resource):
+
+      //pick random items
+      if(sizeof($items) > 1):
+        $keys = array_rand($items,3);
+        $resources = array();
+        foreach($keys as $key):
+          $resources[] = $items[$key];
+        endforeach;
+      else:
+        //or just the one available
+        $resources = array($items[0]);
+      endif;
+
+      foreach($resources as $resource):
       ?>
 
       <div class="grid__item">
@@ -121,14 +141,10 @@ $translate = $this->plugin('translate');
       </div>
       <?php endforeach; ?>
     </div>
-
-    <?php if ($this->linkText):?>
-      <div class="text--center u-mt-med">
-        <a href="<?php echo $this->url('site/resource', ['controller' => $this->resourceType, 'action' => 'browse'], ['query' => $this->query],true);?>" class="btn btn--ext">
-          <?php echo $this->linkText;?>
-        </a>
-      </div>
-    <?php endif;?>
-
+    <div class="text--center u-mt-med">
+      <a href="<?php echo $site->url();?>/beeldbank?q=" class="btn btn--ext">
+        Bekijk alle beelden
+      </a>
+    </div>
   </div>
 </div>
