@@ -78,7 +78,6 @@ class HarvestJob extends AbstractJob
             case 'dc':
                 $method = '_oaidcToJson';
                 break;
-            case 'dcterms':
             case 'oai_dcterms':
                 $method = '_oaidctermsToJson';
                 break;
@@ -188,33 +187,71 @@ class HarvestJob extends AbstractJob
             ->children(self::OAI_DC_NAMESPACE)
             ->children(self::DUBLIN_CORE_NAMESPACE);
 
+            $this->logger->info('Metadata:');
+            $this->logger->info(print_r( $record, true ));
+
         $elementTexts = [];
         foreach ($this->dcProperties as $propertyId => $localName) {
+
             if (isset($dcMetadata->$localName)) {
+
                 $elementTexts["dcterms:$localName"] = $this->extractValues($dcMetadata, $propertyId);
             }
         }
 
         $meta = $elementTexts;
         $meta['o:item_set'] = ["o:id" => $setId];
+
         return $meta;
     }
 
     private function _oaidctermsToJson(SimpleXMLElement $record, $setId)
     {
-        $dcMetadata = $record
+        /*$dcMetadata = $record
             ->metadata
             ->children(self::OAI_DCTERMS_NAMESPACE)
             ->children(self::DCTERMS_NAMESPACE);
+        */
+        $dcMetadata = $record
+            ->metadata
+            ->children('oai_dcterms',true)
+            ->children('dcterms',true);
+
+        $this->logger->info('Metadata:');
 
         $elementTexts = [];
+        $media = [];
         foreach ($this->dcProperties as $propertyId => $localName) {
             if (isset($dcMetadata->$localName)) {
+                $this->logger->info("name:".$localName);
                 $elementTexts["dcterms:$localName"] = $this->extractValues($dcMetadata, $propertyId);
+            }
+            //extra for CAG
+            if($localName == 'relation'){
+              foreach ($dcMetadata->$localName as $imageUrl) {
+                $media[]= [
+                    'o:ingester' => 'url',
+                    'o:source' => 'https://resolver.libis.be/'.$imageUrl,
+                    'ingest_url' => 'https://resolver.libis.be/'.$imageUrl,
+                    'dcterms:title' => [
+                        [
+                            'type' => 'literal',
+                            '@language' => '',
+                            '@value' => $imageUrl,
+                            'property_id' => 1,
+                        ],
+                    ],
+                ];
+              }
             }
         }
         $meta = $elementTexts;
         $meta['o:item_set'] = ["o:id" => $setId];
+        //media
+        $meta['o:media'] = $media;
+        //resource template?
+        $meta['o:resource_template'] = '';
+
         return $meta;
     }
 
