@@ -77,74 +77,78 @@ $thumb = $item->primaryMedia();
 
 <?php
 $translate = $this->plugin('translate');
+
+parse_str("property[0][joiner]=and&property[0][property]=3&property[0][type]=eq&property[0][text]=&resource_class_id[]=&resource_template_id[]=4&item_set_id[]=&site_id=&submit=Zoeken", $query);
+$originalQuery = $query;
+
+$query['site_id'] = $site->id();
+$query['limit'] = 4000;
+$query['sort_by'] = 'created';
+$query['sort_order'] = 'desc';
+$query['property'][0]['text'] = $item->value('dcterms:subject');
+
+$items = $this->api()->search('items',$query);
+$items = $items->getContent();
+
+//pick random items
+if(sizeof($items) > 1):
+  $keys = array_rand($items,3);
+  $resources = array();
+  foreach($keys as $key):
+    $resources[] = $items[$key];
+  endforeach;
+elseif(sizeof($items) == 1):
+  $resources = array($items[0]);
+else:
+  $resources = array();
+endif;
 ?>
-<div class="section section--default">
+<?php if($resources):?>
+  <div class="section section--default">
 
-  <div class="container">
-    <h2>Andere interessante beelden</h2>
+    <div class="container">
+      <h2>Andere interessante beelden</h2>
 
-    <div class="grid spacer">
-        <div class="grid__12 grid__8@med">
-          ...
-        </div>
-    </div>
-
-    <div class="grid grid--3-col@med spacer--xsm">
-      <?php
-      parse_str("property[0][joiner]=and&property[0][property]=3&property[0][type]=eq&property[0][text]=&resource_class_id[]=&resource_template_id[]=4&item_set_id[]=&site_id=&submit=Zoeken", $query);
-      $originalQuery = $query;
-
-      $query['site_id'] = $site->id();
-      $query['limit'] = 4000;
-      $query['sort_by'] = 'created';
-      $query['sort_order'] = 'desc';
-      $query['property'][0]['text'] = $item->value('dcterms:subject');
-
-      $items = $this->api()->search('items',$query);
-      $items = $items->getContent();
-
-      //pick random items
-      if(sizeof($items) > 1):
-        $keys = array_rand($items,3);
-        $resources = array();
-        foreach($keys as $key):
-          $resources[] = $items[$key];
-        endforeach;
-      else:
-        //or just the one available
-        $resources = array($items[0]);
-      endif;
-
-      foreach($resources as $resource):
-      ?>
-
-      <div class="grid__item">
-        <div class="card card--gray card--clickable card--link">
-           <?php $media = $resource->primaryMedia(); ?>
-           <?php if ($media): ?>
-             <div class="card__img card__img_3"
-               style="background:url(<?php echo $media->thumbnailUrl('large');?>) no-repeat center center;background-size: cover;"
-             ></div>
-           <?php endif; ?>
-
-           <div class="card__body panel panel--light">
-               <h2 class="heading--3 card__title"><?php echo $resource->link($resource->displayTitle()); ?></h2>
-               <?php if ($description = $resource->displayDescription()): ?>
-                   <p class="description">
-                       <?php echo strlen($description) > 200 ? substr($description,0,200).'..' : $description; ?>
-                   </p>
-               <?php endif; ?>
-
-               <div class="link link--ext card__link">Meer info</div>
-           </div>
-        </div>
+      <div class="grid spacer">
+          <div class="grid__12 grid__8@med">
+            ...
+          </div>
       </div>
-      <?php endforeach; ?>
-    </div>
-    <div class="text--center u-mt-med">
-      <a href="<?php echo $site->url();?>/beeldbank?q=" class="btn btn--ext">
-        Bekijk alle beelden
-      </a>
+
+      <div class="grid grid--3-col@med spacer--xsm">
+
+        <?php
+        foreach($resources as $resource):
+        ?>
+
+        <div class="grid__item">
+          <div class="card card--gray card--clickable card--link">
+             <?php $media = $resource->primaryMedia(); ?>
+             <?php if ($media): ?>
+               <div class="card__img card__img_3"
+                 style="background:url(<?php echo $media->thumbnailUrl('large');?>) no-repeat center center;background-size: cover;"
+               ></div>
+             <?php endif; ?>
+
+             <div class="card__body panel panel--light">
+                 <h2 class="heading--3 card__title"><?php echo $resource->link($resource->displayTitle()); ?></h2>
+                 <?php if ($description = $resource->displayDescription()): ?>
+                     <p class="description">
+                         <?php echo strlen($description) > 200 ? substr($description,0,200).'..' : $description; ?>
+                     </p>
+                 <?php endif; ?>
+
+                 <div class="link link--ext card__link">Meer info</div>
+             </div>
+          </div>
+        </div>
+        <?php endforeach; ?>
+      </div>
+      <div class="text--center u-mt-med">
+        <a href="<?php echo $site->url();?>/beeldbank?q=" class="btn btn--ext">
+          Bekijk alle beelden
+        </a>
+      </div>
     </div>
   </div>
-</div>
+<?php endif; ?>
