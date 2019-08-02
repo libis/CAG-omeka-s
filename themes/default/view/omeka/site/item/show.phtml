@@ -151,4 +151,24 @@ endif;
       </div>
     </div>
   </div>
+<?php
+  $query = [];
+  $query['property'][0] = array(
+    'property' => 10,
+    'text' => "00000931",
+    'type' => 'eq',
+    'joiner' => 'and'
+  );
+  $response = $this->api()->search('items',$query);
+
+  $results = $response->getContent();
+  if($results):
+    //$this->logger->info($results);
+    foreach($results as $r):
+
+      echo $r->id();
+    endforeach;
+    //return true;
+  endif;
+?>
 <?php endif; ?>

@@ -96,11 +96,24 @@ class HarvestJob extends AbstractJob
             $response = \simplexml_load_file($url);
 
             $records = $response->ListRecords;
-            $toInsert = [];
+            $toInsert = [];$toUpdate = [];$ids= []; $update_id='';
             foreach ($records->record as $record) {
-                $toInsert[] = $this->{$method}($record, $args['collection_id']);
+                $pre_item = $this->{$method}($record, $args['collection_id']);
+                if($update_id = $this->itemExists($pre_item)):
+                  $toUpdate[] = $pre_item;
+                  $ids[] = $update_id;
+                  $update_id = '';
+                else:
+                  $toInsert[] = $pre_item;
+                endif;
             }
-            $this->createItems($toInsert);
+
+            if($toInsert):
+              $this->createItems($toInsert);
+            elseif($toUpdate):
+              $this->updateItems($toUpdate, $ids);
+            endif;
+
             if (isset($response->ListRecords->resumptionToken) && $response->ListRecords->resumptionToken <> '') {
                 $resumptionToken = $response->ListRecords->resumptionToken;
             } else {
@@ -140,6 +153,52 @@ class HarvestJob extends AbstractJob
         $this->createRollback($createResponse->getContent());
 
         $createImportEntitiesJson = [];
+    }
+
+    protected function updateItems($toUpdate, $ids)
+    {
+        $updateJson = [];
+        foreach ($toUpdate as $index => $item) {
+            $updateJson[] = $item;
+            if ($index % 20 == 0) {
+                $createResponse = $this->api->batchUpdate('items', $ids ,$updateJson, [], ['continueOnError' => true]);
+                $this->createRollback($createResponse->getContent());
+                $insertJson = [];
+            }
+        }
+
+        $createResponse = $this->api->batchUpdate('items', $ids ,$updateJson, [], ['continueOnError' => true]);
+
+        $this->createRollback($createResponse->getContent());
+
+        $createImportEntitiesJson = [];
+    }
+
+    protected function itemExists($item){
+        //assuming dc:identifier as unique accross all items
+        $identifiers = $item['dcterms:identifier'];
+        $this->logger->info($item['dcterms:identifier']);
+
+        $query = [];
+        foreach($identifiers as $identifier):
+          $query['property'][0] = array(
+            'property' => 10,
+            'text' => $identifier['@value'],
+            'type' => 'eq',
+            'joiner' => 'and'
+          );
+          $response = $this->api->search('items',$query);
+
+          $results = $response->getContent();
+          if($results):
+            foreach($results as $r):
+              $this->logger->info($r->id());
+              return $r->id();
+            endforeach;
+          endif;
+        endforeach;
+
+        return false;
     }
 
     protected function createRollback($records)
@@ -217,16 +276,13 @@ class HarvestJob extends AbstractJob
             ->children('oai_dcterms',true)
             ->children('dcterms',true);
 
-        $this->logger->info('Metadata:');
-
         $elementTexts = [];
         $media = [];
         foreach ($this->dcProperties as $propertyId => $localName) {
             if (isset($dcMetadata->$localName)) {
-                $this->logger->info("name:".$localName);
                 $elementTexts["dcterms:$localName"] = $this->extractValues($dcMetadata, $propertyId);
             }
-            //extra for CAG
+            //add media
             if($localName == 'relation'){
               foreach ($dcMetadata->$localName as $imageUrl) {
                 $media[]= [
