@@ -82,8 +82,25 @@ class IndexController extends AbstractActionController
                         ],
                     ],
                 ];
-                $setId = $this->api()->create('item_sets', $tocreate, [], ['responseContent' => 'resource'])->getContent();
-                $sets[$id] = [$post['setSpec'][$id], $prefix, $setId->getId()];
+                //check if item-set exists.
+                $query['property'][0] = array(
+                  'property' => 1,
+                  'limit' => 1,
+                  'text' => $post['setSpec'][$id],
+                  'type' => 'eq',
+                  'joiner' => 'and'
+                );
+                $response = $this->api()->search('item_sets',$query);
+                $existing_sets= $response->getContent();
+                if($existing_sets):
+                  //use existing collection/item-set
+                  $collection_id = $existing_sets[0]->id();
+                  $sets[$id] = [$post['setSpec'][$id], $prefix, $collection_id];
+                else:
+                  //create a new one using the data above
+                  $setId = $this->api()->create('item_sets', $tocreate, [], ['responseContent' => 'resource'])->getContent();
+                  $sets[$id] = [$post['setSpec'][$id], $prefix, $setId->getId()];
+                endif;
             }
         }
 
