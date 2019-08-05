@@ -2,7 +2,7 @@
 return [
     'block_layouts' => [
         'invokables' => [
-            'cagBrowseBlock' => CagBrowseBlock\Site\BlockLayout\CagBrowseBlock::class,
+            'CagBrowseBlock' => CagBrowseBlock\Site\BlockLayout\CagBrowseBlock::class,
         ],
     ],
     'view_manager' => [

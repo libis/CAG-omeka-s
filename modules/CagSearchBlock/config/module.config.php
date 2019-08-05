@@ -2,7 +2,7 @@
 return [
     'block_layouts' => [
         'invokables' => [
-            'cagSearchBlock' => CagSearchBlock\Site\BlockLayout\CagSearchBlock::class,
+            'CagSearchBlock' => CagSearchBlock\Site\BlockLayout\CagSearchBlock::class,
         ],
     ],
     'view_manager' => [

@@ -2,7 +2,7 @@
 return [
     'block_layouts' => [
         'invokables' => [
-            'featuredBlock' => FeaturedBlock\Site\BlockLayout\FeaturedBlock::class,
+            'FeaturedBlock' => FeaturedBlock\Site\BlockLayout\FeaturedBlock::class,
         ],
     ],
     'view_manager' => [
