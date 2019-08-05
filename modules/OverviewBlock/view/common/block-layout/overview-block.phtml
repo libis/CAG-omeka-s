@@ -10,14 +10,17 @@
                       <?php
                         if($attachments[$i-1]):
                           $media = $attachments[$i-1]->media();
-                          if($media->mediaType() == 'text/html'):
-                            $url = $media->originalUrl();
-                          else:
-                            $url = $media->thumbnailUrl('medium');
+                          $url = '';
+                          if($media):
+                            if($media->mediaType() == 'text/html'):
+                              $url = $media->originalUrl();
+                            else:
+                              $url = $media->thumbnailUrl('medium');
+                            endif;
                           endif;
                           ?>
                           <img src="<?php echo $url;?>">
-                          <?php 
+                          <?php
                         endif;
                       ?>
 

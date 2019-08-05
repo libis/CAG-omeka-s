@@ -51,8 +51,14 @@ $hyperlink = $this->plugin('hyperlink');
     <div class="card__body panel panel--light">
         <h2 class="heading--3 card__title"><?php echo $resource->link($resource->displayTitle()); ?></h2>
         <?php if ($description = $resource->displayDescription()): ?>
+            <?php
+              if(strlen($description) > 200):
+                $description = substr($description, 0, 200);
+                $description = substr($description, 0, strrpos($description, ' ')).' ...';
+              endif;
+            ?>
             <p class="description">
-                <?php echo strlen($description) > 200 ? substr($description,0,200).'..' : $description; ?>
+              <?php echo $description; ?>
             </p>
         <?php endif; ?>
         <?php

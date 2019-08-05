@@ -5,11 +5,14 @@
                 <div class="grid__12 grid__6@med">
                   <?php
                     $media = $attachments[0]->media();
-                    $url = $media->thumbnailUrl('large');
+                    $url = '';
+                    if($media):
+                      $url = $media->thumbnailUrl('large');
+                    endif;
                   ?>
                   <div class="hero__img image--secondary" style="background:url(<?php echo $url;?>) no-repeat center center;background-size: cover;">
 
-                  </div>                  
+                  </div>
                 </div>
                 <div class="grid__12 grid__6@med">
                     <div class="hero__content panel panel--lrg panel--light">

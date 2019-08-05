@@ -23,6 +23,8 @@ class CagBrowseBlock extends AbstractBlockLayout
             'resource_type' => 'items',
             'query' => '',
             'heading' => '',
+            'columns' => '2',
+            'text' => '',
             'limit' => 12,
             'link-text' => 'Browse all', // @translate
         ];

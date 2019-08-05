@@ -49,6 +49,12 @@ $translate = $this->plugin('translate');
                 <?php echo $resource->link($heading); ?>
               </h2>
               <?php if ($body): ?>
+                <?php
+                  if(strlen($body) > 200):
+                    $body = substr($body, 0, 200);
+                    $body = substr($body, 0, strrpos($body, ' ')).' ...';
+                  endif;
+                ?>
                 <p>
                   <?php echo $body; ?>
                 </p>
