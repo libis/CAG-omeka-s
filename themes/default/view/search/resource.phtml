@@ -37,38 +37,37 @@ $hyperlink = $this->plugin('hyperlink');
 ?>
 <div class="grid__item">
    <div class="card card--gray card--clickable card--link">
-
-    <?php echo sprintf('<%s class="%s resource">', $tag, $resource->resourceName()); ?>
-    <?php $media = $resource->primaryMedia(); ?>
-    <?php if ($media): ?>
-      <div class="card__img card__img_3"
-        style="background:url(<?php echo $media->thumbnailUrl('large');?>) no-repeat center center;background-size: cover;"
-      ></div>
-    <?php endif; ?>
-
-
-
-    <div class="card__body panel panel--light">
-        <h2 class="heading--3 card__title"><?php echo $resource->link($resource->displayTitle()); ?></h2>
-        <?php if ($description = $resource->displayDescription()): ?>
-            <?php
-              if(strlen($description) > 200):
-                $description = substr($description, 0, 200);
-                $description = substr($description, 0, strrpos($description, ' ')).' ...';
-              endif;
-            ?>
-            <p class="description">
-              <?php echo $description; ?>
-            </p>
+     <a href="<?php echo $resource->url();?>">
+        <?php echo sprintf('<%s class="%s resource">', $tag, $resource->resourceName()); ?>
+        <?php $media = $resource->primaryMedia(); ?>
+        <?php if ($media): ?>
+          <div class="card__img card__img_3"
+            style="background:url(<?php echo $media->thumbnailUrl('large');?>) no-repeat center center;background-size: cover;"
+          ></div>
         <?php endif; ?>
-        <?php
-          $itemset = "Object";
-          $itemsets = $resource->itemSets();
-          foreach($itemsets as $set):
-            $itemset = $set->displayTitle();
-          endforeach;
-        ?>
-        <div class="link link--ext card__link"><?php echo $itemset;?> bekijken</div>
-    </div>
+
+        <div class="card__body panel panel--light">
+            <h2 class="heading--3 card__title"><?php echo $resource->link($resource->displayTitle()); ?></h2>
+            <?php if ($description = $resource->displayDescription()): ?>
+                <?php
+                  if(strlen($description) > 200):
+                    $description = substr($description, 0, 200);
+                    $description = substr($description, 0, strrpos($description, ' ')).' ...';
+                  endif;
+                ?>
+                <p class="description">
+                  <?php echo $description; ?>
+                </p>
+            <?php endif; ?>
+            <?php
+              $itemset = "Object";
+              $itemsets = $resource->itemSets();
+              foreach($itemsets as $set):
+                $itemset = $set->displayTitle();
+              endforeach;
+            ?>
+            <div class="link link--ext card__link"><a href="<?php echo $resource->url();?>"><?php echo $itemset;?> bekijken</a></div>
+        </div>
+      </a>
 <?php echo sprintf('</%s>', $tag); ?>
 </div></div>
