@@ -24,11 +24,10 @@ $translate = $this->plugin('translate');
       foreach ($this->resources as $resource):
           $heading = $resource->value($headingTerm, ['default' => $translate('[Untitled]')]);
           $body = $resource->value($bodyTerm);
-          $itemsets = $resource->itemSets();
-          foreach($itemsets as $set):
-            $itemset = $set->displayTitle();
-          endforeach;
-
+          $type = $resource->resourceTemplate();
+          if($type):
+            $type= $type->label();
+          endif;
       ?>
       <div class="grid__item">
         <div class="card card--gray card--clickable card--link">
@@ -42,8 +41,8 @@ $translate = $this->plugin('translate');
 
             </div>
             <div class="card__body panel panel--light">
-              <?php if($itemset == 'Project'):?>
-                <div class="label spacer"><?php echo $itemset;?></div>
+              <?php if($type == 'Project'):?>
+                <div class="label spacer"><?php echo $type;?></div>
               <?php endif;?>
               <h2 class="heading--3 card__title spacer--xsm">
                 <?php echo $resource->link($heading); ?>
@@ -61,8 +60,8 @@ $translate = $this->plugin('translate');
               <?php endif; ?>
               <div class="link link--ext card__link">
                 <?php
-                  if($itemset == 'Verhaal' || $itemset == 'Project'):?>
-                    <a href="<?php echo $resource->value('dcterms:relation');?>"><?php echo $itemset.' bekijken';?></a>
+                  if($type == 'Verhaal' || $type == 'Project'):?>
+                    <a href="<?php echo $resource->value('dcterms:relation');?>"><?php echo $type.' bekijken';?></a>
                 <?php
                   else:
                     echo $resource->link('Object bekijken');

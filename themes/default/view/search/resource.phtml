@@ -60,13 +60,14 @@ $hyperlink = $this->plugin('hyperlink');
                 </p>
             <?php endif; ?>
             <?php
-              $itemset = "Object";
-              $itemsets = $resource->itemSets();
-              foreach($itemsets as $set):
-                $itemset = $set->displayTitle();
-              endforeach;
+              //set item type/resource template
+              $type = "Object";
+              $type = $resource->resourceTemplate();
+              if($type):
+                $type= $type->label();
+              endif;
             ?>
-            <div class="link link--ext card__link"><a href="<?php echo $resource->url();?>"><?php echo $itemset;?> bekijken</a></div>
+            <div class="link link--ext card__link"><a href="<?php echo $resource->url();?>"><?php echo $type;?> bekijken</a></div>
         </div>
       </a>
 <?php echo sprintf('</%s>', $tag); ?>
