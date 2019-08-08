@@ -107,6 +107,14 @@
   content: "\F111" !important;
 }
 
+.contact-us-block .field {
+  margin-bottom: 0.8rem;
+}
+
+.contact-us-block .field input[type='text'], .contact-us-block .field input[type='email'], .contact-us-block .field textarea {
+  width: 320px;
+}
+
 .overlap ul, .column-block ul {
   list-style: none;
   padding: 0;
