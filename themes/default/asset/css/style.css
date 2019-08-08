@@ -49,6 +49,10 @@
   font-weight: bold;
 }
 
+.nav--doormat .nav__menu li ul {
+  display: none;
+}
+
 .nav--flyout .nav--main .nav__menu li a:hover {
   background: none;
 }
