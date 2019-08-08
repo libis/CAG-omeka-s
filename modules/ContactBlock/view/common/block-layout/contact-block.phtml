@@ -23,7 +23,9 @@
                                   <?php
                                     if($attachments):
                                       $media = $attachments[0]->media();
+                                      if($media):
                                         echo $this->thumbnail($media, 'square');
+                                      endif;  
                                     endif;
                                   ?>
                                 </div>

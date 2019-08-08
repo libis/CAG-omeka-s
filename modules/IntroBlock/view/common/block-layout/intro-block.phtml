@@ -34,8 +34,10 @@
                 <div class="image--secondary">
                   <?php
                     $media = $attachments[0]->media();
+                    if($media):
+                      echo $this->thumbnail($media, 'large');
+                    endif;
                   ?>
-                  <?php echo $this->thumbnail($media, 'large');?>
                 </div>
             </div>
 
