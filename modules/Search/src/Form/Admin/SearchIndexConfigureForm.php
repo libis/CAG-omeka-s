@@ -32,6 +32,7 @@ namespace Search\Form\Admin;
 
 use Zend\Form\Element;
 use Zend\Form\Form;
+use Zend\Form\Element\Text;
 use Zend\I18n\Translator\TranslatorAwareInterface;
 use Zend\I18n\Translator\TranslatorAwareTrait;
 
@@ -52,6 +53,18 @@ class SearchIndexConfigureForm extends Form implements TranslatorAwareInterface
             ],
             'attributes' => [
                 'value' => ['items'],
+            ],
+        ]);
+
+        $this->add([
+            'name' => 'template',
+            'type' => Text::class,
+            'options' => [
+                'label' => 'Resource template ID', // @translate
+            ],
+            'attributes' => [
+                'id' => 'resource',
+                'required' => false,
             ],
         ]);
     }
