@@ -34,10 +34,22 @@
  */
 
 $hyperlink = $this->plugin('hyperlink');
+$type = $resource->resourceTemplate();
+if($type):
+  $type= $type->label();
+else:
+  $type= "Object";
+endif;
+
+if($type == 'Verhaal' || $type == 'Project'):
+  $url = $resource->value('dcterms:relation');
+else:
+  $url = $resource->url();
+endif;
 ?>
 <div class="grid__item">
    <div class="card card--gray card--clickable card--link">
-     <a href="<?php echo $resource->url();?>">
+     <a href="<?php echo $url;?>">
         <?php echo sprintf('<%s class="%s resource">', $tag, $resource->resourceName()); ?>
         <?php $media = $resource->primaryMedia(); ?>
         <?php if ($media): ?>
@@ -59,15 +71,8 @@ $hyperlink = $this->plugin('hyperlink');
                   <?php echo $description; ?>
                 </p>
             <?php endif; ?>
-            <?php
-              //set item type/resource template
-              $type = "Object";
-              $type = $resource->resourceTemplate();
-              if($type):
-                $type= $type->label();
-              endif;
-            ?>
-            <div class="link link--ext card__link"><a href="<?php echo $resource->url();?>"><?php echo $type;?> bekijken</a></div>
+            
+            <div class="link link--ext card__link"><a href="<?php echo $url;?>"><?php echo $type;?> bekijken</a></div>
         </div>
       </a>
 <?php echo sprintf('</%s>', $tag); ?>
