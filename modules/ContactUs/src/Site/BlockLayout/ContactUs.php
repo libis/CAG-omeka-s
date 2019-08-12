@@ -166,6 +166,8 @@ A user has contacted you.
 
 email: {email}
 name: {name}
+newsletter: {newsletter}
+privacy: {privacy}
 ip: {ip}
 message:
 
