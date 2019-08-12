@@ -42,7 +42,7 @@ else:
 endif;
 
 if($type == 'Verhaal' || $type == 'Project'):
-  $url = $resource->value('dcterms:relation');
+  $url = $site->url().'/page/'.$resource->value('dcterms:relation');
 else:
   $url = $resource->url();
 endif;
@@ -71,7 +71,7 @@ endif;
                   <?php echo $description; ?>
                 </p>
             <?php endif; ?>
-            
+
             <div class="link link--ext card__link"><a href="<?php echo $url;?>"><?php echo $type;?> bekijken</a></div>
         </div>
       </a>
