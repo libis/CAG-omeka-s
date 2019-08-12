@@ -27,48 +27,51 @@ $translate = $this->plugin('translate');
           $type = $resource->resourceTemplate();
           if($type):
             $type= $type->label();
+          else:
+            $type= "Object";
           endif;
       ?>
       <div class="grid__item">
         <div class="card card--gray card--clickable card--link">
             <?php
               $media = $resource->media();
-              $url = $media[0]->thumbnailUrl('large');
-            ?>
-            <div class="card__img card__img_3"
-              style="background:url(<?php echo  $url;?>) no-repeat center center;background-size: cover;"
-              >
+              $mediaurl = $media[0]->thumbnailUrl('large');
 
-            </div>
-            <div class="card__body panel panel--light">
-              <?php if($type == 'Project'):?>
-                <div class="label spacer"><?php echo $type;?></div>
-              <?php endif;?>
-              <h2 class="heading--3 card__title spacer--xsm">
-                <?php echo $resource->link($heading); ?>
-              </h2>
-              <?php if ($body): ?>
-                <?php
-                  if(strlen($body) > 200):
-                    $body = substr($body, 0, 200);
-                    $body = substr($body, 0, strrpos($body, ' ')).' ...';
-                  endif;
-                ?>
-                <p>
-                  <?php echo $body; ?>
-                </p>
-              <?php endif; ?>
-              <div class="link link--ext card__link">
-                <?php
-                  if($type == 'Verhaal' || $type == 'Project'):?>
-                    <a href="<?php echo $resource->value('dcterms:relation');?>"><?php echo $type.' bekijken';?></a>
-                <?php
-                  else:
-                    echo $resource->link('Object bekijken');
-                  endif;
-                ?>
+              if($type == 'Verhaal' || $type == 'Project'):
+                $url = $resource->value('dcterms:relation');
+              else:
+                $url = $resource->url();
+              endif;
+            ?>
+            <a href="<?php echo $url;?>">
+              <div class="card__img card__img_3"
+                style="background:url(<?php echo  $mediaurl;?>) no-repeat center center;background-size: cover;"
+                >
+
               </div>
-            </div>
+              <div class="card__body panel panel--light">
+                <?php if($type == 'Project'):?>
+                  <div class="label spacer"><?php echo $type;?></div>
+                <?php endif;?>
+                <h2 class="heading--3 card__title spacer--xsm">
+                  <?php echo $resource->link($heading); ?>
+                </h2>
+                <?php if ($body): ?>
+                  <?php
+                    if(strlen($body) > 200):
+                      $body = substr($body, 0, 200);
+                      $body = substr($body, 0, strrpos($body, ' ')).' ...';
+                    endif;
+                  ?>
+                  <p>
+                    <?php echo $body; ?>
+                  </p>
+                <?php endif; ?>
+                <div class="link link--ext card__link">
+                  <a href="<?php echo $url;?>"><?php echo $type.' bekijken';?></a>
+                </div>
+              </div>
+            </a>
         </div>
       </div>
       <?php endforeach; ?>
