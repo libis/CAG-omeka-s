@@ -132,7 +132,7 @@ class CagBrowseBlock extends AbstractBlockLayout
         if (!isset($query['sort_order'])) {
             $query['sort_order'] = 'desc';
         }
-        echo $query;
+        
         $response = $view->api()->search($resourceType, $query);
         $resources = $response->getContent();
 
