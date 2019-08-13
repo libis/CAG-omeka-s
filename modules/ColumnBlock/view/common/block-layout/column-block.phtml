@@ -8,7 +8,7 @@
           <?php for($i = 1; $i <= sizeof($attachments); $i++){ ?>
             <div class="grid__item">
                 <div class="card card--gray card--clickable card--link">
-                  <a href="<?php echo $block->dataValue('link'.$i);?>">
+                  <a href="<?php echo $block->page()->site()->url().$block->dataValue('link'.$i);?>">
                     <?php
                       $url='';
                       if($attachments[$i-1]):
@@ -24,11 +24,11 @@
                     </div>
                     <div class="card__body panel panel--light">
                         <h2 class="heading--3 card__title spacer--xsm">
-                            <a href="<?php echo $block->dataValue('link'.$i);?>"><?php echo $block->dataValue('title'.$i);?></a>
+                            <a href="<?php echo $block->page()->site()->url().$block->dataValue('link'.$i);?>"><?php echo $block->dataValue('title'.$i);?></a>
                         </h2>
                         <?php echo $block->dataValue('text'.$i);?>
                         <?php if($block->dataValue('link'.$i) && $block->dataValue('linktext'.$i)):?>
-                        <div class="link link--ext card__link"><a href="<?php echo $block->dataValue('link'.$i);?>"><?php echo $block->dataValue('linktext'.$i);?></a></div>
+                        <div class="link link--ext card__link"><a href="<?php echo $block->page()->site()->url().$block->dataValue('link'.$i);?>"><?php echo $block->dataValue('linktext'.$i);?></a></div>
                      <?php endif;?>
                     </div>
                   </a>
