@@ -47,11 +47,10 @@ $translate = $this->plugin('translate');
               <div class="card__img card__img_3"
                 style="background:url(<?php echo  $mediaurl;?>) no-repeat center center;background-size: cover;"
                 >
-
               </div>
               <div class="card__body panel panel--light">
                 <?php if($type == 'Project'):?>
-                  <div class="label spacer"><?php echo $type;?></div>
+                  <div style="margin-bottom:13px;" class="label spacer"><?php echo $type;?></div>
                 <?php endif;?>
                 <h2 class="heading--3 card__title spacer--xsm">
                   <a href="<?php echo $url;?>"><?php echo $heading; ?></a>

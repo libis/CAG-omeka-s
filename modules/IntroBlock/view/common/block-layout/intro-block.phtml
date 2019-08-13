@@ -35,7 +35,7 @@
                   <?php
                     $media = $attachments[0]->media();
                     if($media):
-                      echo $this->thumbnail($media, 'large');
+                      echo $this->thumbnail($media, 'large',array('class' => 'u-display-block'));
                     endif;
                   ?>
                 </div>

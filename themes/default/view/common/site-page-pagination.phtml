@@ -4,8 +4,51 @@ $prevText = $translate('Prev');
 $nextText = $translate('Next');
 ?>
 <?php if ($prevPage || $nextPage): ?>
-<div class="site-page-pagination">
-    <?php echo $prevPage ? $this->hyperlink($prevText, $prevPage->siteUrl()) : ''; ?>
-    <?php echo $nextPage ? $this->hyperlink($nextText, $nextPage->siteUrl()) : ''; ?>
-</div>
+    <!-- vorige / volgende -->
+
+    <div class="section section--default">
+        <div class="container">
+
+            <div class="grid grid--2-col@med spacer--xsm">
+                <div class="grid__item">
+                    <div class="card card--gray card--clickable card--link card--aside">
+                      <a href="<?php echo $prevPage->siteUrl();?>">
+                        <div class="card__aside" style="background-image: url('../img/hero.jpg')"></div>
+                        <div class="card__main">
+                            <div class="panel panel--light">
+                                <h2 class="heading--3 card__title spacer--xsm">
+                                    <a href="<?php echo $prevPage->siteUrl();?>"><?php echo $prevPage->title();?></a>
+                                </h2>
+                                <div class="btn">
+                                  <span class="icon icon--arrow-left" aria-label="vorige"></span>
+                                  <?php echo $prevText;?>
+                                </div>
+                            </div>
+                        </div>
+                      </a>
+                    </div>
+                </div>
+
+                <div class="grid__item">
+                    <div class="card card--gray card--clickable card--link card--aside">
+                      <a href="<?php echo $nextPage->siteUrl();?>">
+                        <div class="card__aside" style="background-image: url('../img/hero.jpg')"></div>
+                        <div class="card__main">
+                            <div class="panel panel--light">
+                                <h2 class="heading--3 card__title spacer--xsm">
+                                    <a href="<?php echo $nextPage->siteUrl();?>"><?php echo $nextPage->title();?></a>
+                                </h2>
+                                <div class="btn">
+                                  <?php echo $nextText;?>
+                                  <span class="icon icon--arrow-right" aria-label="volgende"></span>
+                                </div>
+                            </div>
+                        </div>
+                      </a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
 <?php endif; ?>
