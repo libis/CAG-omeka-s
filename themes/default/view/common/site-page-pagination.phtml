@@ -5,11 +5,10 @@ $nextText = $translate('Next');
 ?>
 <?php if ($prevPage || $nextPage): ?>
     <!-- vorige / volgende -->
-
     <div class="section section--default">
         <div class="container">
-
             <div class="grid grid--2-col@med spacer--xsm">
+              <?php if ($prevPage): ?>
                 <div class="grid__item">
                     <div class="card card--gray card--clickable card--link card--aside">
                       <a href="<?php echo $prevPage->siteUrl();?>">
@@ -28,7 +27,8 @@ $nextText = $translate('Next');
                       </a>
                     </div>
                 </div>
-
+                <?php endif;?>
+                <?php if ($nextPage): ?>
                 <div class="grid__item">
                     <div class="card card--gray card--clickable card--link card--aside">
                       <a href="<?php echo $nextPage->siteUrl();?>">
@@ -47,8 +47,8 @@ $nextText = $translate('Next');
                       </a>
                     </div>
                 </div>
+                <?php endif;?>
             </div>
-
         </div>
     </div>
 <?php endif; ?>
