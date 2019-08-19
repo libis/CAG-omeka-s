@@ -19,8 +19,12 @@
           </div>
 
         <h1 class="spacer"><?php echo $block->dataValue('title');?></h1>
-        <div class="spacer">
-            <?php echo $block->dataValue('text');?>
-        </div>
+        <div class="grid">
+            <div class="grid__12 grid__8@med">
+                <span>
+                  <?php echo $block->dataValue('text');?>
+                </span>
+            </div>
+        </div>       
     </div>
 </div>
