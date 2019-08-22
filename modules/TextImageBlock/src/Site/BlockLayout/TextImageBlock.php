@@ -26,7 +26,7 @@ class TextImageBlock extends AbstractBlockLayout
      */
     public function getLabel()
     {
-        return 'Text / image'; // @translate
+        return 'CAG - Text & image'; // @translate
     }
 
     /**

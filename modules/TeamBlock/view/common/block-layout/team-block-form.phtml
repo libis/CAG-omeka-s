@@ -1,0 +1,102 @@
+<?php
+use Zend\Form\Element\Textarea;
+?>
+
+<?php echo $this->blockAttachmentsForm($block);?>
+<p>
+  Selecteer afbeeldingen in dezelfde volgorde als de contactpersonen.
+</p>
+<h3>Contactpersoon 1</h3>
+
+
+<div class="field">
+  <div class="field-meta">
+      <label>Naam</label>
+  </div>
+  <div class="inputs">
+      <input type="text" class="" value="<?php echo (!isset($block) ? '' : $block->dataValue('name1')) ?>" name="o:block[__blockIndex__][o:data][name1]">
+  </div>
+</div>
+
+<div class="field">
+  <div class="field-meta">
+      <label>Functie</label>
+  </div>
+  <div class="inputs">
+      <input type="text" class="" value="<?php echo (!isset($block) ? '' : $block->dataValue('functie1')) ?>" name="o:block[__blockIndex__][o:data][functie1]">
+  </div>
+</div>
+
+<div class="field">
+  <div class="field-meta">
+      <label>E-mail</label>
+  </div>
+  <div class="inputs">
+      <input type="text" class="" value="<?php echo (!isset($block) ? '' : $block->dataValue('mail1')) ?>" name="o:block[__blockIndex__][o:data][mail1]">
+  </div>
+</div>
+
+<div class="field">
+  <div class="field-meta">
+      <label>Telefoon</label>
+  </div>
+  <div class="inputs">
+      <input type="text" class="" value="<?php echo (!isset($block) ? '' : $block->dataValue('tel1')) ?>" name="o:block[__blockIndex__][o:data][tel1]">
+  </div>
+</div>
+
+<div class="field">
+  <div class="field-meta">
+      <label>Link naar detailpagina contactpersoon</label>
+  </div>
+  <div class="inputs">
+      <input type="text" class="" value="<?php echo (!isset($block) ? '' : $block->dataValue('link1')) ?>" name="o:block[__blockIndex__][o:data][link1]">
+  </div>
+</div>
+
+<h3>Contactpersoon 2</h3>
+
+<div class="field">
+  <div class="field-meta">
+      <label>Naam</label>
+  </div>
+  <div class="inputs">
+      <input type="text" class="" value="<?php echo (!isset($block) ? '' : $block->dataValue('name2')) ?>" name="o:block[__blockIndex__][o:data][name2]">
+  </div>
+</div>
+
+<div class="field">
+  <div class="field-meta">
+      <label>Functie</label>
+  </div>
+  <div class="inputs">
+      <input type="text" class="" value="<?php echo (!isset($block) ? '' : $block->dataValue('functie2')) ?>" name="o:block[__blockIndex__][o:data][functie2]">
+  </div>
+</div>
+
+<div class="field">
+  <div class="field-meta">
+      <label>E-mail</label>
+  </div>
+  <div class="inputs">
+      <input type="text" class="" value="<?php echo (!isset($block) ? '' : $block->dataValue('mail2')) ?>" name="o:block[__blockIndex__][o:data][mail2]">
+  </div>
+</div>
+
+<div class="field">
+  <div class="field-meta">
+      <label>Telefoon</label>
+  </div>
+  <div class="inputs">
+      <input type="text" class="" value="<?php echo (!isset($block) ? '' : $block->dataValue('tel2')) ?>" name="o:block[__blockIndex__][o:data][tel2]">
+  </div>
+</div>
+
+<div class="field">
+  <div class="field-meta">
+      <label>Link naar detailpagina contactpersoon</label>
+  </div>
+  <div class="inputs">
+      <input type="text" class="" value="<?php echo (!isset($block) ? '' : $block->dataValue('link2')) ?>" name="o:block[__blockIndex__][o:data][link2]">
+  </div>
+</div>

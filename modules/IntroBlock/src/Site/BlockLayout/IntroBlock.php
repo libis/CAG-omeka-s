@@ -26,7 +26,7 @@ class IntroBlock extends AbstractBlockLayout
      */
     public function getLabel()
     {
-        return 'Intro + image'; // @translate
+        return 'CAG - Intro with image'; // @translate
     }
 
     /**

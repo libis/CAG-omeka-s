@@ -25,16 +25,18 @@
                                       $media = $attachments[0]->media();
                                       if($media):
                                         echo $this->thumbnail($media, 'square');
-                                      endif;  
+                                      endif;
                                     endif;
                                   ?>
                                 </div>
                             </div>
                             <div class="grid__12 grid__6@med">
                                 <div>
-                                    <div class="text--uppercase text--secondary spacer">
-                                        Contactpersoon
-                                    </div>
+                                    <?php if($block->dataValue('functie')):?>
+                                      <div class="text--uppercase text--secondary spacer">
+                                          <?php echo $block->dataValue('functie');?>
+                                      </div>
+                                    <?php endif;?>
                                     <h3 class="spacer spacer--xsm"><?php echo $block->dataValue('name');?></h3>
                                     <div class="spacer">
                                         <span class="icon icon--phone"></span> <a href="tel:011223344"><?php echo $block->dataValue('tel');?></a><br>

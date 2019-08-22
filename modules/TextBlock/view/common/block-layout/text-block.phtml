@@ -1,14 +1,20 @@
+<?php if($block->dataValue('text')):?>
 <div class="section section--default text-only">
+<?php else:?>
+<div class="section section--default text-only" style="padding-bottom:20px;">
+<?php endif?>
     <div class="container">
         <?php if($block->dataValue('title')):?>
           <h2 class="spacer"><?php echo $block->dataValue('title');?></h2>
         <?php endif;?>
-        <div class="grid">
-            <div class="grid__12 grid__8@med">
-                <span> <!-- content text must be in a wrapper if it's directly in a grid__item -->
-                    <?php echo $block->dataValue('text');?>
-                </span>
-            </div>
-        </div>
+        <?php if($block->dataValue('text')):?>
+          <div class="grid">
+              <div class="grid__12 grid__8@med">
+                  <span> <!-- content text must be in a wrapper if it's directly in a grid__item -->
+                      <?php echo $block->dataValue('text');?>
+                  </span>
+              </div>
+          </div>
+        <?php endif;?>
     </div>
 </div>

@@ -26,7 +26,7 @@ class HeroBlock extends AbstractBlockLayout
      */
     public function getLabel()
     {
-        return 'Hero'; // @translate
+        return 'CAG - Hero (homepage)'; // @translate
     }
 
     /**

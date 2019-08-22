@@ -26,7 +26,7 @@ class OverviewBlock extends AbstractBlockLayout
      */
     public function getLabel()
     {
-        return 'Overview'; // @translate
+        return 'CAG - Overview (homepage)'; // @translate
     }
 
     /**

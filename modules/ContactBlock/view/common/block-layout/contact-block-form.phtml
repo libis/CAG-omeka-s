@@ -39,6 +39,15 @@ use Zend\Form\Element\Textarea;
 
 <div class="field">
   <div class="field-meta">
+      <label>Functie contactpersoon</label>
+  </div>
+  <div class="inputs">
+      <input type="text" class="" value="<?php echo (!isset($block) ? '' : $block->dataValue('functie')) ?>" name="o:block[__blockIndex__][o:data][functie]">
+  </div>
+</div>
+
+<div class="field">
+  <div class="field-meta">
       <label>E-mail contactpersoon</label>
   </div>
   <div class="inputs">

@@ -26,7 +26,7 @@ class ContactBlock extends AbstractBlockLayout
      */
     public function getLabel()
     {
-        return 'Text with border and contact'; // @translate
+        return 'CAG - Text with border and contact'; // @translate
     }
 
     /**

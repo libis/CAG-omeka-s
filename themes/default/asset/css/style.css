@@ -198,6 +198,14 @@
   flex: 0 !important;
 }
 
+.team-section {
+  padding-bottom: 26px !important;
+}
+
+.team-section:last-of-type {
+  padding-bottom: 52px !important;
+}
+
 @media (min-width: 820px) {
   .hero__img, .grid--text-image .grid__img {
     height: 500px;

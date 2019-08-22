@@ -26,7 +26,7 @@ class BorderBlock extends AbstractBlockLayout
      */
     public function getLabel()
     {
-        return 'Text with border'; // @translate
+        return 'CAG - Text with border'; // @translate
     }
 
     /**

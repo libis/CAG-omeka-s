@@ -26,7 +26,7 @@ class TextImageOverlapBlock extends AbstractBlockLayout
      */
     public function getLabel()
     {
-        return 'Text / image with overlap'; // @translate
+        return 'CAG - Text & image with overlap'; // @translate
     }
 
     /**

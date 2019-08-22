@@ -26,7 +26,7 @@ class TextBlock extends AbstractBlockLayout
      */
     public function getLabel()
     {
-        return 'Text only'; // @translate
+        return 'CAG - Text only'; // @translate
     }
 
     /**

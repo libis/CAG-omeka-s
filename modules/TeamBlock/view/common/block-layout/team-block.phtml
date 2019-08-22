@@ -1,0 +1,39 @@
+<!-- text/contact with border -->
+<div class="section section--default team-section">
+    <div class="container">
+            <div class="grid">
+              <?php $i = 1;?>
+              <?php foreach($attachments as $attachment):?>
+                <div class="grid__12 grid__6@med">
+                    <div class="panel panel--light">
+                        <div class="grid">
+                            <div class="grid__12 grid__6@med">
+                                <div class="">
+                                  <?php
+                                      $media = $attachment->media();
+                                      if($media):
+                                        echo $this->thumbnail($media, 'square');
+                                      endif;
+                                  ?>
+                                </div>
+                            </div>
+                            <div class="grid__12 grid__6@med">
+                                <div>
+                                    <div class="text--uppercase text--secondary spacer">
+                                        <?php echo $block->dataValue('functie'.$i);?>
+                                    </div>
+                                    <h3 class="spacer spacer--xsm"><a href="<?php echo $block->dataValue('Link'.$i);?>"><?php echo $block->dataValue('name'.$i);?></a></h3>
+                                    <div class="spacer">
+                                        <span class="icon icon--phone"></span> <a href="tel:011223344"><?php echo $block->dataValue('tel'.$i);?></a><br>
+                                        <span class="icon icon--mail"></span> <a href="mailto:<?php echo $block->dataValue('mail'.$i);?>"><?php echo $block->dataValue('mail'.$i);?></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <?php $i++;?>
+              <?php endforeach;?>
+            </div>
+    </div>
+</div>

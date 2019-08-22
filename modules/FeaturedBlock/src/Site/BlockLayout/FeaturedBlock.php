@@ -27,7 +27,7 @@ class FeaturedBlock extends AbstractBlockLayout
      */
     public function getLabel()
     {
-        return 'Featured'; // @translate
+        return 'CAG - Featured story'; // @translate
     }
 
     /**
