@@ -3216,13 +3216,13 @@ a.card:hover .card__link, a.card:focus .card__link,
 }
 .page-header__logo img, .page-footer__logo img {
   display: block;
-  width: 70px;
-  height: auto;
-  margin-right: 13px;
+  width: auto;
+  height: 100px;
 }
 @media (min-width: 980px) {
   .page-header__logo img, .page-footer__logo img {
-    width: 110px;
+    height: 100px;
+    width: auto;
   }
 }
 .page-header__logo .text--logo, .page-footer__logo .text--logo {
@@ -3244,7 +3244,8 @@ a.card:hover .card__link, a.card:focus .card__link,
   padding: 0;
 }
 .page-header--simple .page-header__logo img, .page-header--simple .page-footer__logo img {
-  width: 70px;
+  height: 70px;
+
 }
 .page-header--simple .page-header__logo .text--logo, .page-header--simple .page-footer__logo .text--logo {
   font-size: 16px;
