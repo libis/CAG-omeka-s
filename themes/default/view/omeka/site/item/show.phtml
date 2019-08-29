@@ -22,18 +22,40 @@ $thumb = $item->primaryMedia();
         </span>
     </div>
     <h1><?php echo $this->pageTitle($item->displayTitle(), 2); ?></h1>
-
-    <div class="grid grid--2-col@med">
+  </div>
+</div>
+<?php if ($embedMedia && $thumb): ?>
+  <div class="section section--default">
+    <div class="container">
+      <!-- beeld -->
+      <div class="beeld">
+        <?php echo $this->thumbnail($thumb, 'large');?>
+      </div>
+    </div>
+  </div>
+<?php endif; ?>
+<div class="section section--default">
+  <div class="container">
+    <div class="panel panel--light">
+      <p><?php echo $item->displayDescription(); ?></p>
+    </div>
+  </div>
+</div>
+<div class="section section--default">
+  <div class="container">
+    <!--<div class="grid grid--2-col@med">
         <div class="grid__item">
             <?php if ($embedMedia && $thumb): ?>
                 <?php echo $this->thumbnail($thumb, 'large');?>
             <?php endif; ?>
         </div>
-        <div class="grid__item">
-          <span> <!-- content text must be in a wrapper if it's directly in a grid__item -->
-              <p><?php echo $item->displayDescription(); ?></p>
 
-              <table class="table--striped">
+        <div class="grid__item">-->
+        <span> <!-- content text must be in a wrapper if it's directly in a grid__item -->
+
+              <!--<p><?php echo $item->displayDescription(); ?></p>-->
+
+              <table class="">
                   <tbody>
                     <?php echo $item->displayValues(); ?>
                   </tbody>
@@ -69,9 +91,8 @@ $thumb = $item->primaryMedia();
 
               <?php $this->trigger('view.show.after'); ?>
           </span>
-        </div>
-    </div>
-
+        <!--</div>
+    </div>-->
   </div>
 </div>
 
@@ -97,9 +118,8 @@ if(sizeof($items) > 1):
   foreach($keys as $key):
     $resources[] = $items[$key];
   endforeach;
-elseif(sizeof($items) == 1):
-  $resources = array($items[0]);
-else:
+//this means that only the current or no item was found  
+elseif(sizeof($items) <= 1):
   $resources = array();
 endif;
 ?>
