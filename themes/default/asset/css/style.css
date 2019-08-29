@@ -210,6 +210,19 @@
   text-align: center;
 }
 
+.datering {
+  text-transform: uppercase;
+  margin: 0 0 5px 0;
+  font-weight: 400;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.datering a {
+  text-decoration: none;
+  color: #666;
+}
+
 @media (min-width: 820px) {
   .hero__img, .grid--text-image .grid__img {
     height: 500px;
