@@ -2,7 +2,7 @@
 return [
     'block_layouts' => [
         'invokables' => [
-            'contactBlock' => TeamBlock\Site\BlockLayout\TeamBlock::class,
+            'teamBlock' => TeamBlock\Site\BlockLayout\TeamBlock::class,
         ],
     ],
     'view_manager' => [
