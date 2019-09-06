@@ -17,6 +17,12 @@ $activePage = $nav->findActive($container);
 <?php echo $this->content; ?>
 
 <?php $this->trigger('view.show.after'); ?>
-<?php if ($showPagePagination): ?>
-<?php echo $this->sitePagePagination(); ?>
-<?php endif; ?>
+
+<?php
+  //only show pagination on pages under Themaverhalen
+  $nav->breadcrumbs();
+  $bc = $nav->breadcrumbs()->setSeparator('-');
+  if (strpos($bc, 'Themaverhalen</a>') !== false && $showPagePagination) {
+    echo $this->sitePagePagination();
+  }
+?>
