@@ -88,6 +88,21 @@
     height: 250px;
 }
 
+a.card:hover .card__img, a.card:focus .card__img, .card--link:hover .card__img, .card--link:focus .card__img {
+    filter: none !important;
+}
+
+a.card:hover .card__img::before, a.card:focus .card__img::before, .card--link:hover .card__img::before, .card--link:focus .card__img::before {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    content: "";
+    background: rgba(0, 107, 101, 0.5) !important;
+    filter: grayscale;
+}
+
 //Beeldbank
 .search-facet-item span{
 
