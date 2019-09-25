@@ -66,6 +66,7 @@ class HarvestJob extends AbstractJob
             'collection_id' => $args['collection_id'],
             'metadata_prefix' => $args['metadata_prefix'],
             'resource_type' => $this->getArg('resource_type', 'items'),
+            'resource_template' => $args['resource_template']
         ];
 
         // TODO : autres protocoles.
@@ -76,7 +77,7 @@ class HarvestJob extends AbstractJob
                 break;
             case 'oai_dc':
             case 'dc':
-                $method = '_oaidcToJson';
+                $method = '_oaidctermsToJson';
                 break;
             case 'oai_dcterms':
                 $method = '_oaidctermsToJson';
@@ -98,7 +99,7 @@ class HarvestJob extends AbstractJob
             $records = $response->ListRecords;
             $toInsert = [];$toUpdate = [];$ids= []; $update_id='';
             foreach ($records->record as $record) {
-                $pre_item = $this->{$method}($record, $args['collection_id']);
+                $pre_item = $this->{$method}($record, $args['collection_id'],$args['resource_template']);
                 if($update_id = $this->itemExists($pre_item)):
                   $toUpdate[] = $pre_item;
                   $ids[] = $update_id;
@@ -203,6 +204,7 @@ class HarvestJob extends AbstractJob
 
     protected function createRollback($records)
     {
+        $createImportEntitiesJson = array();
         foreach ($records as $resourceReference) {
             $createImportEntitiesJson[] = $this->buildImportRecordJson($resourceReference);
         }
@@ -217,7 +219,7 @@ class HarvestJob extends AbstractJob
      * @param SimpleXMLElement $record
      * @return boolean/array
      */
-    private function _dmdSecToJson(SimpleXMLElement $record, $setId)
+    private function _dmdSecToJson(SimpleXMLElement $record, $setId, $resource_template)
     {
         $mets = $record->metadata->mets->children(self::METS_NAMESPACE);
         $meta = null;
@@ -235,11 +237,15 @@ class HarvestJob extends AbstractJob
             }
             $meta = $elementTexts;
             $meta['o:item_set'] = ["o:id" => $setId];
+            //resource template?
+            if($resource_template):
+              $meta['o:resource_template'] = ["o:id" => $resource_template];
+            endif;
         }
         return $meta;
     }
 
-    private function _oaidcToJson(SimpleXMLElement $record, $setId)
+    private function _oaidcToJson(SimpleXMLElement $record, $setId, $resource_template)
     {
         $dcMetadata = $record
             ->metadata
@@ -261,10 +267,15 @@ class HarvestJob extends AbstractJob
         $meta = $elementTexts;
         $meta['o:item_set'] = ["o:id" => $setId];
 
+        //resource template?
+        if($resource_template):
+          $meta['o:resource_template'] = ["o:id" => $resource_template];
+        endif;
+
         return $meta;
     }
 
-    private function _oaidctermsToJson(SimpleXMLElement $record, $setId)
+    private function _oaidctermsToJson(SimpleXMLElement $record, $setId, $resource_template)
     {
         /*$dcMetadata = $record
             ->metadata
@@ -306,7 +317,9 @@ class HarvestJob extends AbstractJob
         //media
         $meta['o:media'] = $media;
         //resource template?
-        $meta['o:resource_template'] = '';
+        if($resource_template):
+          $meta['o:resource_template'] = ["o:id" => $resource_template];
+        endif;
 
         return $meta;
     }

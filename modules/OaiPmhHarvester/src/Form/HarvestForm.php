@@ -2,6 +2,7 @@
 namespace OaiPmhHarvester\Form;
 
 use Zend\Form\Element;
+use Omeka\Form\Element\ResourceTemplateSelect;
 use Zend\Form\Form;
 
 class HarvestForm extends Form
@@ -22,6 +23,21 @@ class HarvestForm extends Form
                 'required' => 'true',
                 'value' => 'http://localhost/bacasable/oai-pmh-repository/request',
                 'size' => 60,
+            ],
+        ]);
+
+
+        $this->add([
+            'name' => 'resource_template',
+            'type' => ResourceTemplateSelect::class,
+            'options' => [
+                'label' => 'Resource template', // @translate
+                'empty_option' => '',
+            ],
+            'attributes' => [
+                'class' => 'chosen-select',
+                'data-placeholder' => 'Resource template',
+                'id' => 'resource_template',
             ],
         ]);
 

@@ -9,7 +9,7 @@ class SetsForm extends Form
     public function init()
     {
         $this->setAttribute('action', 'harvest');
-
+        $resource_template = $this->getOption('resource_template');
         $base_url = $this->getOption('base_url');
         $sets = $this->getOption('sets');
         $formats = $this->getOption('formats');
@@ -20,6 +20,15 @@ class SetsForm extends Form
             'attributes' => [
                 'id' => 'base_url',
                 'value' => $base_url,
+            ],
+        ]);
+
+        $this->add([
+            'type' => Element\Hidden::class,
+            'name' => 'resource_template',
+            'attributes' => [
+                'id' => 'resource_template',
+                'value' => $resource_template,
             ],
         ]);
 

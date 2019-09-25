@@ -30,6 +30,7 @@ class IndexController extends AbstractActionController
     {
         $post = $this->params()->fromPost();
         $base_url = $post['base_url'];
+        $resource_template = $post['resource_template'];
 
         $url = $base_url . "?verb=ListSets";
 
@@ -55,7 +56,7 @@ class IndexController extends AbstractActionController
         }
         $view = new ViewModel;
         $view->content .= $this->translate('Please choose a set to import.'); // @translate
-        $form = $this->getForm(SetsForm::class, ['sets' => $sets, 'formats' => $formats, 'base_url' => $base_url]);
+        $form = $this->getForm(SetsForm::class, ['sets' => $sets, 'formats' => $formats, 'base_url' => $base_url,'resource_template' => $resource_template]);
         $view->form = $form;
         return $view;
     }
@@ -66,7 +67,7 @@ class IndexController extends AbstractActionController
     public function harvestAction()
     {
         $post = $this->params()->fromPost();
-
+        
         $message = 'Harvesting from ' . $post['base_url'] . ' sets :  ';
 
         // List collections and create sets
@@ -111,6 +112,7 @@ class IndexController extends AbstractActionController
         foreach ($sets as $setSpec => $set) {
             //  . "?metadataPrefix=" . $set[1] . "&verb=ListRecords&set=" . $setSpec
             $url = $post['base_url'];
+            $resource_template = $post['resource_template'];
             // TODO : job harvest / job item creation ?
             // TODO : toutes les propriétés (prefix, resumption, etc.)
             $harvestJson = [
@@ -122,6 +124,7 @@ class IndexController extends AbstractActionController
                 'has_err' => 0,
                 'metadata_prefix' => $set[1],
                 'resource_type' => 'items',
+                'resource_template' => $resource_template
             ];
             $job = $dispatcher->dispatch('OaiPmhHarvester\Job\HarvestJob', $harvestJson);
             $this->messenger()->addSuccess('Harvesting ' . $set[0] . ' in Job ID ' . $job->getId());
