@@ -21,6 +21,14 @@ $translate = $this->plugin('translate');
       <?php
       $headingTerm = $this->siteSetting('browse_heading_property_term', 'dcterms:title');
       $bodyTerm = $this->siteSetting('browse_body_property_term', 'dcterms:description');
+      $templates = array(
+        'Beeld' => 'beeldbank',
+        'Verhaal' => 'verhalen',
+        'Project' => 'projecten',
+        'Film' => 'films',
+        'Filmkopie' => 'filmkopies',
+        'Collecite' => 'collecties'
+      );
       foreach ($this->resources as $resource):
           $heading = $resource->value($headingTerm, ['default' => $translate('[Untitled]')]);
           $body = $resource->value($bodyTerm);
@@ -78,7 +86,7 @@ $translate = $this->plugin('translate');
 
     <?php if ($this->linkText):?>
       <div class="text--center u-mt-med">
-        <a href="<?php echo $this->url('site/resource', ['controller' => $this->resourceType, 'action' => 'browse'], ['query' => $this->query],true);?>" class="btn btn--ext">
+        <a href="<?php echo $block->page()->site()->url().'/'.$templates[$type].'?q='?>" class="btn btn--ext">
           <?php echo $this->linkText;?>
         </a>
       </div>
