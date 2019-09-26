@@ -71,7 +71,10 @@ $this->headScript()->appendFile($this->assetUrl('js/search.js', 'Search'));
     <div class="grid">
 
      <!-- search filter -->
-     <?php echo $this->partial('search/facets', ['facets' => $facets, 'page' => $page]); ?>
+     <?php if($page->name() != 'Verhalen'):?>
+       <?php echo $this->partial('search/facets', ['facets' => $facets, 'page' => $page]); ?>
+     <?php endif;?>
+
 
      <!-- filter results -->
      <?php if (isset($response)): ?>
@@ -100,7 +103,8 @@ $this->headScript()->appendFile($this->assetUrl('js/search.js', 'Search'));
                   'title' => sprintf($this->translatePlural('%s item', '%s items', $itemsCount), $itemsCount),
                   'response' => $response,
                   'resourceName' => 'items',
-                  'site' => $site
+                  'site' => $site,
+                  'pagename' => $page->name()
               ]);
               ?>
 

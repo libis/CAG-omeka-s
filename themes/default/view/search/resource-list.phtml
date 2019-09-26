@@ -35,7 +35,7 @@
 ?>
 <?php $results = $response->getResults($resourceName); ?>
 <?php if (count($results)): ?>
-  <div class="grid__12 grid__8@med">
+  <div class="grid__12 <?php echo ($pagename != 'Verhalen' ? 'grid__8@med' : '');?>">
     <div class="grid grid--2-col@med spacer--xsm">
 
         <?php foreach ($results as $result): ?>
