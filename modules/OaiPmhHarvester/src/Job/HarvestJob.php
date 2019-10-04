@@ -100,13 +100,8 @@ class HarvestJob extends AbstractJob
             $toInsert = [];$toUpdate = [];$ids= []; $update_id='';
             foreach ($records->record as $record) {
                 $pre_item = $this->{$method}($record, $args['collection_id'],$args['resource_template']);
-                if($update_id = $this->itemExists($pre_item)):
-                  $toUpdate[] = $pre_item;
-                  $ids[] = $update_id;
-                  $update_id = '';
-                else:
+                $this->itemExists($pre_item);
                   $toInsert[] = $pre_item;
-                endif;
             }
 
             if($toInsert):
@@ -194,7 +189,8 @@ class HarvestJob extends AbstractJob
           if($results):
             foreach($results as $r):
               $this->logger->info($r->id());
-              return $r->id();
+              $this->api->delete('items',$r->id());
+              //return $r->id();
             endforeach;
           endif;
         endforeach;
