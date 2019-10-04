@@ -15,7 +15,7 @@ $thumb = $item->primaryMedia();
             <a href="<?php echo $site->url();?>" itemprop="url" class="breadcrumb__item"><span itemprop="title">Home</span></a>
         </span>
         <span itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb" class="breadcrumb__scope">
-            <a href="<?php echo $site->url();?>/beeldbank" itemprop="url" class="breadcrumb__item"><span itemprop="title">Beeldbank</span></a>
+            <a href="<?php echo $site->url();?>/beeldbank?q=" itemprop="url" class="breadcrumb__item"><span itemprop="title">Beeldbank</span></a>
         </span>
         <span itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb" class="breadcrumb__scope">
             <span itemprop="title"><?php echo $item->displayTitle();?></span>
@@ -118,7 +118,7 @@ if(sizeof($items) > 1):
   foreach($keys as $key):
     $resources[] = $items[$key];
   endforeach;
-//this means that only the current or no item was found  
+//this means that only the current or no item was found
 elseif(sizeof($items) <= 1):
   $resources = array();
 endif;

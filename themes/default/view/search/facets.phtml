@@ -46,13 +46,15 @@
                 <h4>Tekstueel zoeken</h4>
 
                 <div class="spacer">
+                  <form>
                     <?php //echo $this->searchForm(); ?>
                     <div class="form__item">
-                        <input type="text" class="form__text">
+                        <input type="text" name="q" class="form__text">
                     </div>
                     <div class="form__actions">
                         <button type="submit" class="btn form__btn">zoeken <span class="icon icon--search"></span></button>
                     </div>
+                  </form>
                 </div>
             <?php if (!empty($facets)): ?>
             <?php foreach ($facets as $name => $facetValues): ?>
