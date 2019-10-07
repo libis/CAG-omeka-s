@@ -30,17 +30,19 @@
                 </div>
             </div>
 
-            <div class="grid__12 grid__6@med">
-                <div class="image--secondary">
-                  <?php
-                    $media = $attachments[0]->media();
-                    if($media):
-                      echo $this->thumbnail($media, 'large',array('class' => 'u-display-block'));
-                    endif;
-                  ?>
-                </div>
-            </div>
-
+            <?php if(sizeof($attachments)>0):?>
+              <div class="grid__12 grid__6@med">
+                  <div class="image--secondary">
+                    <?php
+                      $media = $attachments[0]->media();
+                      if($media):
+                        echo $this->thumbnail($media, 'large',array('class' => 'u-display-block'));
+                      endif;
+                    ?>
+                  </div>
+                  <figcaption><?php echo $media;?></figcaption>
+              </div>
+            <?php endif;?>
         </div>
         </div>
     </div>
