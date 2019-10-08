@@ -71,7 +71,7 @@ $this->headScript()->appendFile($this->assetUrl('js/search.js', 'Search'));
     <div class="grid">
 
      <!-- search filter -->
-     <?php if($page->name() != 'Verhalen'):?>
+     <?php if($page->name() != 'Verhalen' || $page->name() != 'Agenda' || $page->name() != 'Nieuwsberichten'):?>
        <?php echo $this->partial('search/facets', ['facets' => $facets, 'page' => $page]); ?>
      <?php endif;?>
 
