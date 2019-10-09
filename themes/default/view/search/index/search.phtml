@@ -68,6 +68,17 @@ $this->headScript()->appendFile($this->assetUrl('js/search.js', 'Search'));
 
 <div class="section section--default">
   <div class="container">
+    <?php if (isset($response)): ?>
+        <?php if ($response->getTotalResults() > 0): ?>
+           <?php
+               echo $this->partial('search/results-header', [
+                   'query' => $query,
+                   'response' => $response,
+                   'sortOptions' => $sortOptions,
+               ]);
+           ?>
+       <?php endif; ?>
+    <?php endif; ?>
     <div class="grid">
 
      <!-- search filter -->
@@ -79,14 +90,7 @@ $this->headScript()->appendFile($this->assetUrl('js/search.js', 'Search'));
      <!-- filter results -->
      <?php if (isset($response)): ?>
           <?php if ($response->getTotalResults() > 0): ?>
-              <?php
-                  echo $this->partial('search/results-header', [
-                      'query' => $query,
-                      'response' => $response,
-                      'sortOptions' => $sortOptions,
-                  ]);
-              ?>
-
+              
               <?php $itemSetsCount = $response->getResourceTotalResults('item_sets'); ?>
               <?php
               echo $this->partial('search/resource-list', [

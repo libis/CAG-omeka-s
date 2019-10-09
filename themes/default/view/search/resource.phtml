@@ -68,7 +68,7 @@ endif;
                 <?php
                   $date = $resource->value('dcterms:date');
                   $date = DateTime::createFromFormat('Ymd', $date);
-                  $output = $date->format('dd-mm-Y');
+                  $output = $date->format('d-m-Y');
                 ?>
                 <p class="datering"><?php echo $output;?></p>
             <?php endif;?>
