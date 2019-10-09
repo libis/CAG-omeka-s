@@ -64,6 +64,14 @@ endif;
             <?php if($type == 'Beeld'):?>
                 <p class="datering"><?php echo $resource->value('dcterms:date');?></p>
             <?php endif;?>
+            <?php if($resource->value('dcterms:date') && ($type == 'Nieuws' || $type == 'Agendapunt')):?>
+                <?php
+                  $date = $resource->value('dcterms:date');
+                  $date = DateTime::createFromFormat('Ymd', $date);
+                  $output = $date->format('dd-mm-Y');
+                ?>
+                <p class="datering"><?php echo $output;?></p>
+            <?php endif;?>
             <?php if ($description = $resource->displayDescription()): ?>
                 <?php
                   if(strlen($description) > 200):

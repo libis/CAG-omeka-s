@@ -80,11 +80,11 @@ $this->headScript()->appendFile($this->assetUrl('js/search.js', 'Search'));
      <?php if (isset($response)): ?>
           <?php if ($response->getTotalResults() > 0): ?>
               <?php
-                  /*echo $this->partial('search/results-header', [
+                  echo $this->partial('search/results-header', [
                       'query' => $query,
                       'response' => $response,
                       'sortOptions' => $sortOptions,
-                  ]);*/
+                  ]);
               ?>
 
               <?php $itemSetsCount = $response->getResourceTotalResults('item_sets'); ?>
