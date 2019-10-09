@@ -82,7 +82,7 @@ $this->headScript()->appendFile($this->assetUrl('js/search.js', 'Search'));
     <div class="grid">
 
      <!-- search filter -->
-     <?php if($page->name() != 'Verhalen' || $page->name() != 'Agenda' || $page->name() != 'Nieuwsberichten'):?>
+     <?php if($page->name() != 'Verhalen'):?>
        <?php echo $this->partial('search/facets', ['facets' => $facets, 'page' => $page]); ?>
      <?php endif;?>
 
@@ -90,7 +90,7 @@ $this->headScript()->appendFile($this->assetUrl('js/search.js', 'Search'));
      <!-- filter results -->
      <?php if (isset($response)): ?>
           <?php if ($response->getTotalResults() > 0): ?>
-              
+
               <?php $itemSetsCount = $response->getResourceTotalResults('item_sets'); ?>
               <?php
               echo $this->partial('search/resource-list', [
