@@ -79,7 +79,7 @@ class FeaturedBlock extends AbstractBlockLayout
      */
     public function render(PhpRenderer $view, SitePageBlockRepresentation $block)
     {
-      $item = $view->api()->searchOne('items', array('item_set_id' => '19','sort_by' => 'created', 'sort_order' => 'desc'))->getContent();
+      $item = $view->api()->searchOne('items', array('resource_template_id' => '3','sort_by' => 'created', 'sort_order' => 'desc'))->getContent();
 
 
       return $view->partial('common/block-layout/featured-block', [
