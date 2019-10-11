@@ -171,14 +171,14 @@ class HarvestJob extends AbstractJob
     }
 
     protected function itemExists($item){
-        //assuming dc:identifier as unique accross all items
-        $identifiers = $item['dcterms:identifier'];
-        $this->logger->info($item['dcterms:identifier']);
+        //assuming dc:isVersionOf as unique accross all items
+        $identifiers = $item['dcterms:isVersionOf'];
+        $this->logger->info($item['dcterms:isVersionOf']);
 
         $query = [];
         foreach($identifiers as $identifier):
           $query['property'][0] = array(
-            'property' => 10,
+            'property' => 27,
             'text' => $identifier['@value'],
             'type' => 'eq',
             'joiner' => 'and'
