@@ -891,7 +891,7 @@ figcaption {
   }
 }
 .grid--reverse .grid__img:before {
-  background: rgba(0, 107, 101, 0.5) !important;
+  background: rgba(147,86,25, 0.5) !important;
 }
 .grid--reverse .grid__content {
   border-left: 0;
@@ -2784,7 +2784,7 @@ a.card:hover .card__img:before, a.card:focus .card__img:before,
   bottom: 0;
   left: 0;
   content: "";
-  background: rgba(0, 107, 101, 0.5) !important;
+  background: rgba(147,86,25, 0.5) !important;
 }
 a.card:hover .card__link, a.card:focus .card__link,
 .card--link:hover .card__link,
