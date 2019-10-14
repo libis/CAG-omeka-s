@@ -2,7 +2,7 @@
 return [
     'block_layouts' => [
         'invokables' => [
-            'ImageOnlyBlock' => TextImageBlock\Site\BlockLayout\ImageOnlyBlock::class,
+            'ImageOnlyBlock' => ImageOnlyBlock\Site\BlockLayout\ImageOnlyBlock::class,
         ],
     ],
     'view_manager' => [
