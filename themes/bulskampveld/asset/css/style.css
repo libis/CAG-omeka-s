@@ -11,8 +11,8 @@
   color: #935619;
   display: block;
   padding: 6.5px 0;
-  background-image: -webkit-gradient(linear, left top, right top, from(#014D49), to(#014D49));
-  background-image: linear-gradient(to right, #014D49, #014D49);
+  background-image: -webkit-gradient(linear, left top, right top, from(#58330f), to(#58330f));
+  background-image: linear-gradient(to right, #58330f, #58330f);
   background-repeat: no-repeat;
   background-position: center bottom;
   background-size: 0 2px;
@@ -21,12 +21,12 @@
 
 .nav--main .nav__menu li a:hover, .nav--main .nav__menu li a:focus, .nav--main .nav__menu li a.active {
   background-size: 100% 2px;
-  color: #014D49;
+  color: #58330f;
 }
 
 .nav--main li.active a {
   background-size: 100% 2px;
-  color: #014D49;
+  color: #58330f;
 }
 
 .nav--doormat .nav__menu li {
@@ -42,7 +42,7 @@
 }
 
 .nav--doormat .nav__menu li a:hover, .nav--doormat .nav__menu li a:focus {
-  color: #014D49;
+  color: #58330f;
 }
 
 .doormat-bold a {
@@ -58,7 +58,7 @@
 }
 
 .nav--flyout .nav--main .nav__menu li a:hover, .nav--flyout .nav--main .nav__menu li a:focus {
-  color: #014D49;
+  color: #58330f;
 }
 
 .nav--flyout .nav--main .nav__menu li a {
