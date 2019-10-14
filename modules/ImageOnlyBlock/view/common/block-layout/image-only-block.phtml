@@ -1,0 +1,10 @@
+<div class="section section--default">
+    <div class="container">        
+        <?php if($attachments):
+            $media = $attachments[0]->media();
+            echo $this->thumbnail($media, 'large');
+          ?>
+          <figcaption><?php echo $attachments[0]->caption();?></figcaption>
+        <?php endif;?>
+    </div>
+</div>
