@@ -1790,7 +1790,7 @@ blockquote .quote__meta {
 .btn:hover, .btn:focus {
   color: #fff;
   background-color: #935619;
-  border-color: #00605b;
+  border-color: #844D16;
 }
 .btn__icon {
   display: inline-block;
@@ -2905,7 +2905,7 @@ a.card:hover .card__link, a.card:focus .card__link,
 }
 .pagination__btn.is-active:hover, .pagination__btn.is-active:focus, .pagination__btn.active:hover, .pagination__btn.active:focus {
   color: #fff;
-  background-color: #00605b;
+  background-color: #844D16;
 }
 
 .label {
