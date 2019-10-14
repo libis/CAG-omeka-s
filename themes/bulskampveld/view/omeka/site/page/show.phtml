@@ -1,0 +1,28 @@
+<?php
+$this->htmlElement('body')->appendAttribute('class', 'page');
+$this->pageTitle($page->title(), 2);
+$showPagePagination = $this->siteSetting('show_page_pagination', true);
+?>
+
+<?php
+$nav = $site->publicNav();
+$container = $nav->getContainer();
+$activePage = $nav->findActive($container);
+?>
+
+
+
+<?php $this->trigger('view.show.before'); ?>
+
+<?php echo $this->content; ?>
+
+<?php $this->trigger('view.show.after'); ?>
+
+<?php
+  //only show pagination on pages under Themaverhalen
+  $nav->breadcrumbs();
+  $bc = $nav->breadcrumbs()->setSeparator('-');
+  if (strpos($bc, 'Themaverhalen</a>') !== false && $showPagePagination) {
+    echo $this->sitePagePagination();
+  }
+?>

@@ -1,0 +1,332 @@
+<?php
+$escape = $this->plugin('escapeHtml');
+$this->htmlElement('html')->setAttribute('lang', 'en');
+$this->headMeta()->setCharset('utf-8');
+$this->headMeta()->appendName('viewport', 'width=device-width, initial-scale=1');
+$this->headTitle($this->setting('installation_title', 'Omeka S'))->setSeparator(' · ');
+
+$this->headLink()->prependStylesheet($this->assetUrl('css/main.css'));
+$this->headLink()->prependStylesheet($this->assetUrl('css/style.css'));
+$this->headLink()->prependStylesheet($this->assetUrl('css/iconfonts.css', 'Omeka'));
+
+$this->headScript()->prependFile($this->assetUrl('js/default.js'));
+$this->headScript()->prependFile($this->assetUrl('js/global.js', 'Omeka'));
+$this->headScript()->prependFile($this->assetUrl('vendor/jquery/jquery.min.js', 'Omeka'));
+//$this->headScript()->prependFile($this->assetUrl('js/docs.js'));
+
+$this->trigger('view.layout');
+$title = $this->pageTitle($site->title());
+$userBar = $this->userBar();
+?>
+<?php echo $this->doctype(); ?>
+<?php echo $this->htmlElement('html'); ?>
+    <head>
+        <?php echo $this->headMeta(); ?>
+        <?php echo $this->headTitle(); ?>
+        <?php echo $this->headLink(); ?>
+        <?php echo $this->headStyle(); ?>
+        <?php echo $this->headScript(); ?>
+        <meta name="google-site-verification" content="0urVxQDyV7rQ_QQOvZU_u05j_EArGzakWxqD1ykAm4U" />
+        <link rel="icon" type="image/svg" href="<?php echo $this->assetUrl('img/svg/logo.svg');?>"/>
+    </head>
+
+    <?php echo $this->htmlElement('body'); ?>
+        <?php echo $userBar; ?>
+
+        <div class="page-wrap">
+
+        <!-- logo + navigation -->
+        <?php
+          $url = $this->serverUrl(true);
+          if (strpos($url, 'page/home') !== false) {
+              $home = true;
+          }else{
+            $home = false;
+          }
+        ?>
+
+        <header class="page-header <?php echo (!$home)? 'page-header--simple' : '';?>">
+            <div class="page-header-wrapper">
+
+                <!-- site logo -->
+                <div class="container">
+                    <a href="<?php echo $site->url(); ?>" class="page-header__logo">
+                        <div class="flex flex-align-items-end">
+                            <img src="<?php echo $this->assetUrl('img/logo.png');?>" alt="logo CAG">
+                        </div>
+                    </a>
+                </div>
+                <!-- service nav -->
+                <div class="section section--no-padding section--gradient">
+                    <div class="container container--relative">
+                        <nav class="nav--service">
+                            <ul class="nav__menu">
+                                <div class="nav__item"><a href="<?php echo $site->url();?>/page/nieuws-en-agenda" class="nav__link">Nieuws & agenda</a></div>
+                                <div class="nav__item"><a href="<?php echo $site->url();?>/page/over-ons" class="nav__link">Over ons</a></div>
+                                <div class="nav__item"><a href="<?php echo $site->url();?>/page/contact" class="nav__link">Contact</a></div>
+                                <li class="nav__item">
+
+                                    <!-- site search -->
+                                    <a href="#" class="search__link js-search-trigger">
+                                        <label class="u-pointer" for="form-search">
+                                            <i class="icon icon--lrg icon--search js-search-icon"></i>
+                                        </label>
+                                    </a>
+
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+
+                <!-- main nav -->
+                <div class="section section--no-padding">
+                    <div class="container">
+                        <nav class="nav--main">
+                            <?php
+                            echo $site->publicNav()->menu()->renderMenu(null, [
+                                'ulClass' => 'nav__menu',
+                                'maxDepth' => $this->themeSetting('nav_depth') - 1
+                            ]);
+                            ?>
+                            <!--<ul class="nav__menu">
+                                <div class="nav__item"><a href="" class="nav__link">Diensten</a></div>
+                                <div class="nav__item"><a href="kennisbank.html" class="nav__link">Kennisbank</a></div>
+                                <div class="nav__item"><a href="beeldbank.html" class="nav__link">Beeldbank</a></div>
+                                <div class="nav__item"><a href="" class="nav__link">Collecties</a></div>
+                            </ul>-->
+                        </nav>
+                        <a href="" class="flyout__link pull--right js-flyout-toggle" role="button"><span class="lines" aria-label="menu"></span><span class="visuallyhidden">Menu</span></a>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <?php echo $this->content; ?>
+
+
+        <!-- footer -->
+         <footer class="page-footer" role="contentinfo">
+             <div class="section section--light section--doormat">
+                 <div class="container">
+                     <div class="section__content">
+                         <div class="grid">
+                             <div class="grid__12 grid__8@lrg">
+
+                                 <div class="page-footer__logo">
+                                     <div class="flex flex-align-items-end">
+                                         <img src="<?php echo $this->assetUrl('img/logo.png');?>" alt="logo CAG">
+
+                                     </div>
+                                 </div>
+
+                                 <div class="grid grid--3-col@sml">
+                                     <div class="grid__item">
+                                         <div class="spacer">
+                                             <strong>Attrechtcollege</strong><br>
+                                             Naamsestraat 5<br>
+                                             3000 Leuven
+                                         </div>
+                                         <div class="spacer">
+                                             <a href="tel:011223344" class="link link--contact"><span class="icon icon--phone u-mr-xxs"></span>011/22 33 44</a><br>
+                                             <a href="mailto:info@mail.be" class="link link--contact"><span class="icon icon--mail u-mr-xxs"></span>info@mail.be</a>
+                                         </div>
+                                     </div>
+
+                                     <div class="grid__item">
+                                         <nav class="nav nav--doormat doormat-bold" aria-label="Footer navigatie">
+                                             <?php
+                                             echo $site->publicNav()->menu()->renderMenu(null, [
+                                                 'ulClass' => 'nav__menu',
+                                                 'maxDepth' => $this->themeSetting('nav_depth') - 1
+                                             ]);
+                                             ?>
+                                         </nav>
+                                     </div>
+
+                                     <div class="grid__item">
+                                         <nav class="nav nav--doormat" aria-label="Footer navigatie">
+
+                                             <ul class="nav__menu">
+                                                 <li class="nav__item">
+                                                     <a href="<?php echo $site->url();?>/nieuws-en-agenda" class="nav__link">Nieuws
+                                                     </a>
+                                                 </li>
+                                                 <li class="nav__item">
+                                                     <a href="<?php echo $site->url();?>/agenda" class="nav__link">Agenda
+                                                     </a>
+                                                 </li>
+                                                 <li class="nav__item">
+                                                     <a href="<?php echo $site->url();?>/contact" class="nav__link">Contact
+                                                     </a>
+                                                 </li>
+                                             </ul>
+                                         </nav>
+                                     </div>
+
+                                 </div>
+                                 <div class="u-mt-sml text--left">
+                                     <div class="u-float-left u-mr-xsm"><img src="<?php echo $this->assetUrl('img/svg/cc.svg');?>"></div>
+                                     <span class="text--sml">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vero, consequatur.</span>
+                                 </div>
+
+                             </div>
+
+                             <div class="grid__12 grid__4@lrg">
+                                 <div class="panel h-100 flex flex-column text--left flex-justify-center fullwidth">
+                                     <h3>Blijf op hoogte</h3>
+                                     <p>Abonneer je op onze nieuwsbrief om op de hoogte te blijven van alle laatste nieuwtjes</p>
+                                     <form class="form">
+                                         <div class="form__item">
+                                             <label for="email" class="form__label">E-mailadres</label>
+                                             <input type="email" class="form__text" placeholder="jouw@e-mailadres.be" required>
+                                             <input type="checkbox" name="gdpr" value="gdpr"> <small class="text--italic">Ik ga akkoord met de <a href="">privacy policy</a></small>
+                                         </div>
+                                         <div class="form__item">
+                                             <input type="submit" class="btn" value="Inschrijven">
+                                         </div>
+                                     </form>
+                                 </div>
+                             </div>
+                         </div>
+                     </div>
+                 </div>
+             </div>
+
+             <!-- social media links -->
+             <div class="section section--med">
+                 <div class="container">
+                     <div class="grid grid--2-col@sml">
+                         <div class="grid__item">
+                             <nav class="nav--social">
+                                 <ul class="nav__menu">
+                                     <li class="nav__item">
+                                         <a href="" class="nav__link"><span class="icon icon--facebook"></span>like CAG</a>
+                                     </li>
+                                     <li class="nav__item">
+                                         <a href="" class="nav__link"><span class="icon icon--linkedin"></span>volg CAG</a>
+                                     </li>
+                                 </ul>
+                             </nav>
+                         </div>
+                         <div class="grid__item text--center">
+                             <div class="flex flex-align-items-center flex-justify-center u-ml-a@sml">in samenwerking met <img src="<?php echo $this->assetUrl('img/svg/vlaanderen.svg');?>" alt="logo van Vlaanderen verbeelding werkt" class="u-ml-xsm"></div>
+                         </div>
+                     </div>
+                 </div>
+             </div>
+
+
+             <!-- footer legal links -->
+             <div class="section section--med section--footer">
+                 <div class="container">
+                     <div class="section__content">
+                         <div class="grid">
+                             <div class="grid__12 grid__6@lrg">
+                                 <div class="nav nav--copyright">
+                                     <ul class="nav__menu nav__menu--sep">
+                                         <li class="nav__item text--nowrap">&copy; 2019 Centrum Agrarische geschiedenis</li>
+                                         <!-- <li class="nav__item"><span class="text--nowrap">Crafted with <i class="icon icon--heart icon--secondary"></i> door <a href="https://www.statik.be" target="_blank">Statik</a></span></li> -->
+                                     </ul>
+                                 </div>
+                             </div>
+                             <div class="grid__12 grid__6@lrg">
+                                 <nav class="nav nav--footer">
+                                     <div class="nav__menu">
+                                         <li class="nav__item"><a href="" class="nav__link">Cookie policy</a></li>
+                                         <li class="nav__item"><a href="" class="nav__link">Terms and conditions</a></li>
+                                         <li class="nav__item"><a href="" class="nav__link">Privacy policy</a></li>
+                                     </div>
+                                 </nav>
+                             </div>
+                         </div>
+                     </div>
+                 </div>
+             </div>
+         </footer>
+      </div>
+
+
+      <!-- search overlay -->
+      <div class="search js-search-container">
+          <?php echo $this->partial('common/search-form'); ?>
+      </div>
+
+
+      <!-- flyout overlay -->
+      <div class="flyout" id="flyout">
+          <div class="container">
+
+              <div class="nav--flyout">
+                 <div class="flyout__content">
+                      <a href="#flyout" class="js-flyout-toggle flyout__close spacer" data-flyout="#flyout" role="button"><i class="icon icon--clear icon--sml" aria-label="close"></i></a>
+                  </div>
+
+                  <!-- flyout search -->
+                  <div class="flyout__content">
+                      <form action="" class="search js-search-form js-search-container">
+                          <input type="hidden" name="cx" value="">
+                          <input type="hidden" name="ie" value="UTF-8">
+
+                          <div class="form__item search--form js-search-input">
+                              <input type="search" id="form-search" class="search__input form__text-underline" name="q" placeholder="Wat zoek je?">
+                              <button type="submit" class="search__submit"><i class="icon icon--search"></i></button>
+                          </div>
+                      </form>
+                  </div>
+
+                  <!-- main navigation -->
+                  <div class="flyout__content">
+                    <nav class="nav--main">
+                        <?php
+                        echo $site->publicNav()->menu()->renderMenu(null, [
+                            'ulClass' => 'nav__menu',
+                            'maxDepth' => $this->themeSetting('nav_depth') - 1
+                        ]);
+                        ?>
+                        <!--<ul class="nav__menu">
+                            <div class="nav__item"><a href="" class="nav__link">Diensten</a></div>
+                            <div class="nav__item"><a href="kennisbank.html" class="nav__link">Kennisbank</a></div>
+                            <div class="nav__item"><a href="" class="nav__link">collecties</a></div>
+                            <div class="nav__item"><a href="beeldbank.html" class="nav__link">Beeldbank</a></div>
+                        </ul>-->
+                    </nav>
+                  </div>
+
+                  <!-- service nav -->
+                  <div class="flyout__content">
+                    <nav class="nav--service">
+                        <ul class="nav__menu">
+                            <div class="nav__item"><a href="<?php echo $site->url();?>/page/nieuws-en-agenda" class="nav__link">Nieuws & agenda</a></div>
+                            <div class="nav__item"><a href="<?php echo $site->url();?>/page/over-ons" class="nav__link">Over ons</a></div>
+                            <div class="nav__item"><a href="<?php echo $site->url();?>/page/contact" class="nav__link">Contact</a></div>
+                        </ul>
+                    </nav>
+                  </div>
+
+                  <!-- social media -->
+                  <div class="flyout__content">
+                      <nav class="nav--social">
+                          <ul class="nav__menu">
+                              <li class="nav__item">
+                                  <a href="" class="nav__link"><span class="icon icon--facebook"></span>like CAG</a>
+                              </li>
+                              <li class="nav__item">
+                                  <a href="" class="nav__link"><span class="icon icon--linkedin"></span>volg CAG</a>
+                              </li>
+                          </ul>
+                      </nav>
+                  </div>
+
+              </div>
+
+          </div>
+      </div>
+
+      <div class="flyout__overlay"></div>
+
+      <script src="<?php echo $this->assetUrl('js/main.js');?>"></script>
+      <script src="<?php echo $this->assetUrl('js/docs.js');?>"></script>
+
+    </body>
+</html>

@@ -1,0 +1,19 @@
+<?php
+$translate = $this->plugin('translate');
+$searchValue = $this->escapeHtml($this->params()->fromQuery('search', ''));
+?>
+
+<!--<form action="" id="search-form">
+    <input type="text" name="search" value="" placeholder="<?php echo $translate('Search'); ?>">
+    <button type="submit"><?php echo $translate('Search'); ?></button>
+</form>-->
+
+<form action="<?php echo $this->escapeHtml($this->url('site/resource', ['controller' => 'item','action' => 'browse'], true)); ?>" class="search__form js-search-form js-search-container">
+    <input type="hidden" name="cx" value="">
+    <input type="hidden" name="ie" value="UTF-8">
+    <div class="form__item js-search-input">
+        <input type="search" id="form-search" class="search__input form__text-underline js-search-focus" value="<?php echo $searchValue; ?>" name="search" placeholder="Wat zoekt u?">
+        <button type="submit" class="btn btn--primary search__submit" aria-label="Zoeken"><i class="icon icon--search hidden--bp-med"></i></button>
+    </div>
+    <a href="#" class="search__close"><i class="icon icon--clear"></i> <span class="visuallyhidden">Sluiten</span></a>
+</form>

@@ -1,0 +1,91 @@
+<?php
+/*
+ * Copyright BibLibre, 2016
+ * Copyright Daniel Berthereau, 2017-2018
+ *
+ * This software is governed by the CeCILL license under French law and abiding
+ * by the rules of distribution of free software.  You can use, modify and/ or
+ * redistribute the software under the terms of the CeCILL license as circulated
+ * by CEA, CNRS and INRIA at the following URL "http://www.cecill.info".
+ *
+ * As a counterpart to the access to the source code and rights to copy, modify
+ * and redistribute granted by the license, users are provided only with a
+ * limited warranty and the software's author, the holder of the economic
+ * rights, and the successive licensors have only limited liability.
+ *
+ * In this respect, the user's attention is drawn to the risks associated with
+ * loading, using, modifying and/or developing or reproducing the software by
+ * the user in light of its specific status of free software, that may mean that
+ * it is complicated to manipulate, and that also therefore means that it is
+ * reserved for developers and experienced professionals having in-depth
+ * computer knowledge. Users are therefore encouraged to load and test the
+ * software's suitability as regards their requirements in conditions enabling
+ * the security of their systems and/or data to be ensured and, more generally,
+ * to use and operate it in the same conditions as regards security.
+ *
+ * The fact that you are presently reading this means that you have had
+ * knowledge of the CeCILL license and that you accept its terms.
+ */
+
+/**
+ * @var \Zend\View\Renderer\PhpRenderer $this
+ * @var \Omeka\Api\Representation\AbstractResourceEntityRepresentation $resource
+ * @var string $tag
+ */
+
+$hyperlink = $this->plugin('hyperlink');
+$type = $resource->resourceTemplate();
+if($type):
+  $type= $type->label();
+else:
+  $type= "Object";
+endif;
+
+if($type == 'Verhaal' || $type == 'Project'):
+  $url = $site->url().'/page/'.$resource->value('dcterms:relation');
+else:
+  $url = $resource->url();
+endif;
+?>
+<div class="grid__item">
+   <div class="card card--gray card--clickable card--link">
+     <a href="<?php echo $url;?>" style="display:block;">
+        <?php echo sprintf('<%s class="%s resource">', $tag, $resource->resourceName()); ?>
+        <?php $media = $resource->primaryMedia(); ?>
+        <?php if ($media): ?>
+          <div class="card__img card__img_3"
+            style="background:url(<?php echo $media->thumbnailUrl('large');?>) no-repeat center center;background-size: cover;"
+          ></div>
+        <?php endif; ?>
+
+        <div class="card__body panel panel--light">
+
+            <h2 class="heading--3 card__title"><?php echo $resource->link($resource->displayTitle()); ?></h2>
+            <?php if($type == 'Beeld'):?>
+                <p class="datering"><?php echo $resource->value('dcterms:date');?></p>
+            <?php endif;?>
+            <?php if($resource->value('dcterms:date') && ($type == 'Nieuws' || $type == 'Agendapunt')):?>
+                <?php
+                  $date = $resource->value('dcterms:date');
+                  $date = DateTime::createFromFormat('Ymd', $date);
+                  $output = $date->format('d-m-Y');
+                ?>
+                <p class="datering"><?php echo $output;?></p>
+            <?php endif;?>
+            <?php if ($description = $resource->displayDescription()): ?>
+                <?php
+                  if(strlen($description) > 200):
+                    $description = substr($description, 0, 200);
+                    $description = substr($description, 0, strrpos($description, ' ')).' ...';
+                  endif;
+                ?>
+                <p class="description">
+                  <?php echo $description; ?>
+                </p>
+            <?php endif; ?>
+
+            <div class="link link--ext card__link"><a href="<?php echo $url;?>"><?php echo $type;?> bekijken</a></div>
+        </div>
+      </a>
+<?php echo sprintf('</%s>', $tag); ?>
+</div></div>
