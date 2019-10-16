@@ -97,6 +97,12 @@ a.card:hover .card__img::before, a.card:focus .card__img::before, .card--link:ho
   filter: grayscale;
 }
 
+.card .items {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
+
 .search-facet-item a {
   text-decoration: none;
   position: relative;
