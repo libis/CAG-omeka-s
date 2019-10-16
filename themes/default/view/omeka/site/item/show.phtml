@@ -4,7 +4,7 @@ $escape = $this->plugin('escapeHtml');
 $this->htmlElement('body')->appendAttribute('class', 'item resource show');
 $embedMedia = $this->siteSetting('item_media_embed', false);
 $itemMedia = $item->media();
-$template = $item->->resourceTemplate();
+$template = $item->resourceTemplate();
 
 if($template):
   $type = $template->label();
@@ -93,7 +93,7 @@ $thumb = $item->primaryMedia();
                   <?php echo $item->displayValues(); ?>
                 </tbody>
             </table>
-            <div class="property">
+          <!--  <div class="property">
                 <?php $itemSets = $item->itemSets(); ?>
                 <?php if (count($itemSets) > 0): ?>
                 <h4><?php echo $translate('Item sets'); ?></h4>
@@ -122,7 +122,7 @@ $thumb = $item->primaryMedia();
             </div>
             <?php endif; ?>
 
-            <?php $this->trigger('view.show.after'); ?>
+            <?php $this->trigger('view.show.after'); ?>-->
         </span>
   </div>
 </div>
@@ -133,12 +133,13 @@ $thumb = $item->primaryMedia();
 $translate = $this->plugin('translate');
 
 if($type == "Collectie"):
-  $provincie = $item->value('dcterms:spatial');
-  $query = parse_str("property[0][joiner]=and&property[0][property]=14&property[0][type]=eq&property[0][text]=".$provincie."&resource_class_id[]=&resource_template_id[]=7&item_set_id[]=&site_id=&submit=Zoeken", $query);
+  $provincie = $item->value('dcterms:coverage');
+  parse_str("property[0][joiner]=and&property[0][property]=14&property[0][type]=eq&property[0][text]=".$provincie."&resource_class_id[]=&resource_template_id[]=7&item_set_id[]=&site_id=&submit=Zoeken", $query);
 elseif($type == "Beeld"):
-  $query = parse_str("property[0][joiner]=and&property[0][property]=3&property[0][type]=eq&property[0][text]=&resource_class_id[]=&resource_template_id[]=4&item_set_id[]=&site_id=&submit=Zoeken", $query);
+  parse_str("property[0][joiner]=and&property[0][property]=3&property[0][type]=eq&property[0][text]=&resource_class_id[]=&resource_template_id[]=6&item_set_id[]=&site_id=&submit=Zoeken", $query);
   $query['property'][0]['text'] = $item->value('dcterms:subject');
 endif;
+
 $originalQuery = $query;
 
 $query['site_id'] = $site->id();
@@ -201,7 +202,7 @@ endif;
                          <?php echo strlen($description) > 200 ? substr($description,0,200).'..' : $description; ?>
                      </p>
                  <?php endif; ?>
-                 <div class="link link--ext card__link"><a href="<?php echo $resoource->url();?>">Meer info</a></div>
+                 <div class="link link--ext card__link"><a href="<?php echo $resource->url();?>">Meer info</a></div>
              </div>
           </div>
         </div>
@@ -235,7 +236,7 @@ endif;
     //$this->logger->info($results);
     foreach($results as $r):
 
-      echo $r->id();
+      //echo $r->id();
     endforeach;
     //return true;
   endif;
