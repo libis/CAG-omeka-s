@@ -1,14 +1,25 @@
 <?php
 $translate = $this->plugin('translate');
+$get = $_GET;
+if(isset($get['page'])):
+  $currentPage = $get['page'];
+else:
+  $currentPage = 1;
+endif;
 ?>
+
 <!-- pagination -->
 <?php if ($totalCount): ?>
 <div class="section section--default">
     <div class="container">
         <div class="text--center">
             <ul class="pagination">
-
                 <?php if ($currentPage != 1): ?>
+                  <?php
+                    $get['page'] = $currentPage-1;
+                    $get_result = http_build_query($get);
+                    $previousPageUrl = parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH).'?'.$get_result;
+                  ?>
                 <li class="pagination__item">
                     <a href="<?php echo $previousPageUrl;?>" class="pagination__prev"><span class="visuallyhidden">Vorige</span></a>
                 </li>
@@ -22,7 +33,12 @@ $translate = $this->plugin('translate');
                     <a href="#" class="pagination__btn active"><?php echo $currentPage; ?></a>
                 </li>
 
-                <?php if ($currentPage < $pageCount): ?>
+                <?php if ($currentPage < $totalCount): ?>
+                  <?php
+                    $get['page'] = $currentPage+1;
+                    $get_result = http_build_query($get);
+                    $nextPageUrl = parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH).'?'.$get_result;
+                  ?>
                   <li class="pagination__item">
                       <a href="<?php echo $nextPageUrl;?>" class="pagination__btn"><?php echo $currentPage+1; ?></a>
                   </li>

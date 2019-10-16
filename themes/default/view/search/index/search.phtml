@@ -52,7 +52,7 @@ $this->headScript()->appendFile($this->assetUrl('js/search.js', 'Search'));
                <a href="/" itemprop="url" class="breadcrumb__item"><span itemprop="title">Home</span></a>
            </span>
            <span itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb" class="breadcrumb__scope">
-               <a href="https://cerfif.local.statik.be/nieuws" itemprop="url" class="breadcrumb__item breadcrumb__item--active"><span itemprop="title"><?php echo $page->name();?></span></a>
+               <span itemprop="title"><?php echo $page->name();?></span>
            </span>
        </div>
        <?php
@@ -112,13 +112,7 @@ $this->headScript()->appendFile($this->assetUrl('js/search.js', 'Search'));
               ]);
               ?>
 
-              <?php
-                  /*echo $this->partial('search/results-footer', [
-                      'query' => $query,
-                      'response' => $response,
-                      'sortOptions' => $sortOptions,
-                  ]);*/
-              ?>
+              
               <?php echo $this->pagination(); ?>
           <?php else: ?>
               <div class="noresults"><?php echo $translate('Your query returned no results'); ?></div>
