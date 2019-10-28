@@ -43,7 +43,12 @@ $translate = $this->plugin('translate');
         <div class="card card--gray card--clickable card--link">
             <?php
               $media = $resource->media();
-              $mediaurl = $media[0]->thumbnailUrl('large');
+              if($media):
+                $mediaurl = $media[0]->thumbnailUrl('large');
+              else:
+                $mediaurl = "";  
+              endif;
+
 
               if($type == 'Verhaal' || $type == 'Project'):
                 $url = $block->page()->site()->url()."/page/".$resource->value('dcterms:relation');
