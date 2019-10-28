@@ -6,13 +6,13 @@
         <div class="grid grid--text-image grid--no-gutter">
         <?php endif;?>
             <div class="grid__12 grid__6@med">
-                <?php
+                <?php if($attachments):
                   $media = $attachments[0]->media();
                   $url = '';
                   if($media):
                     $url = $media->thumbnailUrl('large');
-                  endif;                  
-                ?>
+                  endif;
+                endif; ?>
                 <div class="grid__img" style="background:url(<?php echo $url;?>) no-repeat center center;background-size: cover;">
 
                 </div>
