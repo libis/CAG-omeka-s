@@ -1,0 +1,56 @@
+<?php
+$translate = $this->plugin('translate');
+$biblio = array();
+if($_GET['niv'] == 'Werkinstrumenten'):
+  $limit= 1;
+elseif($_GET['niv'] == 'Synthesewerken'):  
+
+elseif($_GET['niv'] == 'Thematische studies'):  
+  
+endif;  
+
+?>
+<div class="section section--default">
+  <div class="container">
+
+
+    <div class="grid grid--<?php echo $block->dataValue('columns');?>-col@med spacer--xsm">
+    <?php         
+      foreach ($this->resources as $resource):
+          $biblio[$resource->value('dcterms:type')->value()][strip_tags($resource->value('dcterms:title')->value())] = $resource->value('dcterms:title')->value();
+         
+                  
+          /*    if($type == 'Verhaal' || $type == 'Project'):
+                $url = $block->page()->site()->url()."/page/".$resource->value('dcterms:relation');
+              else:
+                $url = $resource->url();
+              endif;*/
+      endforeach;
+      ksort($biblio); 
+    ?>
+    <?php foreach($biblio as $title => $bibs): ?>  
+      <table class="table--striped">
+        <thead>
+            <tr>
+                <th colspan="2"><?php echo $title;?>
+            </th></tr>
+        </thead>
+        <tbody>
+          <?php ksort($bibs);?>
+          <?php foreach($bibs as $bib): ?>  
+            <tr>
+                <td><?php echo $bib;?></td>
+                <td class="text--right text--italic"></td>
+            </tr>
+          <?php endforeach;?>          
+        </tbody>
+      </table>
+    <?php endforeach;?>
+    <?php 
+      echo "<pre>";
+      var_dump($biblio);  
+      echo "</pre>";
+    ?>
+    </div>
+  </div>
+</div>
