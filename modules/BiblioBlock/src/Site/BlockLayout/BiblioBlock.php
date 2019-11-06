@@ -24,7 +24,7 @@ class BiblioBlock extends AbstractBlockLayout
 
     public function render(PhpRenderer $view, SitePageBlockRepresentation $block)
     {
-        parse_str("property[0][joiner]=and&property[0][property]=&property[0][type]=eq&property[0][text]=&resource_class_id[]=&resource_template_id[]=6&item_set_id[]=&site_id=&submit=Zoeken", $query);
+        parse_str("property[0][joiner]=and&property[0][property]=&property[0][type]=eq&property[0][text]=&resource_class_id[]=&resource_template_id[]=22&item_set_id[]=&site_id=&submit=Zoeken", $query);
         $originalQuery = $query;
 
         $site = $block->page()->site();
