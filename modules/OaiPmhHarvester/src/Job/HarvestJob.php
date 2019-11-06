@@ -301,8 +301,8 @@ class HarvestJob extends AbstractJob
               foreach ($dcMetadata->$localName as $imageUrl) {
                 $media[]= [
                     'o:ingester' => 'url',
-                    'o:source' => 'https://resolver.libis.be/'.$imageUrl,
-                    'ingest_url' => 'https://resolver.libis.be/'.$imageUrl,
+                    'o:source' => 'https://resolver.libis.be/'.$imageUrl.'/stream?quality=LOW_900px',
+                    'ingest_url' => 'https://resolver.libis.be/'.$imageUrl.'/stream?quality=LOW_900px',
                     'dcterms:title' => [
                         [
                             'type' => 'literal',
