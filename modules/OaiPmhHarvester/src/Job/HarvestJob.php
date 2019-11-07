@@ -97,20 +97,18 @@ class HarvestJob extends AbstractJob
             $response = \simplexml_load_file($url);
 
             $records = $response->ListRecords;
-            $toInsert = [];$toUpdate = [];$ids= []; $update_id='';
+            $toInsert = [];$ids= []; $update_id='';
             foreach ($records->record as $record) {
                 $pre_item = $this->{$method}($record, $args['collection_id'],$args['resource_template']);
                 if($pre_item):                    
-                  if(!$this->itemExists($pre_item)):
-                    $toInsert[] = $pre_item;
+                  if(!$this->itemExists($pre_item) && $pre_item['dcterms:isVersionOf'][0]['@value']):
+                    $toInsert[$pre_item['dcterms:isVersionOf'][0]['@value']] = $pre_item;
                   endif;  
                 endif;  
             }
 
             if($toInsert):
               $this->createItems($toInsert);
-            elseif($toUpdate):
-              $this->updateItems($toUpdate, $ids);
             endif;
 
             if (isset($response->ListRecords->resumptionToken) && $response->ListRecords->resumptionToken <> '') {
@@ -153,25 +151,7 @@ class HarvestJob extends AbstractJob
 
         $createImportEntitiesJson = [];
     }
-
-    protected function updateItems($toUpdate, $ids)
-    {
-        $updateJson = [];
-        foreach ($toUpdate as $index => $item) {
-            $updateJson[] = $item;
-            if ($index % 20 == 0) {
-                $createResponse = $this->api->batchUpdate('items', $ids ,$updateJson, [], ['continueOnError' => true]);
-                $this->createRollback($createResponse->getContent());
-                $insertJson = [];
-            }
-        }
-
-        $createResponse = $this->api->batchUpdate('items', $ids ,$updateJson, [], ['continueOnError' => true]);
-
-        $this->createRollback($createResponse->getContent());
-
-        $createImportEntitiesJson = [];
-    }
+   
 
     protected function itemExists($item){
         //assuming dc:isVersionOf as unique accross all items
@@ -297,9 +277,9 @@ class HarvestJob extends AbstractJob
                 $elementTexts["dcterms:$localName"] = $this->extractValues($dcMetadata, $propertyId);
             }
             //add media
-            if($localName == 'relation'){
+            if($localName == 'relation'){              
               foreach ($dcMetadata->$localName as $imageUrl) {
-                $media[]= [
+                $media['https://resolver.libis.be/'.$imageUrl.'/stream?quality=LOW_900px']= [
                     'o:ingester' => 'url',
                     'o:source' => 'https://resolver.libis.be/'.$imageUrl.'/stream?quality=LOW_900px',
                     'ingest_url' => 'https://resolver.libis.be/'.$imageUrl.'/stream?quality=LOW_900px',
@@ -318,7 +298,11 @@ class HarvestJob extends AbstractJob
         $meta = $elementTexts;
         $meta['o:item_set'] = ["o:id" => $setId];
         //media
-        $meta['o:media'] = $media;
+        $imgs = array();
+        foreach($media as $img):
+            $imgs[] = $img;
+        endforeach;    
+        $meta['o:media'] = $imgs;
         //resource template?
         if($resource_template):
           $meta['o:resource_template'] = ["o:id" => $resource_template];
