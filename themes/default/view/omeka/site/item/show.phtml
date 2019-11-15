@@ -47,13 +47,48 @@ $thumb = $item->primaryMedia();
 
 <!-- Beeld centered -->
 <?php if($type == "Beeld"): ?>
-  <?php if ($embedMedia && $thumb): ?>
+  <?php if ($embedMedia && $itemMedia): ?>
     <div class="section section--default">
       <div class="container">
         <!-- beeld -->
-        <div class="beeld">
-          <?php echo $this->thumbnail($thumb, 'large');?>
-        </div>
+        <?php if(sizeof($itemMedia) > 1):?>
+          <div class="slider-for">
+            <?php foreach($itemMedia as $media):?>
+              <div class="beeld">
+                <img src="<?php echo $media->thumbnailUrl('large');?>">
+              </div>
+            <?php endforeach;?>
+          </div>
+          <div class="slider-nav" role="toolbar">
+            <?php foreach($itemMedia as $media):?>
+              <div class="beeld-nav">
+                <img src="<?php echo $media->thumbnailUrl('square');?>">
+              </div>
+            <?php endforeach;?>
+          </div>
+          <script>
+          $(document).ready(function(){
+            $('.slider-for').slick({
+              slidesToShow: 1,
+              slidesToScroll: 1,
+              arrows: false,
+              fade: true,
+              centerMode: true,
+              asNavFor: '.slider-nav'
+            });
+            $('.slider-nav').slick({
+              slidesToShow: 10,
+              slidesToScroll: 1,
+              asNavFor: '.slider-for',
+              focusOnSelect: true
+            });
+          });  
+          </script>
+        <?php else: ?>
+          <div class="beeld">
+            <img src="<?php echo $itemMedia[0]->thumbnailUrl('large');?>">
+          </div>
+        <?php endif;?> 
       </div>
     </div>
   <?php endif; ?>

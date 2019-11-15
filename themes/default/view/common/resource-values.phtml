@@ -5,7 +5,7 @@ $labelInfo = $this->setting('property_label_information');
 ?>
 <?php foreach ($values as $term => $propertyData): ?>
   <?php
-    $dontshow = ['Titel','Title','Description'];
+    $dontshow = ['Titel','Title','Description', 'Is Version Of', 'Relation', 'Language'];
     if(in_array($propertyData['property']->label(),$dontshow)):
       continue;
     endif;

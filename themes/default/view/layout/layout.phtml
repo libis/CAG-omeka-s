@@ -7,9 +7,11 @@ $this->headTitle($this->setting('installation_title', 'Omeka S'))->setSeparator(
 
 $this->headLink()->prependStylesheet($this->assetUrl('css/main.css'));
 $this->headLink()->prependStylesheet($this->assetUrl('css/style.css'));
+$this->headLink()->prependStylesheet($this->assetUrl('css/slick.css'));
 $this->headLink()->prependStylesheet($this->assetUrl('css/iconfonts.css', 'Omeka'));
 
 $this->headScript()->prependFile($this->assetUrl('js/default.js'));
+$this->headScript()->prependFile($this->assetUrl('js/slick.js'));
 $this->headScript()->prependFile($this->assetUrl('js/global.js', 'Omeka'));
 $this->headScript()->prependFile($this->assetUrl('vendor/jquery/jquery.min.js', 'Omeka'));
 //$this->headScript()->prependFile($this->assetUrl('js/docs.js'));

@@ -6,6 +6,7 @@
 
     ul{
       display: none;
+
     }
 }
 
@@ -110,10 +111,6 @@ a.card:hover .card__img::before, a.card:focus .card__img::before, .card--link:ho
 }
 
 //Beeldbank
-.search-facet-item span{
-
-}
-
 .search-facet-item a{
   text-decoration: none;
   position: relative;
@@ -242,9 +239,26 @@ a.card:hover .card__img::before, a.card:focus .card__img::before, .card--link:ho
 .beeld{
   text-align: center;
   img{
-
+    margin: 0 auto;
   }
 }
+
+.slider-nav{
+  .slick-current{
+    
+    img{
+      background: #cecece;      
+    }
+    
+  }
+  .beeld-nav{
+    img{
+      padding: 2px;
+      width:100px;
+    }
+  }
+}
+
 
 .datering{
   text-transform: uppercase;

@@ -140,8 +140,8 @@ class HarvestJob extends AbstractJob
             $insertJson[] = $item;
             if ($index % 20 == 0) {
                 $createResponse = $this->api->batchCreate('items', $insertJson, [], ['continueOnError' => true]);
-                $this->createRollback($createResponse->getContent());
                 $insertJson = [];
+                $this->createRollback($createResponse->getContent());
             }
         }
 
