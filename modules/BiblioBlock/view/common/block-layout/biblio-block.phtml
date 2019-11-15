@@ -1,25 +1,26 @@
 <?php
 $translate = $this->plugin('translate');
 $biblio = array();
-if($_GET['niv'] == 'Werkinstrumenten'):
+$niv = 'none';
+if(isset($_GET['niv'])):
+  $niv = $_GET['niv'];
+endif;  
+if($niv == 'Werkinstrumenten'):
   $limit= 1;
-elseif($_GET['niv'] == 'Synthesewerken'):  
+elseif($niv == 'Synthesewerken'):  
 
-elseif($_GET['niv'] == 'Thematische studies'):  
+elseif($niv == 'Thematische studies'):  
   
 endif;  
 
 ?>
 <div class="section section--default">
   <div class="container">
-
-
     <div class="grid grid--<?php echo $block->dataValue('columns');?>-col@med spacer--xsm">
     <?php         
       foreach ($this->resources as $resource):
           $biblio[$resource->value('dcterms:type')->value()][strip_tags($resource->value('dcterms:title')->value())] = $resource->value('dcterms:title')->value();
-         
-                  
+                           
           /*    if($type == 'Verhaal' || $type == 'Project'):
                 $url = $block->page()->site()->url()."/page/".$resource->value('dcterms:relation');
               else:
@@ -47,9 +48,9 @@ endif;
       </table>
     <?php endforeach;?>
     <?php 
-      echo "<pre>";
+      /*echo "<pre>";
       var_dump($biblio);  
-      echo "</pre>";
+      echo "</pre>";*/
     ?>
     </div>
   </div>

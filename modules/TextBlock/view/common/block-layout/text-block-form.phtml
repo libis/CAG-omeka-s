@@ -17,3 +17,14 @@ use Zend\Form\Element\Textarea;
   }
 ?>
 <?php echo $this->formRow($textarea);?>
+
+<h4>Text (optional)</h4>
+This creates an extra column<br>
+<?php
+  $textarea = new Textarea("o:block[__blockIndex__][o:data][text2]");
+  $textarea->setAttribute('class', 'block-html full wysiwyg');
+  if ($block) {
+      $textarea->setAttribute('value', $block->dataValue('text2'));
+  }
+?>
+<?php echo $this->formRow($textarea);?>
