@@ -60,11 +60,43 @@
             <?php foreach ($facets as $name => $facetValues): ?>
               <h4><?php echo $translate($facetLabel($name)); ?></h4>
               <div class="form__group">
+                <?php 
+                 $more = false;
+                 if(sizeof($facetValues)>8):
+                    $more = array_slice($facetValues, 8);
+                    $facetValues = array_slice($facetValues, 0, 8);
+                 endif;  
+                ?> 
                 <?php foreach ($facetValues as $facetValue): ?>
                     <div class="form__item search-facet-item">
-                        <?php echo $facetLink($name, $facetValue); ?>
+                        <?php echo $facetLink($name, $facetValue); ?>                        
                     </div>
                 <?php endforeach; ?>
+                <?php if($more):?>
+                    <div class="more-link"><span class="icon icon--plus"></span><a href="">meer tonen</a></div>
+                    <div class="more" style="display:none;">
+                        <?php foreach ($more as $facetValue): ?>
+                        <div class="form__item search-facet-item">
+                            <?php echo $facetLink($name, $facetValue); ?>                        
+                        </div>
+                        <?php endforeach; ?>
+                        <div class="less-link"><span class="icon icon--minus"></span><a href="">minder tonen</a></div>
+                    </div>
+                    <script>
+                        $(document).ready(function(){
+                            $( ".more-link a" ).click(function(e) {
+                                e.preventDefault();
+                                $(this).parent().hide();
+                                $(this).parent().next( "div" ).show();
+                            });
+                            $( ".less-link a" ).click(function(e) {
+                                e.preventDefault();
+                                $(this).parent().parent().hide();
+                                $(this).parent().parent().prev( ".more-link" ).show();
+                            });  
+                        });
+                    </script>    
+                <?php endif;?>    
               </div>
             <?php endforeach; ?>
             <?php endif; ?>
